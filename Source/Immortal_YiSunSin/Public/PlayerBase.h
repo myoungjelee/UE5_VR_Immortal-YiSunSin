@@ -56,4 +56,7 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
 	class UGraspComponent* graspComp;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
+	class UMoveComponent* moveComp;
 };

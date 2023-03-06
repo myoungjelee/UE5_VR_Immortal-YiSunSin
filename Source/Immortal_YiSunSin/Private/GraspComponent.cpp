@@ -54,6 +54,7 @@ void UGraspComponent::GripRightReleased(const struct FInputActionValue& value)
 	bIsGrab = false;
 }
 
+// 액터 잡기
 void UGraspComponent::GrabObject(USkeletalMeshComponent* selectHand)
 {
 	// SphereTrace 방식
@@ -81,4 +82,21 @@ void UGraspComponent::GrabObject(USkeletalMeshComponent* selectHand)
 	}
 
 	bIsGrab = true;
+}
+
+// 액터 놓기
+void UGraspComponent::ReleaseObject(USkeletalMeshComponent* selectHand)
+{
+	if (grabedObject != nullptr)
+	{
+		// 잡고 있던 물체를 떼어낸다.
+		grabedObject->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+
+		// 물체의 본래 피직스 on/off 여부를 되돌려준다.
+		UBoxComponent* boxComp = Cast<UBoxComponent>(grabedObject->GetRootComponent());
+		if (boxComp != nullptr)
+		{
+			boxComp->SetSimulatePhysics(physicsState);
+		}
+	}
 }

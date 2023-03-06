@@ -9,6 +9,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "GraspComponent.h"
+#include "MoveComponent.h"
 
 
 // Sets default values
@@ -43,8 +44,9 @@ APlayerBase::APlayerBase()
 	rightHand->SetupAttachment(rightController);
 	rightHand->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-
+	// 액터 컴포넌트
 	graspComp = CreateDefaultSubobject<UGraspComponent>(TEXT("Grasp Component"));
+	moveComp = CreateDefaultSubobject<UMoveComponent>(TEXT("Move Component"));
 }
 
 // Called when the game starts or when spawned
@@ -78,6 +80,7 @@ void APlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	if (enhancedInputComponent != nullptr)
 	{
 		graspComp->SetupPlayerInputComponent(enhancedInputComponent);
+		moveComp->SetupPlayerInputComponent(enhancedInputComponent);
 	}
 
 }

@@ -43,4 +43,5 @@ private:
 	void GripLeftAction(const struct FInputActionValue& value);
 	void GripLeftReleased(const struct FInputActionValue& value);
 	void GrabObject(USkeletalMeshComponent* selectHand);
+	void ReleaseObject(USkeletalMeshComponent* selectHand);
 };
