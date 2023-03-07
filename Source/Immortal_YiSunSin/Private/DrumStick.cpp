@@ -21,7 +21,7 @@ ADrumStick::ADrumStick()
 	compMesh->SetRelativeLocation(FVector(0,0,-70));
 	compMesh->SetRelativeScale3D(FVector(0.4f));
 
-	ConstructorHelpers::FObjectFinder<UStaticMesh> tempMesh(TEXT("/Script/Engine.StaticMesh'/Game/Assets/MJ/Drum/DrumStick.DrumStick'"));
+	ConstructorHelpers::FObjectFinder<UStaticMesh> tempMesh(TEXT("/Script/Engine.StaticMesh'/Game/Assets/MJ/Drum/SM_DrumStick.SM_DrumStick'"));
 	if (tempMesh.Succeeded())
 	{
 		compMesh->SetStaticMesh(tempMesh.Object);
