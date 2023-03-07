@@ -18,26 +18,28 @@ ARhythmPlayer::ARhythmPlayer()
 
 	l_Controller = CreateDefaultSubobject<UMotionControllerComponent>("LeftController");
 	l_Controller->SetupAttachment(RootComponent);
+	l_Controller->MotionSource = "Left";
 
 	l_Stick = CreateDefaultSubobject<USphereComponent>("LeftStick");
 	l_Stick->SetupAttachment(l_Controller);
 	l_Stick->SetSphereRadius(10);
 
 	l_Mesh = CreateDefaultSubobject<UStaticMeshComponent>("LeftMesh");
-	l_Mesh->SetupAttachment(l_Controller);
+	l_Mesh->SetupAttachment(l_Stick);
 	l_Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	l_Mesh->SetRelativeScale3D(FVector(0.1f));
 	l_Mesh->SetRelativeLocation(FVector(0, 0, -17.5f));
 
 	r_Controller = CreateDefaultSubobject<UMotionControllerComponent>("RightController");
 	r_Controller->SetupAttachment(RootComponent);
+	r_Controller->MotionSource = "Right";
 
 	r_Stick = CreateDefaultSubobject<USphereComponent>("RightStick");
 	r_Stick->SetupAttachment(r_Controller);
 	r_Stick->SetSphereRadius(10);
 
 	r_Mesh = CreateDefaultSubobject<UStaticMeshComponent>("RightMesh");
-	r_Mesh->SetupAttachment(r_Controller);
+	r_Mesh->SetupAttachment(r_Stick);
 	r_Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	r_Mesh->SetRelativeScale3D(FVector(0.1f));
 	r_Mesh->SetRelativeLocation(FVector(0, 0, -17.5f));
