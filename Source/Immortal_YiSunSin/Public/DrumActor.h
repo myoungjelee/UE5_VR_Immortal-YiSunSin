@@ -26,7 +26,7 @@ public:
 public:
 
 	UPROPERTY(EditAnywhere, Category = Drum)
-		class UCapsuleComponent* compCapsule;
+		class USphereComponent* compDrum;
 
 	UPROPERTY(EditAnywhere, Category = Drum)
 		class UStaticMeshComponent* compMesh;
@@ -40,8 +40,15 @@ public:
 	class UMaterialInstanceDynamic* keyMat;
 	FTimerHandle colorHandle;
 
+	UPROPERTY(EditAnywhere)
+		class UHapticFeedbackEffect_Base* hitHaptic;
+
 	UFUNCTION()
 		void OnDrum(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+public:
+
+	UPROPERTY(EditAnywhere)
+	bool bHit = false;
 
 // 	void ColorOff();
 // 	void ChangeDrumColor(FVector4 color, float glow);
