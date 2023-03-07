@@ -23,6 +23,8 @@ ARhythmPlayer::ARhythmPlayer()
 	l_Stick = CreateDefaultSubobject<USphereComponent>("LeftStick");
 	l_Stick->SetupAttachment(l_Controller);
 	l_Stick->SetSphereRadius(10);
+	l_Stick->SetRelativeLocation(FVector(20, 0, -20));
+	l_Stick->SetRelativeRotation(FRotator(-135, 0, 0));
 
 	l_Mesh = CreateDefaultSubobject<UStaticMeshComponent>("LeftMesh");
 	l_Mesh->SetupAttachment(l_Stick);
@@ -37,6 +39,8 @@ ARhythmPlayer::ARhythmPlayer()
 	r_Stick = CreateDefaultSubobject<USphereComponent>("RightStick");
 	r_Stick->SetupAttachment(r_Controller);
 	r_Stick->SetSphereRadius(10);
+	r_Stick->SetRelativeLocation(FVector(20, 0, -20));
+	r_Stick->SetRelativeRotation(FRotator(-135, 0, 0));
 
 	r_Mesh = CreateDefaultSubobject<UStaticMeshComponent>("RightMesh");
 	r_Mesh->SetupAttachment(r_Stick);
