@@ -4,6 +4,8 @@
 #include "DrumActor.h"
 #include <Components/StaticMeshComponent.h>
 #include <Components/SphereComponent.h>
+#include <Particles/ParticleSystem.h>
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 ADrumActor::ADrumActor()
@@ -26,6 +28,12 @@ ADrumActor::ADrumActor()
 	{
 		compMesh->SetStaticMesh(tempMesh.Object);
 	}
+
+	ConstructorHelpers::FObjectFinder<UParticleSystem> tempHit(TEXT("/Script/Engine.ParticleSystem'/Game/FXVarietyPack/Particles/P_ky_waterBallHit.P_ky_waterBallHit'"));
+	if (tempHit.Succeeded())
+	{
+		hitEffect = tempHit.Object;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -41,6 +49,9 @@ void ADrumActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	FVector p0 = GetActorLocation();
+	FVector vt = FVector::BackwardVector * 500 * DeltaTime;
+	SetActorLocation(p0 + vt);
 }
 
 void ADrumActor::OnDrum(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -48,7 +59,7 @@ void ADrumActor::OnDrum(UPrimitiveComponent* OverlappedComponent, AActor* OtherA
 	if(OtherComp->GetName().Contains(TEXT("Stick")))
 	{
 		//이펙트를 생성한다
-
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), hitEffect, GetActorLocation(), GetActorRotation(), FVector3d(0.5));
 		//드럼 액터를 파괴한다
 		Destroy();
 		//UI 점수 1점씩 올린다

@@ -6,6 +6,9 @@
 #include <MotionControllerComponent.h>
 #include <Components/SphereComponent.h>
 #include <Components/StaticMeshComponent.h>
+#include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h>
+#include <HeadMountedDisplayFunctionLibrary.h>
+#include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputSubsystems.h>
 
 // Sets default values
 ARhythmPlayer::ARhythmPlayer()
@@ -70,6 +73,12 @@ void ARhythmPlayer::BeginPlay()
 	r_Stick->OnComponentBeginOverlap.AddDynamic(this, &ARhythmPlayer::OnDrum_Right);
 
 	UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(trackOrigin.GetValue());
+
+	APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
+
+	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
+
+	subsys->AddMappingContext(myMapping, 0);
 }
 
 // Called every frame
@@ -84,15 +93,32 @@ void ARhythmPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	UEnhancedInputComponent* enhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+
+	if (enhancedInputComponent != nullptr)
+	{
+		enhancedInputComponent->BindAction(grip_Left, ETriggerEvent::Triggered, this, &ARhythmPlayer::Recenter);
+	}
 }
 
 void ARhythmPlayer::OnDrum_Left(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GetWorld()->GetFirstPlayerController()->PlayHapticEffect(hitHaptic, EControllerHand::Left, 1, false);
+	if (OtherActor->GetName().Contains(TEXT("Drum")))
+	{
+		GetWorld()->GetFirstPlayerController()->PlayHapticEffect(hitHaptic, EControllerHand::Left, 1, false);
+	}	
 }
 
 void ARhythmPlayer::OnDrum_Right(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GetWorld()->GetFirstPlayerController()->PlayHapticEffect(hitHaptic, EControllerHand::Right, 1, false);
+	if (OtherActor->GetName().Contains(TEXT("Drum")))
+	{
+		GetWorld()->GetFirstPlayerController()->PlayHapticEffect(hitHaptic, EControllerHand::Right, 1, false);
+	}
+}
+
+void ARhythmPlayer::Recenter()
+{
+	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 

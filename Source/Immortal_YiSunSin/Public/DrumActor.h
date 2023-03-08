@@ -37,15 +37,15 @@ public:
 	UPROPERTY(EditAnywhere, Category = Drum)
 		float glowPower;
 
+	UPROPERTY(EditAnywhere)
+		class UParticleSystem* hitEffect;
+
 	class UMaterialInstanceDynamic* keyMat;
 	FTimerHandle colorHandle;
 
 	UFUNCTION()
 		void OnDrum(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-public:
 
-	UPROPERTY(EditAnywhere)
-	bool bHit = false;
 
 // 	void ColorOff();
 // 	void ChangeDrumColor(FVector4 color, float glow);
