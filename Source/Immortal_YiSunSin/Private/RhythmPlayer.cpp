@@ -68,6 +68,9 @@ void ARhythmPlayer::BeginPlay()
 
 	l_Stick->OnComponentBeginOverlap.AddDynamic(this, &ADrumActor::OnDrum_Left);
 	r_Stick->OnComponentBeginOverlap.AddDynamic(this, &ADrumActor::OnDrum_Right);
+
+
+
 }
 
 // Called every frame

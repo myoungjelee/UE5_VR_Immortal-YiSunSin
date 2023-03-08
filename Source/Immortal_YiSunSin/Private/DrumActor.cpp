@@ -52,8 +52,7 @@ void ADrumActor::OnDrum(UPrimitiveComponent* OverlappedComponent, AActor* OtherA
 		//드럼 액터를 파괴한다
 		Destroy();
 		//UI 점수 1점씩 올린다
-
+		
 	}
-
 }
 
