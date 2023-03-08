@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "HeadMountedDisplayFunctionLibrary.h"
 #include "RhythmPlayer.generated.h"
+
 
 UCLASS()
 class IMMORTAL_YISUNSIN_API ARhythmPlayer : public APawn
@@ -50,6 +52,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		class UHapticFeedbackEffect_Base* hitHaptic;
+
+	UPROPERTY(EditAnywhere)
+		TEnumAsByte<enum EHMDTrackingOrigin::Type> trackOrigin;
 
 public:
 	

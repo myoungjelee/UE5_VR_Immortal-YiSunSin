@@ -66,11 +66,10 @@ void ARhythmPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	l_Stick->OnComponentBeginOverlap.AddDynamic(this, &ADrumActor::OnDrum_Left);
-	r_Stick->OnComponentBeginOverlap.AddDynamic(this, &ADrumActor::OnDrum_Right);
+	l_Stick->OnComponentBeginOverlap.AddDynamic(this, &ARhythmPlayer::OnDrum_Left);
+	r_Stick->OnComponentBeginOverlap.AddDynamic(this, &ARhythmPlayer::OnDrum_Right);
 
-
-
+	UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(trackOrigin.GetValue());
 }
 
 // Called every frame
