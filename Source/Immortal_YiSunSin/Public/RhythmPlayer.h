@@ -48,4 +48,15 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UStaticMeshComponent* r_Mesh;
 
+	UPROPERTY(EditAnywhere)
+		class UHapticFeedbackEffect_Base* hitHaptic;
+
+public:
+	
+	UFUNCTION()
+		void OnDrum_Left(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+		void OnDrum_Right(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 };

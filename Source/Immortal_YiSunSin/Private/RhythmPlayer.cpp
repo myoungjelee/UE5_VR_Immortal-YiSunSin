@@ -23,8 +23,8 @@ ARhythmPlayer::ARhythmPlayer()
 	l_Stick = CreateDefaultSubobject<USphereComponent>("LeftStick");
 	l_Stick->SetupAttachment(l_Controller);
 	l_Stick->SetSphereRadius(10);
-	l_Stick->SetRelativeLocation(FVector(20, 0, -20));
-	l_Stick->SetRelativeRotation(FRotator(-135, 0, 0));
+	l_Stick->SetRelativeLocation(FVector(17, 0, -10));
+	l_Stick->SetRelativeRotation(FRotator(-110, 0, 0));
 
 	l_Mesh = CreateDefaultSubobject<UStaticMeshComponent>("LeftMesh");
 	l_Mesh->SetupAttachment(l_Stick);
@@ -39,8 +39,8 @@ ARhythmPlayer::ARhythmPlayer()
 	r_Stick = CreateDefaultSubobject<USphereComponent>("RightStick");
 	r_Stick->SetupAttachment(r_Controller);
 	r_Stick->SetSphereRadius(10);
-	r_Stick->SetRelativeLocation(FVector(20, 0, -20));
-	r_Stick->SetRelativeRotation(FRotator(-135, 0, 0));
+	r_Stick->SetRelativeLocation(FVector(17, 0, -10));
+	r_Stick->SetRelativeRotation(FRotator(-110, 0, 0));
 
 	r_Mesh = CreateDefaultSubobject<UStaticMeshComponent>("RightMesh");
 	r_Mesh->SetupAttachment(r_Stick);
@@ -66,6 +66,8 @@ void ARhythmPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
+	l_Stick->OnComponentBeginOverlap.AddDynamic(this, &ADrumActor::OnDrum_Left);
+	r_Stick->OnComponentBeginOverlap.AddDynamic(this, &ADrumActor::OnDrum_Right);
 }
 
 // Called every frame
@@ -80,5 +82,15 @@ void ARhythmPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void ARhythmPlayer::OnDrum_Left(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	GetWorld()->GetFirstPlayerController()->PlayHapticEffect(hitHaptic, EControllerHand::Left, 1, false);
+}
+
+void ARhythmPlayer::OnDrum_Right(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	GetWorld()->GetFirstPlayerController()->PlayHapticEffect(hitHaptic, EControllerHand::Right, 1, false);
 }
 
