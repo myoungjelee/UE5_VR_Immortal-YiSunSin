@@ -5,6 +5,8 @@
 #include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h>
 #include "PuzzlePlayer.h"
 #include <MotionControllerComponent.h>
+#include <Misc/OutputDeviceNull.h>
+
 
 // Sets default values for this component's properties
 UWidgetPointerComponent::UWidgetPointerComponent()
@@ -24,7 +26,8 @@ void UWidgetPointerComponent::BeginPlay()
 
 	player = Cast<APuzzlePlayer>(GetOwner());
 
-	
+	params_L.AddIgnoredActor(player);
+	params_R.AddIgnoredActor(player);
 }
 
 
@@ -33,6 +36,35 @@ void UWidgetPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+// 	startLoc_L = player->controller_Left->GetComponentLocation();
+// 	endLoc_L = player->controller_Left->GetComponentLocation() + (player->controller_Left->GetForwardVector() + (player->controller_Left->GetUpVector() * -1)) * 2000;
+// 	hit_L = GetWorld()->LineTraceSingleByChannel(hitInfo_L, startLoc_L, endLoc_L, ECC_Visibility, params_L);
+// 
+// 	if (hit_L)
+// 	{
+// 		if (hitInfo_L.GetActor()->GetName().Contains(TEXT("Puzzle")))
+// 		{
+// 			FString funcName_L = TEXT("LightOn");
+// 			FOutputDeviceNull ar_L;
+// 			hitInfo_L.GetActor()->CallFunctionByNameWithArguments(*funcName_L, ar_L, NULL, true);
+// 		}
+// 		
+// 	}
+// 
+// 	startLoc_R = player->controller_Right->GetComponentLocation();
+// 	endLoc_R = player->controller_Right->GetComponentLocation() + (player->controller_Right->GetForwardVector() + (player->controller_Right->GetUpVector() * -1)) * 2000;
+// 	hit_R = GetWorld()->LineTraceSingleByChannel(hitInfo_R, startLoc_R, endLoc_R, ECC_Visibility, params_R);
+// 
+// 	if (hit_R)
+// 	{
+// 		if (hitInfo_R.GetActor()->GetName().Contains(TEXT("Puzzle")))
+// 		{
+// 			FString funcName = TEXT("LightOn");
+// 			FOutputDeviceNull ar;
+// 			hitInfo_R.GetActor()->CallFunctionByNameWithArguments(*funcName, ar, NULL, true);
+// 		}
+// 		
+// 	}
 }
 
 void UWidgetPointerComponent::SetupPlayerInputComponent(class UEnhancedInputComponent* PlayerInputComponent)
@@ -57,6 +89,10 @@ void UWidgetPointerComponent::GribedPuzzle_L()
 		{
 			hitInfo.GetActor()->AttachToComponent(player->mesh_Left, FAttachmentTransformRules::KeepWorldTransform, FName("PuzzlePoint_L"));
 			grabedPuzzle_L = hitInfo.GetActor();
+
+			FString funcName = TEXT("LightOn");
+			FOutputDeviceNull ar;
+			grabedPuzzle_L->CallFunctionByNameWithArguments(*funcName, ar, NULL, true);
 		}
 	}
 
@@ -65,7 +101,16 @@ void UWidgetPointerComponent::GribedPuzzle_L()
 
 void UWidgetPointerComponent::ReleasedPuzzle_L()
 {
-	grabedPuzzle_L->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+	if (grabedPuzzle_L != nullptr)
+	{
+		grabedPuzzle_L->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+
+		FString funcName = TEXT("LightOff");
+		FOutputDeviceNull ar;
+		grabedPuzzle_L->CallFunctionByNameWithArguments(*funcName, ar, NULL, true);
+
+		grabedPuzzle_L = nullptr;
+	}
 }
 
 void UWidgetPointerComponent::GribedPuzzle_R()
@@ -90,6 +135,11 @@ void UWidgetPointerComponent::GribedPuzzle_R()
 
 void UWidgetPointerComponent::ReleasedPuzzle_R()
 {
-	grabedPuzzle_R->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+	if (grabedPuzzle_R != nullptr)
+	{
+		grabedPuzzle_R->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+
+		grabedPuzzle_R = nullptr;
+	}
 }
 

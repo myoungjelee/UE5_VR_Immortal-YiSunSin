@@ -58,4 +58,10 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	class UWidgetPointerComponent* widgetPointerComp;
+
+
+
+// 	UPROPERTY(EditAnywhere)
+// 	AActor* tempActor;
+// 	void TestFunction();
 };
