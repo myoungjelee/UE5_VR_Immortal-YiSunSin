@@ -37,9 +37,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = Drum)
 		float glowPower;
 
-	UPROPERTY(EditAnywhere)
-		class UParticleSystem* hitEffect;
-
 	class UMaterialInstanceDynamic* keyMat;
 	FTimerHandle colorHandle;
 

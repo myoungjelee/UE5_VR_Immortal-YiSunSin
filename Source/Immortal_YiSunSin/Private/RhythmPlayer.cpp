@@ -9,6 +9,8 @@
 #include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h>
 #include <HeadMountedDisplayFunctionLibrary.h>
 #include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputSubsystems.h>
+#include <Kismet/GameplayStatics.h>
+#include <Particles/ParticleSystem.h>
 
 // Sets default values
 ARhythmPlayer::ARhythmPlayer()
@@ -62,6 +64,18 @@ ARhythmPlayer::ARhythmPlayer()
 	{
 		r_Mesh->SetStaticMesh(rightMesh.Object);
 	}
+
+	ConstructorHelpers::FObjectFinder<UParticleSystem> tempLeftHit(TEXT("/Script/Engine.ParticleSystem'/Game/Assets/MJ/Drum/P_HitDrum_Left.P_HitDrum_Left'"));
+	if (tempLeftHit.Succeeded())
+	{
+		hit_Left = tempLeftHit.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UParticleSystem> tempRightHit(TEXT("/Script/Engine.ParticleSystem'/Game/Assets/MJ/Drum/P_HitDrum_Right.P_HitDrum_Right'"));
+	if (tempRightHit.Succeeded())
+	{
+		hit_Right = tempRightHit.Object;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -78,7 +92,7 @@ void ARhythmPlayer::BeginPlay()
 
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
-	subsys->AddMappingContext(myMapping, 0);
+	subsys->AddMappingContext(inputMapping, 0);
 }
 
 // Called every frame
@@ -106,6 +120,9 @@ void ARhythmPlayer::OnDrum_Left(UPrimitiveComponent* OverlappedComponent, AActor
 	if (OtherActor->GetName().Contains(TEXT("Drum")))
 	{
 		GetWorld()->GetFirstPlayerController()->PlayHapticEffect(hitHaptic, EControllerHand::Left, 1, false);
+
+		//이펙트를 생성한다
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), hit_Left, GetActorLocation(), GetActorRotation(), FVector3d(0.5));
 	}	
 }
 
@@ -114,6 +131,9 @@ void ARhythmPlayer::OnDrum_Right(UPrimitiveComponent* OverlappedComponent, AActo
 	if (OtherActor->GetName().Contains(TEXT("Drum")))
 	{
 		GetWorld()->GetFirstPlayerController()->PlayHapticEffect(hitHaptic, EControllerHand::Right, 1, false);
+
+		//이펙트를 생성한다
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), hit_Right, GetActorLocation(), GetActorRotation(), FVector3d(0.5));
 	}
 }
 

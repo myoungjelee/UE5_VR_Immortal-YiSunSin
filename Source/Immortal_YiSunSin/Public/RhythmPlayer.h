@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "RhythmPlayer.generated.h"
 
 
 UCLASS()
-class IMMORTAL_YISUNSIN_API ARhythmPlayer : public APawn
+class IMMORTAL_YISUNSIN_API ARhythmPlayer : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -57,10 +57,16 @@ public:
 		TEnumAsByte<enum EHMDTrackingOrigin::Type> trackOrigin;
 
 	UPROPERTY(EditAnywhere)
-		class UInputMappingContext* myMapping;
+		class UInputMappingContext* inputMapping;
 
 	UPROPERTY(EditAnywhere)
 		class UInputAction* grip_Left;
+
+	UPROPERTY(EditAnywhere)
+		class UParticleSystem* hit_Left;
+
+	UPROPERTY(EditAnywhere)
+		class UParticleSystem* hit_Right;
 
 public:
 	
