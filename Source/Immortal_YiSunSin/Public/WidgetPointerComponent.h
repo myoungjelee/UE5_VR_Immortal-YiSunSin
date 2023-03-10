@@ -27,13 +27,15 @@ public:
 	void SetupPlayerInputComponent(class UEnhancedInputComponent* PlayerInputComponent);
 
 	UPROPERTY(EditAnywhere)
-		class UInputAction* right_Trigger;
+		class UInputAction* right_Grib;
 
 	UPROPERTY(EditAnywhere)
-		class UInputAction* left_Trigger;
+		class UInputAction* left_Grib;
 		
 
 	class APuzzlePlayer* player;
+	class AActor* grabedPuzzle_L;
+	class AActor* grabedPuzzle_R;
 
 	bool hit_L = false;
 	FVector startLoc_L;
@@ -47,8 +49,8 @@ public:
 	FHitResult hitInfo_R;
 	FCollisionQueryParams params_R;
 
-	void TriggedPuzzle_L();
+	void GribedPuzzle_L();
 	void ReleasedPuzzle_L();
-	void TriggedPuzzle_R();
+	void GribedPuzzle_R();
 	void ReleasedPuzzle_R();
 };

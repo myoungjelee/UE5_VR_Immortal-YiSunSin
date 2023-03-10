@@ -56,7 +56,6 @@ APuzzlePlayer::APuzzlePlayer()
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
-	graspComp = CreateDefaultSubobject<UGraspComponent>("Grasp Component");
 	widgetPointerComp = CreateDefaultSubobject<UWidgetPointerComponent>("Pointer Component");
 }
 
@@ -71,7 +70,7 @@ void APuzzlePlayer::BeginPlay()
 
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
-	subsys->AddMappingContext(inputMapping, 0);
+	subsys->AddMappingContext(inputMapping, 3);
 }
 
 // Called every frame
@@ -90,7 +89,6 @@ void APuzzlePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	if (enhancedInputComponent != nullptr)
 	{
-		graspComp->SetupPlayerInputComponent(enhancedInputComponent);
 		widgetPointerComp->SetupPlayerInputComponent(enhancedInputComponent);
 	}
 }

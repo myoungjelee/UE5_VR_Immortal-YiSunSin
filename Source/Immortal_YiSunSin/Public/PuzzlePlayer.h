@@ -51,9 +51,6 @@ public:
 	class UInputMappingContext* inputMapping;
 
 	UPROPERTY(EditAnywhere)
-	class UGraspComponent* graspComp;
-
-	UPROPERTY(EditAnywhere)
 	class UWidgetInteractionComponent* widgetPointer_Left;
 
 	UPROPERTY(EditAnywhere)
