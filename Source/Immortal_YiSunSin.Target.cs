@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class Immortal_YiSunSinTarget : TargetRules
 {
+
 	public Immortal_YiSunSinTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
