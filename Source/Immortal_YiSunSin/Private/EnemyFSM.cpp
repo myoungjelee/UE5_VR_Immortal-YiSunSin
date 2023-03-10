@@ -3,12 +3,12 @@
 
 #include "EnemyFSM.h"
 #include <AIModule/Classes/AIController.h>
-#include "playerMG4.h"
 #include "EnemyShip.h"
 #include <Kismet/GameplayStatics.h>
 #include <Kismet/KismetMathLibrary.h>
 #include <NavigationSystem.h>
 #include <Components/CapsuleComponent.h>
+#include "MG4_Player.h"
 
 // Sets default values for this component's properties
 UEnemyFSM::UEnemyFSM()
@@ -25,7 +25,7 @@ void UEnemyFSM::BeginPlay()
 	Super::BeginPlay();
 	currHp = maxHp;
 
-	target = Cast<AplayerMG4>(UGameplayStatics::GetActorOfClass(GetWorld(),AplayerMG4::StaticClass()));
+	target = Cast<AMG4_Player>(UGameplayStatics::GetActorOfClass(GetWorld(), AMG4_Player::StaticClass()));
 	me = Cast<AEnemyShip>(GetOwner());
 
 	ai = Cast<AAIController>(me->GetController());

@@ -38,7 +38,7 @@ public:
 		EEnemyState currState = EEnemyState::Idle;
 
 	UPROPERTY(EditAnywhere)
-		class AplayerMG4* target;
+		class AMG4_Player* target;
 
 	UPROPERTY(EditAnywhere)
 		class AEnemyShip* me;
