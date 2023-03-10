@@ -42,11 +42,17 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class USkeletalMeshComponent* leftHand;
 
+	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
+	class UTextRenderComponent* leftLog;
+
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UMotionControllerComponent* rightController;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class USkeletalMeshComponent* rightHand;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
+	class UTextRenderComponent* rightLog;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UInputMappingContext* myMapping;

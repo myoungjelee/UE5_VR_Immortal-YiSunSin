@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "GraspComponent.h"
 #include "MoveComponent.h"
+#include "Components/TextRenderComponent.h"
 
 
 // Sets default values
@@ -35,6 +36,15 @@ APlayerBase::APlayerBase()
 	leftHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Left Hand"));
 	leftHand->SetupAttachment(leftController);
 	leftHand->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	leftHand->SetRelativeRotation(FRotator(-25.0f, 180.0f, 90.0f));
+
+	// 디버그용 로그
+	leftLog = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Left Log Text"));
+	leftLog->SetupAttachment(leftController);
+	leftLog->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
+	leftLog->SetTextRenderColor(FColor::Yellow);
+	leftLog->SetHorizontalAlignment(EHTA_Center);
+	leftLog->SetVerticalAlignment(EVRTA_TextCenter);
 
 	rightController = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("Right Controller"));
 	rightController->SetupAttachment(RootComponent);
@@ -43,6 +53,15 @@ APlayerBase::APlayerBase()
 	rightHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right Hand"));
 	rightHand->SetupAttachment(rightController);
 	rightHand->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	rightHand->SetRelativeRotation(FRotator(25.0f, 0.0f, 90.0f));
+
+	// 디버그용 로그
+	rightLog = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Right Log Text"));
+	rightLog->SetupAttachment(rightController);
+	rightLog->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
+	rightLog->SetTextRenderColor(FColor::Yellow);
+	rightLog->SetHorizontalAlignment(EHTA_Center);
+	rightLog->SetVerticalAlignment(EVRTA_TextCenter);
 
 	// 액터 컴포넌트
 	graspComp = CreateDefaultSubobject<UGraspComponent>(TEXT("Grasp Component"));
@@ -84,4 +103,3 @@ void APlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	}
 
 }
-

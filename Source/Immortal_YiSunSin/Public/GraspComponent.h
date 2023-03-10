@@ -30,7 +30,10 @@ public:
 	class UInputAction* grip_right;
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
-	float grabDistance = 30.0f;
+	float grabDistance = 70.0f;
+
+	UPROPERTY(EditAnywhere, Category = Temp)
+	class ABowActor* bow;
 
 private:
 	class APlayerBase* player;
