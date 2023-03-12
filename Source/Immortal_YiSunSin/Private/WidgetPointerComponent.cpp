@@ -36,35 +36,53 @@ void UWidgetPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-// 	startLoc_L = player->controller_Left->GetComponentLocation();
-// 	endLoc_L = player->controller_Left->GetComponentLocation() + (player->controller_Left->GetForwardVector() + (player->controller_Left->GetUpVector() * -1)) * 2000;
-// 	hit_L = GetWorld()->LineTraceSingleByChannel(hitInfo_L, startLoc_L, endLoc_L, ECC_Visibility, params_L);
-// 
-// 	if (hit_L)
-// 	{
-// 		if (hitInfo_L.GetActor()->GetName().Contains(TEXT("Puzzle")))
-// 		{
-// 			FString funcName_L = TEXT("LightOn");
-// 			FOutputDeviceNull ar_L;
-// 			hitInfo_L.GetActor()->CallFunctionByNameWithArguments(*funcName_L, ar_L, NULL, true);
-// 		}
-// 		
-// 	}
-// 
-// 	startLoc_R = player->controller_Right->GetComponentLocation();
-// 	endLoc_R = player->controller_Right->GetComponentLocation() + (player->controller_Right->GetForwardVector() + (player->controller_Right->GetUpVector() * -1)) * 2000;
-// 	hit_R = GetWorld()->LineTraceSingleByChannel(hitInfo_R, startLoc_R, endLoc_R, ECC_Visibility, params_R);
-// 
-// 	if (hit_R)
-// 	{
-// 		if (hitInfo_R.GetActor()->GetName().Contains(TEXT("Puzzle")))
-// 		{
-// 			FString funcName = TEXT("LightOn");
-// 			FOutputDeviceNull ar;
-// 			hitInfo_R.GetActor()->CallFunctionByNameWithArguments(*funcName, ar, NULL, true);
-// 		}
-// 		
-// 	}
+	startLoc_L = player->controller_Left->GetComponentLocation();
+	endLoc_L = player->controller_Left->GetComponentLocation() + (player->controller_Left->GetForwardVector() + (player->controller_Left->GetUpVector() * -1)) * 2000;
+	hit_L = GetWorld()->LineTraceSingleByChannel(hitInfo_L, startLoc_L, endLoc_L, ECC_Visibility, params_L);
+
+	if (hit_L)
+	{
+		if (hitPuzzle_L == nullptr)
+		{
+			if (hitInfo_L.GetActor()->GetName().Contains(TEXT("Puzzle")))
+			{
+				FString funcName_L = TEXT("LightOn");
+				FOutputDeviceNull ar_L;
+				hitInfo_L.GetActor()->CallFunctionByNameWithArguments(*funcName_L, ar_L, NULL, true);
+				hitPuzzle_L = hitInfo_L.GetActor();
+			}
+		}
+		else if (hitPuzzle_L != nullptr)
+		{
+			FString funcName_hitPuzzle_L = TEXT("LightOff");
+			FOutputDeviceNull ar_hitPuzzle_L;
+			hitPuzzle_L->CallFunctionByNameWithArguments(*funcName_hitPuzzle_L, ar_hitPuzzle_L, NULL, true);
+			hitPuzzle_L = nullptr;
+
+			if (hitInfo_L.GetActor()->GetName().Contains(TEXT("Puzzle")))
+			{
+				FString funcName_L = TEXT("LightOn");
+				FOutputDeviceNull ar_L;
+				hitInfo_L.GetActor()->CallFunctionByNameWithArguments(*funcName_L, ar_L, NULL, true);
+				hitPuzzle_L = hitInfo_L.GetActor();
+			}
+		}
+	}
+
+	startLoc_R = player->controller_Right->GetComponentLocation();
+	endLoc_R = player->controller_Right->GetComponentLocation() + (player->controller_Right->GetForwardVector() + (player->controller_Right->GetUpVector() * -1)) * 2000;
+	hit_R = GetWorld()->LineTraceSingleByChannel(hitInfo_R, startLoc_R, endLoc_R, ECC_Visibility, params_R);
+
+	if (hit_R)
+	{
+		if (hitInfo_R.GetActor()->GetName().Contains(TEXT("Puzzle")))
+		{
+			FString funcName = TEXT("LightOn");
+			FOutputDeviceNull ar;
+			hitInfo_R.GetActor()->CallFunctionByNameWithArguments(*funcName, ar, NULL, true);
+		}
+
+	}
 }
 
 void UWidgetPointerComponent::SetupPlayerInputComponent(class UEnhancedInputComponent* PlayerInputComponent)
@@ -96,7 +114,7 @@ void UWidgetPointerComponent::GribedPuzzle_L()
 		}
 	}
 
-	DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Blue, false, 3,0,3);
+	DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Blue, false, 3, 0, 3);
 }
 
 void UWidgetPointerComponent::ReleasedPuzzle_L()
@@ -116,7 +134,7 @@ void UWidgetPointerComponent::ReleasedPuzzle_L()
 void UWidgetPointerComponent::GribedPuzzle_R()
 {
 	FVector startLoc = player->controller_Right->GetComponentLocation();
-	FVector endLoc = player->controller_Right->GetComponentLocation() + (player->controller_Right->GetForwardVector() + (player->controller_Right->GetUpVector()*-1)) * 2000;
+	FVector endLoc = player->controller_Right->GetComponentLocation() + (player->controller_Right->GetForwardVector() + (player->controller_Right->GetUpVector() * -1)) * 2000;
 	FHitResult hitInfo;
 	FCollisionQueryParams params;
 	params.AddIgnoredActor(player);

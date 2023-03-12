@@ -36,6 +36,8 @@ public:
 	class APuzzlePlayer* player;
 	class AActor* grabedPuzzle_L;
 	class AActor* grabedPuzzle_R;
+	class AActor* hitPuzzle_L;
+	class AActor* hitPuzzle_R;
 
 	bool hit_L = false;
 	FVector startLoc_L;
