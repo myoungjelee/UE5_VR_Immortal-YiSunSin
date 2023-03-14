@@ -32,6 +32,8 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UInputAction* left_Grib;
 		
+	UPROPERTY(EditAnywhere)
+		TArray<class APutPuzzle*> putArray;
 
 	class APuzzlePlayer* player;
 	class AActor* grabedPuzzle_L;
@@ -50,6 +52,9 @@ public:
 	FVector endLoc_R;
 	FHitResult hitInfo_R;
 	FCollisionQueryParams params_R;
+
+	bool bPut_L = false;
+	bool bPut_R = false;
 
 	void GribedPuzzle_L();
 	void ReleasedPuzzle_L();

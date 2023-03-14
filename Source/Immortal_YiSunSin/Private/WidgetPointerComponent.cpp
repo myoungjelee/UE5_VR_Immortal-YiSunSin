@@ -6,6 +6,9 @@
 #include "PuzzlePlayer.h"
 #include <MotionControllerComponent.h>
 #include <Misc/OutputDeviceNull.h>
+#include <Kismet/GameplayStatics.h>
+#include "PutPuzzle.h"
+#include <EngineUtils.h>
 
 
 // Sets default values for this component's properties
@@ -25,6 +28,11 @@ void UWidgetPointerComponent::BeginPlay()
 	Super::BeginPlay();
 
 	player = Cast<APuzzlePlayer>(GetOwner());
+
+	for (TActorIterator<APutPuzzle> it(GetWorld()); it; ++it)
+	{
+		putArray.Add(*it);
+	}
 
 	params_L.AddIgnoredActor(player);
 	params_R.AddIgnoredActor(player);
@@ -75,13 +83,31 @@ void UWidgetPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 	if (hit_R)
 	{
-		if (hitInfo_R.GetActor()->GetName().Contains(TEXT("Puzzle")))
+		if (hitPuzzle_R == nullptr)
 		{
-			FString funcName = TEXT("LightOn");
-			FOutputDeviceNull ar;
-			hitInfo_R.GetActor()->CallFunctionByNameWithArguments(*funcName, ar, NULL, true);
+			if (hitInfo_R.GetActor()->GetName().Contains(TEXT("Puzzle")))
+			{
+				FString funcName_R = TEXT("LightOn");
+				FOutputDeviceNull ar_R;
+				hitInfo_R.GetActor()->CallFunctionByNameWithArguments(*funcName_R, ar_R, NULL, true);
+				hitPuzzle_R = hitInfo_R.GetActor();
+			}
 		}
+		else if (hitPuzzle_R != nullptr)
+		{
+			FString funcName_hitPuzzle_R = TEXT("LightOff");
+			FOutputDeviceNull ar_hitPuzzle_R;
+			hitPuzzle_R->CallFunctionByNameWithArguments(*funcName_hitPuzzle_R, ar_hitPuzzle_R, NULL, true);
+			hitPuzzle_R = nullptr;
 
+			if (hitInfo_R.GetActor()->GetName().Contains(TEXT("Puzzle")))
+			{
+				FString funcName_R = TEXT("LightOn");
+				FOutputDeviceNull ar_R;
+				hitInfo_R.GetActor()->CallFunctionByNameWithArguments(*funcName_R, ar_R, NULL, true);
+				hitPuzzle_R = hitInfo_R.GetActor();
+			}
+		}
 	}
 }
 
@@ -107,14 +133,8 @@ void UWidgetPointerComponent::GribedPuzzle_L()
 		{
 			hitInfo.GetActor()->AttachToComponent(player->mesh_Left, FAttachmentTransformRules::KeepWorldTransform, FName("PuzzlePoint_L"));
 			grabedPuzzle_L = hitInfo.GetActor();
-
-			FString funcName = TEXT("LightOn");
-			FOutputDeviceNull ar;
-			grabedPuzzle_L->CallFunctionByNameWithArguments(*funcName, ar, NULL, true);
 		}
 	}
-
-	DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Blue, false, 3, 0, 3);
 }
 
 void UWidgetPointerComponent::ReleasedPuzzle_L()
@@ -123,11 +143,15 @@ void UWidgetPointerComponent::ReleasedPuzzle_L()
 	{
 		grabedPuzzle_L->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 
-		FString funcName = TEXT("LightOff");
-		FOutputDeviceNull ar;
-		grabedPuzzle_L->CallFunctionByNameWithArguments(*funcName, ar, NULL, true);
-
 		grabedPuzzle_L = nullptr;
+
+		for (APutPuzzle* put : putArray)
+		{
+			if (put->overlapPuzzle != nullptr)
+			{
+				put->SettingPuzzle();
+			}
+		}
 	}
 }
 
@@ -147,8 +171,6 @@ void UWidgetPointerComponent::GribedPuzzle_R()
 			grabedPuzzle_R = hitInfo.GetActor();
 		}
 	}
-
-	DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Green, false, 3, 0, 3);
 }
 
 void UWidgetPointerComponent::ReleasedPuzzle_R()
@@ -158,6 +180,14 @@ void UWidgetPointerComponent::ReleasedPuzzle_R()
 		grabedPuzzle_R->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 
 		grabedPuzzle_R = nullptr;
+
+		for (APutPuzzle* put : putArray)
+		{
+			if (put->overlapPuzzle != nullptr)
+			{
+				put->SettingPuzzle();
+			}
+		}
 	}
 }
 
