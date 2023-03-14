@@ -42,10 +42,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UMotionControllerComponent* controllerRight;
 
+	//Input
 	UPROPERTY(EditAnywhere)
 		class UInputMappingContext* inputMapping;
-
-	//Grip Input
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 		class USkeletalMeshComponent* leftHand;
@@ -58,20 +57,29 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		class UInputAction* gripRight;
-
+		
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		float grabDistance = 30.0f;
 
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		class UInputAction* thumbstickLeft;
+		
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		class UInputAction* thumbstickRight;
+	
 private:
-	class APickupActor* grabedObject;
+	class AActor* grabedObject;
 	bool bIsGrab = false;
 	bool physicsState = false;
 
+	void Recenter();
 	void GripRightAction(const struct FInputActionValue& value);
 	void GripRightReleased(const struct FInputActionValue& value);
 	void GripLeftAction(const struct FInputActionValue& value);
 	void GripLeftReleased(const struct FInputActionValue& value);
 	void GrabObject(USkeletalMeshComponent* selectHand);
+	void Move(const struct FInputActionValue& value);
+	void RotateAxis(const struct FInputActionValue& value);
 
 	/*void TriggerRightAction(const struct FInputActionValue& value);
 	void TriggerRightReleased(const struct FInputActionValue& value);

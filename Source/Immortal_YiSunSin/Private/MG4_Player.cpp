@@ -39,6 +39,9 @@ AMG4_Player::AMG4_Player()
 	rightHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right Hand"));
 	rightHand->SetupAttachment(controllerRight);
 	rightHand->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	bUseControllerRotationPitch = true;
+
 }
 
 // Called when the game starts or when spawned
@@ -73,7 +76,15 @@ void AMG4_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	enhancedInputComponent->BindAction(gripLeft, ETriggerEvent::Completed, this, &AMG4_Player::GripLeftReleased);
 	enhancedInputComponent->BindAction(gripRight, ETriggerEvent::Started, this, &AMG4_Player::GripRightAction);
 	enhancedInputComponent->BindAction(gripRight, ETriggerEvent::Completed, this, &AMG4_Player::GripRightReleased);
+	//Move Input Binding
+	enhancedInputComponent->BindAction(thumbstickLeft, ETriggerEvent::Triggered, this, &AMG4_Player::Move);
+	enhancedInputComponent->BindAction(thumbstickRight, ETriggerEvent::Triggered, this, &AMG4_Player::RotateAxis);
 
+}
+
+void AMG4_Player::Recenter()
+{
+	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 
 void AMG4_Player::GripRightAction(const struct FInputActionValue& value)
@@ -100,16 +111,18 @@ void AMG4_Player::GrabObject(USkeletalMeshComponent* selectHand)
 {
 	// SphereTrace 방식
 	FVector center = selectHand->GetComponentLocation();
-	//FVector endLoc = center + selectHand->GetRightVector() * grabDistance;
+	FVector endLoc = center + selectHand->GetRightVector() * grabDistance;
 	FHitResult hitInfo;
 	FCollisionQueryParams params;
 	params.AddIgnoredActor(GetOwner());
 
 	if (GetWorld()->SweepSingleByChannel(hitInfo, center, center, FQuat::Identity, ECC_Visibility, FCollisionShape::MakeSphere(grabDistance), params) && grabedObject == nullptr)
+		DrawDebugSphere(GetWorld(), center, 30, 20, FColor::Red, false, 3, 0, 3);
 	{
-		grabedObject = Cast<APickupActor>(hitInfo.GetActor());
+		grabedObject = Cast<AActor>(hitInfo.GetActor());
 		if (IsValid(grabedObject))
-		{
+		{	
+			
 			UBoxComponent* boxComp = Cast<UBoxComponent>(grabedObject->GetRootComponent());
 			if (boxComp != nullptr)
 			{
@@ -118,10 +131,26 @@ void AMG4_Player::GrabObject(USkeletalMeshComponent* selectHand)
 			}
 
 			hitInfo.GetActor()->AttachToComponent(selectHand, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GrabPoint"));
-			grabedObject->SetActorRelativeLocation(grabedObject->gripOffset);
 		}
 	}
 
 	bIsGrab = true;
+}
+
+void AMG4_Player::Move(const struct FInputActionValue& value)
+{
+	FVector2D val = value.Get<FVector2D>();
+	FVector direction = FVector(val.Y, val.X, 0);
+
+	AddMovementInput(direction.GetSafeNormal(), 1, false);
+}
+
+void AMG4_Player::RotateAxis(const struct FInputActionValue& value)
+{
+	FVector2D axis = value.Get<FVector2D>();
+
+	//axis 값을 이용해서 캐릭터(콘트롤러)를 회전한다.
+	AddControllerPitchInput(axis.Y * -1.0f);
+	AddControllerYawInput(axis.X);
 }
 

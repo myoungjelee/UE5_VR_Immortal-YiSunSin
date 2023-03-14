@@ -33,6 +33,8 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	void NotifyActorBeginOverlap(AActor* OtherActor);
+
 	//현재상태
 	UPROPERTY(EditAnywhere)
 		EEnemyState currState = EEnemyState::Idle;
@@ -46,12 +48,15 @@ public:
 	//ai controller 
 	UPROPERTY(EditAnywhere)
 		class AAIController* ai;
+
+	UPROPERTY(EditAnywhere)
+		class AActor* actor;
 	
 	UPROPERTY(EditAnywhere)
 	float currHp;
 
 	UPROPERTY(EditAnywhere)
-	float maxHp = 5;
+	float maxHp = 3;
 
 	float traceRange = 1000;
 	float currTime = 0;
@@ -59,6 +64,7 @@ public:
 	float damageDelayTime = 2;
 	float dieSpeed = 100;
 	bool bDieMove = false;
+
 	//처음 위치
 	FVector originPos;
 	//랜덤 위치

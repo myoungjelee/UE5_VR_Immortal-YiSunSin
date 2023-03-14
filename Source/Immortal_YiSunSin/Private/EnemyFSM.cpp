@@ -13,9 +13,9 @@
 // Sets default values for this component's properties
 UEnemyFSM::UEnemyFSM()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
+
+	bAutoActivate = true;
 }
 
 
@@ -32,6 +32,10 @@ void UEnemyFSM::BeginPlay()
 
 }
 
+void UEnemyFSM::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+
+}
 
 // Called every frame
 void UEnemyFSM::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -54,6 +58,7 @@ void UEnemyFSM::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 		break;
 	}
 }
+
 
 void UEnemyFSM::UpdateIdle()
 {
@@ -80,6 +85,7 @@ void UEnemyFSM::UpdateMove()
 	if (bTrace) //만약 시야에 들어왔다면
 	{
 		ai->MoveToLocation(target->GetActorLocation());
+		UE_LOG(LogTemp, Warning, TEXT("move!!!!"));
 	}
 	else
 	{
@@ -110,12 +116,22 @@ void UEnemyFSM::UpdateDie()
 	{
 		me->SetActorLocation(p);
 	}
+
 }
 
 
 
 void UEnemyFSM::ChangeState(EEnemyState state)
 {
+
+	UEnum* enumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("EEnemyState"), true);
+	if (enumPtr != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s -----> %s"),
+			*enumPtr->GetNameStringByIndex((int32)currState),
+			*enumPtr->GetNameStringByIndex((int32)state));
+	}
+
 	//현재 상태를 갱신
 	currState = state;
 
@@ -188,8 +204,12 @@ bool UEnemyFSM::IsTargetTrace()
 
 		if (bHit)
 		{
-			if (hitInfo.GetActor()->GetName().Contains(TEXT("player")))
+			if (hitInfo.GetActor()->GetName().Contains(TEXT("Player")))
 			{
+				//DrawDebugLine(GetWorld(), me->GetActorLocation(), target->GetActorLocation(),  FColor::Cyan, true, -1, 0, 0.5);
+				
+				//UE_LOG(LogTemp, Warning, TEXT("%s"), *hitInfo.GetActor()->GetName());
+
 				return true;
 			}
 		}
