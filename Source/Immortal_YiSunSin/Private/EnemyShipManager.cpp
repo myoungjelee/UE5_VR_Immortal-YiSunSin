@@ -10,22 +10,10 @@ AEnemyShipManager::AEnemyShipManager()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
-	ConstructorHelpers::FClassFinder<AEnemyShip> tempEnemy(TEXT("/Script/Engine.Blueprint'/Game/GN_Blueprint/BP_MG4enemy.BP_MG4enemy_C'"));
+	ConstructorHelpers::FClassFinder<AEnemyShip> tempEnemy(TEXT("/Script/Engine.Blueprint'/Game/GN_Blueprint/BP_enemyShip.BP_enemyShip_C'"));
 	if (tempEnemy.Succeeded())
 	{
 		enemyFactory = tempEnemy.Class;
-	}
-	for (int32 i = 0; i < 5; i++)
-	{
-		FActorSpawnParameters param;
-		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-		//enemy 생성
-		//AEnemyShip* e = GetWorld()->SpawnActor<AEnemyShip>(enemyFactory, GetActorLocation(), GetActorRotation(), param);
-		//적이 죽었을 때 호출되는 함수 등록
-		//e->dieDelegate.BindUObject(this, &AEnemyShipManager::AddEnemy);
-		////적을 비활성화 하자
-		//e->SetActive(false);
 	}
 }
 
@@ -35,9 +23,21 @@ void AEnemyShipManager::BeginPlay()
 	
 	spawnTime = FMath::RandRange(minTime, maxTime);
 
+	//spawn pos 세팅
 	FindSpawnPos();
 
+	for (int32 i = 0; i < 5; i++)
+	{
+		FActorSpawnParameters param;
+		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
+		//enemy 생성
+		AEnemyShip* e = GetWorld()->SpawnActor<AEnemyShip>(enemyFactory, GetActorLocation(), GetActorRotation(), param);
+		//적이 죽었을 때 호출되는 함수 등록
+		e->dieDelegate.BindUObject(this, &AEnemyShipManager::AddEnemy);
+		//적을 비활성화 하자
+		e->SetActive(false);
+	}
 }
 
 // Called every frame
