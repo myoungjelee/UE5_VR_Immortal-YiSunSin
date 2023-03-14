@@ -180,7 +180,7 @@ void UWidgetPointerComponent::ReleasedPuzzle_R()
 
 		for (APutPuzzle* put : putArray)
 		{
-				put->SettingPuzzle();
+			put->SettingPuzzle();
 		}
 	}
 }

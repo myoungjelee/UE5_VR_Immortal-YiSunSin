@@ -34,6 +34,8 @@ public:
 	UPROPERTY(EditAnywhere)
 		class AActor* setPuzzle;
 
+	UPROPERTY(EditAnywhere)
+		class UParticleSystem* completePuzzle;
 public:
 
 	bool hit = false;
