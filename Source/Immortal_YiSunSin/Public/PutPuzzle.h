@@ -31,6 +31,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		class AActor* overlapPuzzle;
 
+	UPROPERTY(EditAnywhere)
+		class AActor* setPuzzle;
+
 public:
 
 	bool hit = false;

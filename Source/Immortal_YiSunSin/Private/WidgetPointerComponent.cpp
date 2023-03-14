@@ -147,10 +147,13 @@ void UWidgetPointerComponent::ReleasedPuzzle_L()
 
 		for (APutPuzzle* put : putArray)
 		{
-			if (put->overlapPuzzle != nullptr)
-			{
+			//if (put->overlapPuzzle != nullptr)
+			//{
+			//	put->SettingPuzzle();
+			//}
+
 				put->SettingPuzzle();
-			}
+		
 		}
 	}
 }
@@ -183,10 +186,13 @@ void UWidgetPointerComponent::ReleasedPuzzle_R()
 
 		for (APutPuzzle* put : putArray)
 		{
-			if (put->overlapPuzzle != nullptr)
-			{
+			//if (put->overlapPuzzle != nullptr)
+			//{
+			//	put->SettingPuzzle();
+			//}
+		
 				put->SettingPuzzle();
-			}
+	
 		}
 	}
 }
