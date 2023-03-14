@@ -38,7 +38,7 @@ void APutPuzzle::Tick(float DeltaTime)
 		if (hitInfo.GetActor()->GetName().Contains(TEXT("Puzzle")))
 		{
 			setPuzzle = hitInfo.GetActor();
-			DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Red, true);
+			//DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Green, false, 1, 0, 3);
 		}
  		else
  		{
@@ -50,25 +50,16 @@ void APutPuzzle::Tick(float DeltaTime)
 		setPuzzle = nullptr;
 	}
 
-	DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Green, true);
+	//DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Yellow, true);
 }
 
 void APutPuzzle::OnPuzzle(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor->GetName().Contains(TEXT("Puzzle")))
-	{
-		//overlapPuzzle = OtherActor;
-	}
+
 }
 
 void APutPuzzle::SettingPuzzle()
 {
-	//if (overlapPuzzle != nullptr)
-	//{
- //		overlapPuzzle->SetActorLocation(compBox->GetComponentLocation() + FVector(40, 0, -60));
- //		overlapPuzzle->SetActorRotation(compBox->GetComponentRotation());
- //		overlapPuzzle = nullptr;
-	//}
 	if (setPuzzle != nullptr)
 	{
 		setPuzzle->SetActorLocation(compBox->GetComponentLocation() + FVector(40, 0, -60));

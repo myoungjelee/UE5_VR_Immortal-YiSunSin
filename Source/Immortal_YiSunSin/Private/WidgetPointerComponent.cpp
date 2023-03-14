@@ -131,8 +131,8 @@ void UWidgetPointerComponent::GribedPuzzle_L()
 	{
 		if (hitInfo.GetActor()->GetName().Contains(TEXT("Puzzle")))
 		{
-			hitInfo.GetActor()->AttachToComponent(player->mesh_Left, FAttachmentTransformRules::KeepWorldTransform, FName("PuzzlePoint_L"));
 			grabedPuzzle_L = hitInfo.GetActor();
+			grabedPuzzle_L->AttachToComponent(player->mesh_Left, FAttachmentTransformRules::KeepWorldTransform, FName("PuzzlePoint_L"));
 		}
 	}
 }
@@ -147,13 +147,7 @@ void UWidgetPointerComponent::ReleasedPuzzle_L()
 
 		for (APutPuzzle* put : putArray)
 		{
-			//if (put->overlapPuzzle != nullptr)
-			//{
-			//	put->SettingPuzzle();
-			//}
-
 				put->SettingPuzzle();
-		
 		}
 	}
 }
@@ -186,13 +180,7 @@ void UWidgetPointerComponent::ReleasedPuzzle_R()
 
 		for (APutPuzzle* put : putArray)
 		{
-			//if (put->overlapPuzzle != nullptr)
-			//{
-			//	put->SettingPuzzle();
-			//}
-		
 				put->SettingPuzzle();
-	
 		}
 	}
 }
