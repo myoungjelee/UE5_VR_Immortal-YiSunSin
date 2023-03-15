@@ -38,6 +38,13 @@ public:
 		class UParticleSystem* completePuzzle;
 public:
 
+	bool bOverlap;
+
+	bool hit_s = false;
+	FVector startLoc_s;
+	FVector endLoc_s;
+	FHitResult hitInfo_s;
+
 	bool hit = false;
 	FVector startLoc;
 	FVector endLoc;
@@ -49,5 +56,9 @@ public:
 	UFUNCTION()
 		void OnPuzzle(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+
+	UFUNCTION()
+		void OffPuzzle(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+		
 		void SettingPuzzle();
 };

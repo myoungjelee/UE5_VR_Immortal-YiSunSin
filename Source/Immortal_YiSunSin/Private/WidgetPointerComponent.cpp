@@ -164,7 +164,7 @@ void UWidgetPointerComponent::GribedPuzzle_R()
 	{
 		if (hitInfo.GetActor()->GetName().Contains(TEXT("Puzzle")))
 		{
-			hitInfo.GetActor()->AttachToComponent(player->mesh_Right, FAttachmentTransformRules::KeepWorldTransform, FName("PuzzlePoint_L"));
+			hitInfo.GetActor()->AttachToComponent(player->mesh_Right, FAttachmentTransformRules::KeepWorldTransform, FName("PuzzlePoint_R"));
 			grabedPuzzle_R = hitInfo.GetActor();
 		}
 	}

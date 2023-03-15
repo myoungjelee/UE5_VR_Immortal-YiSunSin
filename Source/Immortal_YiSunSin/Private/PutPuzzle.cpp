@@ -30,6 +30,7 @@ void APutPuzzle::BeginPlay()
 	Super::BeginPlay();
 
 	compBox->OnComponentBeginOverlap.AddDynamic(this, &APutPuzzle::OnPuzzle);
+	compBox->OnComponentEndOverlap.AddDynamic(this, &APutPuzzle::OffPuzzle);
 }
 
 // Called every frame
@@ -37,43 +38,69 @@ void APutPuzzle::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	startLoc = GetActorLocation()+(GetActorForwardVector() * 49);
-	endLoc = GetActorLocation()+(GetActorForwardVector() * -500);
-	hit = GetWorld()->LineTraceSingleByChannel(hitInfo, startLoc, endLoc, ECC_Visibility);
-
-	if (hit)
+	startLoc_s = GetActorLocation() + (GetActorForwardVector() * 49);
+	endLoc_s = GetActorLocation() + (GetActorForwardVector() * 47);
+	hit_s = GetWorld()->LineTraceSingleByChannel(hitInfo_s, startLoc_s, endLoc_s, ECC_Visibility);
+	DrawDebugLine(GetWorld(), startLoc_s, endLoc_s, FColor::Red, true);
+	if (hit_s)
 	{
-		if (hitInfo.GetActor()->GetName().Contains(TEXT("Puzzle")))
-		{
-			setPuzzle = hitInfo.GetActor();
-			//DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Green, false, 1, 0, 3);
-		}
- 		else
- 		{
- 			setPuzzle = nullptr;
- 		}	
+		bOverlap = true;
 	}
 	else
 	{
-		setPuzzle = nullptr;
+		bOverlap = false;
 	}
 
-	DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Yellow, true);
+	startLoc = GetActorLocation() + (GetActorForwardVector() * 49);
+	endLoc = GetActorLocation() + (GetActorForwardVector() * -500);
+	hit = GetWorld()->LineTraceSingleByChannel(hitInfo, startLoc, endLoc, ECC_Visibility);
+
+	if (bOverlap == false)
+	{
+		if (hit)
+		{
+			if (hitInfo.GetActor()->GetName().Contains(TEXT("Puzzle")))
+			{
+				setPuzzle = hitInfo.GetActor();
+				DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Green, false, 1, 0, 3);
+			}
+			else
+			{
+				setPuzzle = nullptr;
+			}
+		}
+		else
+		{
+			setPuzzle = nullptr;
+		}
+	}
+
+
+	//DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Yellow, true);
 }
 
 void APutPuzzle::OnPuzzle(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	
+// 	bOverlap = true;
+// 	UE_LOG(LogTemp, Error, TEXT("%d"), bOverlap);
+}
+
+void APutPuzzle::OffPuzzle(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+// 	bOverlap = false;
+// 	UE_LOG(LogTemp, Warning, TEXT("%d"), bOverlap);
 }
 
 void APutPuzzle::SettingPuzzle()
 {
 	if (setPuzzle != nullptr)
 	{
-		setPuzzle->SetActorLocation(compBox->GetComponentLocation() + FVector(0, 0, -60));
+		setPuzzle->SetActorLocation(compBox->GetComponentLocation() + FVector(-15, 0, -60));
 		setPuzzle->SetActorRotation(compBox->GetComponentRotation());
 
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), completePuzzle, GetActorLocation(), GetActorRotation(), FVector3d(1));
+
+		setPuzzle = nullptr;
 	}
 }
 
