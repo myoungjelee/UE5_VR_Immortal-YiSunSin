@@ -62,11 +62,11 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UInputAction* grip_Left;
 
-	UPROPERTY(EditAnywhere)
-		class UParticleSystem* hit_Left;
-
-	UPROPERTY(EditAnywhere)
-		class UParticleSystem* hit_Right;
+// 	UPROPERTY(EditAnywhere)
+// 		class UParticleSystem* hit_Left;
+// 
+// 	UPROPERTY(EditAnywhere)
+// 		class UParticleSystem* hit_Right;
 
 public:
 	
