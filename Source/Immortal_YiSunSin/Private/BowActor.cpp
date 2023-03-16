@@ -16,12 +16,14 @@ ABowActor::ABowActor()
 	handleMesh->SetRelativeScale3D(FVector(0.05));
 
 	boxComp->SetBoxExtent(FVector(15, 90, 4));
+
 }
 
 void ABowActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	gripOffset = FVector(0, 5, 10);
 }
 
 void ABowActor::ShootArrow()

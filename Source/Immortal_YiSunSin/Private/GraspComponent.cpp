@@ -42,24 +42,25 @@ void UGraspComponent::SetupPlayerInputComponent(class UEnhancedInputComponent* P
 
 void UGraspComponent::GripLeftAction(const struct FInputActionValue& value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("11111111111111"));
 	GrabObject(player->leftHand);
-	player->rightLog->SetText(FText::FromString(TEXT("Left")));
 }
 
 void UGraspComponent::GripLeftReleased(const struct FInputActionValue& value)
 {
+	//ReleaseObject(player->leftHand);
 	bIsGrab = false;
 }
 
 void UGraspComponent::GripRightAction(const struct FInputActionValue& value)
 {
+
 	GrabObject(player->rightHand);
-	player->rightLog->SetText(FText::FromString(TEXT("Right")));
+
 }
 
 void UGraspComponent::GripRightReleased(const struct FInputActionValue& value)
 {
+	//ReleaseObject(player->rightHand);
 	bIsGrab = false;
 }
 
@@ -87,7 +88,12 @@ void UGraspComponent::GrabObject(USkeletalMeshComponent* selectHand)
 			}
 
 			hitInfo.GetActor()->AttachToComponent(selectHand, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GrabPoint"));
+			if (selectHand == player->rightHand)
+			{
+				grabedObject->gripRot = FRotator(90, -90, 0);
+			}
 			grabedObject->SetActorRelativeLocation(grabedObject->gripOffset);
+			grabedObject->SetActorRelativeRotation(grabedObject->gripRot);
 		}
 	}
 

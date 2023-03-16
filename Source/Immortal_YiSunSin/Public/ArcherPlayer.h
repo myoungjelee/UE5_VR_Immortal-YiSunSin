@@ -5,26 +5,22 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
-#include "PlayerBase.generated.h"
+#include "ArcherPlayer.generated.h"
 
 UCLASS()
-class IMMORTAL_YISUNSIN_API APlayerBase : public APawn
+class IMMORTAL_YISUNSIN_API AArcherPlayer : public APawn
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
-	APlayerBase();
+	AArcherPlayer();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
@@ -34,16 +30,10 @@ public:
 	class UCameraComponent* cam;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
-	class UStaticMeshComponent* headMesh;
-
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UMotionControllerComponent* leftController;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class USkeletalMeshComponent* leftHand;
-
-	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
-	class UTextRenderComponent* leftLog;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UMotionControllerComponent* rightController;
@@ -51,24 +41,32 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class USkeletalMeshComponent* rightHand;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
-	class UTextRenderComponent* rightLog;
-
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UInputMappingContext* myMapping;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Settings|ModuleSetting")
 	TEnumAsByte<enum EHMDTrackingOrigin::Type> trackOrigin;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
-	class UGraspComponent* graspComp;
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	class USkeletalMeshComponent* bowComp;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
-	class UMoveComponent* moveComp;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Components")
+	class UStaticMeshComponent* handleMesh;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
-	class UArcherGraspComponent* archerGrasp;
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
+	class UInputAction* GripRight;
 
-	UPROPERTY(EditAnywhere, Category = "ArcherPlayerInput")
-	class UInputAction* gripRight;
+	UPROPERTY(EditAnywhere, Category = "ArrowSpawn")
+	class AArrowActor* arrow;
+
+	UPROPERTY(EditAnywhere, Category = "ArrowSpawn")
+	TSubclassOf<class AArrowActor> arrowFactory;
+
+	FVector startLoc;
+	FVector handLoc;
+	FVector tempLoc;
+	bool bBowPulling = false;
+
+	void BowRelease();
+	void ShootArrow();
 };

@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "GraspComponent.generated.h"
+#include "ArcherGraspComponent.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class IMMORTAL_YISUNSIN_API UGraspComponent : public UActorComponent
+class IMMORTAL_YISUNSIN_API UArcherGraspComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
-	UGraspComponent();
+	UArcherGraspComponent();
 
 protected:
 	virtual void BeginPlay() override;
@@ -30,23 +30,21 @@ public:
 	class UInputAction* grip_right;
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
-	float grabDistance = 70.0f;
-
-	UPROPERTY(EditAnywhere, Category = Temp)
-	class ABowActor* bow;
+	float grabDistance = 15.0f;
 
 private:
 	class APlayerBase* player;
 	class APickupActor* grabedObject;
+	class ABowActor* bow;
+	class ASwordActor* sword;
+	class UStaticMeshComponent* grabedComp;
 
 	bool bIsGrab = false;
 	bool physicsState = false;
-	bool bGrabBow = false;
+	bool bBowGrab = false;
 
 	void GripRightAction(const struct FInputActionValue& value);
 	void GripRightReleased(const struct FInputActionValue& value);
-	void GripLeftAction(const struct FInputActionValue& value);
-	void GripLeftReleased(const struct FInputActionValue& value);
 	void GrabObject(USkeletalMeshComponent* selectHand);
 	void ReleaseObject(USkeletalMeshComponent* selectHand);
 };

@@ -21,6 +21,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Dummy")
+	class USceneComponent* rootComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Dummy")
 	class UStaticMeshComponent* meshComp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Dummy")

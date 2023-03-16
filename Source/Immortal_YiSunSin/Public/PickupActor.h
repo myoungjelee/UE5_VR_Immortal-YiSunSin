@@ -23,6 +23,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = BaseSettings)
 	FVector gripOffset;
 
+	UPROPERTY(EditAnywhere, Category = BaseSettings)
+	FRotator gripRot;
+
 	UPROPERTY(EditAnywhere)
 	class UBoxComponent* boxComp;
 

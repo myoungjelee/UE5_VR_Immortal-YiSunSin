@@ -11,8 +11,6 @@ UMoveComponent::UMoveComponent()
 
 }
 
-
-// Called when the game starts
 void UMoveComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -20,8 +18,6 @@ void UMoveComponent::BeginPlay()
 	player = Cast<APlayerBase>(GetOwner());
 }
 
-
-// Called every frame
 void UMoveComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);

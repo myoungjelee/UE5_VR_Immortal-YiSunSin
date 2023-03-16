@@ -17,4 +17,5 @@ void ASwordActor::BeginPlay()
 	Super::BeginPlay();
 
 	planeComp->SetVisibility(false);
+	gripOffset = FVector(-50, 0, -15);
 }

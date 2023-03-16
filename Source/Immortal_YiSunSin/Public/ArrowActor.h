@@ -21,7 +21,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
-	class USphereComponent* sphereComp;
+	class UBoxComponent* boxComp;
 
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* meshComp;
@@ -29,6 +29,10 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UProjectileMovementComponent* projectileComp;
 
+	bool bIsShoot = false;
+
+	void Shoot();
+	void OnTarget(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	void Die();
 
 };
