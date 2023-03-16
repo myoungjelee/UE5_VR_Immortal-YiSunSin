@@ -42,11 +42,17 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class USkeletalMeshComponent* leftHand;
 
+	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
+	class UTextRenderComponent* leftLog;
+
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UMotionControllerComponent* rightController;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class USkeletalMeshComponent* rightHand;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
+	class UTextRenderComponent* rightLog;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UInputMappingContext* myMapping;
@@ -56,4 +62,13 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
 	class UGraspComponent* graspComp;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
+	class UMoveComponent* moveComp;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
+	class UArcherGraspComponent* archerGrasp;
+
+	UPROPERTY(EditAnywhere, Category = "ArcherPlayerInput")
+	class UInputAction* gripRight;
 };
