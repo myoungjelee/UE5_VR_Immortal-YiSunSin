@@ -153,4 +153,3 @@ void AMG4_Player::RotateAxis(const struct FInputActionValue& value)
 	AddControllerPitchInput(axis.Y * -1.0f);
 	AddControllerYawInput(axis.X);
 }
-
