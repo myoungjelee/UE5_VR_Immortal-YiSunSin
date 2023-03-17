@@ -21,11 +21,11 @@ ADrumManager::ADrumManager()
 	{
 		FNodeCreateInfo info;
 		FString path = FString::Printf(TEXT("/Script/Engine.Blueprint'/Game/MJ_Blueprint/Rhythm/Drums/BP_Drum%d.BP_Drum%d_C'"), i, i);
-		ConstructorHelpers::FClassFinder<ADrumActor> tempDrum0(*path);
 
-		if (tempDrum0.Succeeded())
+		ConstructorHelpers::FClassFinder<ADrumActor> tempDrum(*path);
+		if (tempDrum.Succeeded())
 		{
-			info.drumActor = tempDrum0.Class;
+			info.drumActor = tempDrum.Class;
 			info.pos = startPos[i];
 			nodeCreateArray.Add(info);
 		}
@@ -89,7 +89,7 @@ void ADrumManager::Tick(float DeltaTime)
 		}
 		else
 		{
-			nodeArray[nodeIndex].makeTime = 10000000;
+			nodeArray[nodeIndex].makeTime = 1000;
 		}
 	}
 }
@@ -120,7 +120,7 @@ void ADrumManager::CreateNode()
 void ADrumManager::LoadNode()
 {
 	FString jsonString;
-	FString filePath = FPaths::Combine(FPaths::ProjectSavedDir(), TEXT("Node.txt"));
+	FString filePath = FPaths::Combine(FPaths::ProjectContentDir(), TEXT("Node.txt"));
 	FFileHelper::LoadFileToString(jsonString, *filePath);
 	//UE_LOG(LogTemp, Warning, TEXT("jsonString : %s"), *jsonString);
 
@@ -135,7 +135,7 @@ void ADrumManager::LoadNode()
 
 		nodeArray.Add(info);
 	}
-
+	
 	for (int32 i = 0; i < nodeArray.Num(); i++)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%d : %d , %f"), i, nodeArray[i].type, nodeArray[i].makeTime);

@@ -53,7 +53,7 @@ void ADrumActor::OnDrum(UPrimitiveComponent* OverlappedComponent, AActor* OtherA
 	if(OtherComp->GetName().Contains(TEXT("Stick")))
 	{
 		//이펙트를 생성한다.
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), drumEffect, GetActorLocation(), GetActorRotation(), FVector3d(0.5));
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), drumEffect, GetActorLocation(), GetActorRotation(), FVector3d(0.25));
 		//드럼 액터를 파괴한다
 		Destroy();
 		//UI 점수 1점씩 올린다
