@@ -110,19 +110,31 @@ void AMG4_Player::GripLeftReleased(const struct FInputActionValue& value)
 void AMG4_Player::GrabObject(USkeletalMeshComponent* selectHand)
 {
 	// SphereTrace ¹æ½Ä
-	FVector center = selectHand->GetComponentLocation();
-	FVector endLoc = center + selectHand->GetRightVector() * grabDistance;
+	FVector rightTrace = rightHand->GetComponentLocation();
+	FVector leftTrace = leftHand->GetComponentLocation();
+	FVector rightEnd = rightTrace + rightHand->GetRightVector() * grabDistance;
+	FVector leftEnd = leftTrace + leftHand->GetRightVector() * grabDistance;
+
 	FHitResult hitInfo;
 	FCollisionQueryParams params;
 	params.AddIgnoredActor(GetOwner());
+	
 
-	if (GetWorld()->SweepSingleByChannel(hitInfo, center, center, FQuat::Identity, ECC_Visibility, FCollisionShape::MakeSphere(grabDistance), params) && grabedObject == nullptr)
-		DrawDebugSphere(GetWorld(), center, 30, 20, FColor::Red, false, 3, 0, 3);
+	if (GetWorld()->SweepSingleByChannel(hitInfo, rightTrace, rightEnd, FQuat::Identity, ECC_Visibility, FCollisionShape::MakeSphere(grabDistance), params))
 	{
-		grabedObject = Cast<AActor>(hitInfo.GetActor());
-		if (IsValid(grabedObject))
-		{	
+		if (hitInfo.GetComponent()->GetName().Contains(TEXT("RightHandle")))
+		{
+			DrawDebugSphere(GetWorld(), rightTrace, 30, 20, FColor::Red, false, 3, 0, 3);
 			
+			hitInfo.GetActor()->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform, FName("GrabPoint"));
+//			SnapToTargetNotIncludingScale
+			UE_LOG(LogTemp, Warning, TEXT("%s"),*hitInfo.GetActor()->GetName());
+			UE_LOG(LogTemp, Error, TEXT("%s"),*hitInfo.GetComponent()->GetName());
+		}
+		/*grabedObject = Cast<AActor>(hitInfo.GetActor());
+		if (IsValid(grabedObject))
+		{
+
 			UBoxComponent* boxComp = Cast<UBoxComponent>(grabedObject->GetRootComponent());
 			if (boxComp != nullptr)
 			{
@@ -130,8 +142,8 @@ void AMG4_Player::GrabObject(USkeletalMeshComponent* selectHand)
 				boxComp->SetSimulatePhysics(false);
 			}
 
-			hitInfo.GetActor()->AttachToComponent(selectHand, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GrabPoint"));
-		}
+			hitInfo.GetActor()->AttachToComponent(rightHand, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GrabPoint"));
+		}*/
 	}
 
 	bIsGrab = true;
