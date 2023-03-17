@@ -41,7 +41,7 @@ void APutPuzzle::Tick(float DeltaTime)
 	startLoc_s = GetActorLocation() + (GetActorForwardVector() * 49);
 	endLoc_s = GetActorLocation() + (GetActorForwardVector() * 47);
 	hit_s = GetWorld()->LineTraceSingleByChannel(hitInfo_s, startLoc_s, endLoc_s, ECC_Visibility);
-	DrawDebugLine(GetWorld(), startLoc_s, endLoc_s, FColor::Red, true);
+	//DrawDebugLine(GetWorld(), startLoc_s, endLoc_s, FColor::Red, true);
 	if (hit_s)
 	{
 		bOverlap = true;
@@ -62,7 +62,7 @@ void APutPuzzle::Tick(float DeltaTime)
 			if (hitInfo.GetActor()->GetName().Contains(TEXT("Puzzle")))
 			{
 				setPuzzle = hitInfo.GetActor();
-				DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Green, false, 1, 0, 3);
+				DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Green, false, -1, 0, 3);
 			}
 			else
 			{
