@@ -92,15 +92,6 @@ void APuzzlePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	{
 		widgetPointerComp->SetupPlayerInputComponent(enhancedInputComponent);
 	}
-
-	
-	//PlayerInputComponent->BindAction(TEXT("L_Trigger"), IE_Pressed, this, &APuzzlePlayer::TestFunction);
 }
 
-// void APuzzlePlayer::TestFunction()
-// {
-// 	FString funcName = TEXT("TestFunction");
-// 	FOutputDeviceNull ar;
-// 	tempActor->CallFunctionByNameWithArguments(*funcName, ar, NULL, true);
-// }
 
