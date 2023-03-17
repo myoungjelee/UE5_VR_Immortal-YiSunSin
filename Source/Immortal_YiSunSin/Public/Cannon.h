@@ -15,6 +15,13 @@ public:
 	// Sets default values for this actor's properties
 	ACannon();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UStaticMeshComponent* mesh;
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		float grabDistance = 100000;
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		FColor debugColor;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -28,4 +35,7 @@ public:
 	/*virtual void OnClicked(Button) override;
 	virtual void OnReleased(Button) override;*/
  
+ void LaserPoint();
+ void InputFire();
+
 };
