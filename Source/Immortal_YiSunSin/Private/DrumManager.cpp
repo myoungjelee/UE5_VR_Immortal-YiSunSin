@@ -120,7 +120,7 @@ void ADrumManager::CreateNode()
 void ADrumManager::LoadNode()
 {
 	FString jsonString;
-	FString filePath = FPaths::Combine(FPaths::ProjectSavedDir(), TEXT("Node.txt"));
+	FString filePath = FPaths::Combine(FPaths::ProjectContentDir(), TEXT("Node.txt"));
 	FFileHelper::LoadFileToString(jsonString, *filePath);
 	//UE_LOG(LogTemp, Warning, TEXT("jsonString : %s"), *jsonString);
 
@@ -135,10 +135,10 @@ void ADrumManager::LoadNode()
 
 		nodeArray.Add(info);
 	}
-
-// 	for (int32 i = 0; i < nodeArray.Num(); i++)
-// 	{
-// 		UE_LOG(LogTemp, Warning, TEXT("%d : %d , %f"), i, nodeArray[i].type, nodeArray[i].makeTime);
-// 	}
+	
+	for (int32 i = 0; i < nodeArray.Num(); i++)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%d : %d , %f"), i, nodeArray[i].type, nodeArray[i].makeTime);
+	}
 }
 
