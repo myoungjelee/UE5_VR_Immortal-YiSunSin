@@ -20,6 +20,22 @@ public:
 		float makeTime;
 };
 
+USTRUCT(BlueprintType)
+struct FNodeCreateInfo
+{
+	GENERATED_BODY()
+
+public:
+	//0 : q, 1 : w, 2 : e, 3 :r
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class ADrumActor> drumActor;
+
+	UPROPERTY(EditAnywhere)
+	FVector pos;
+};
+
+
+
 UCLASS()
 class IMMORTAL_YISUNSIN_API ADrumManager : public AActor
 {
@@ -41,27 +57,28 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	class ARhythmPlayer* player;
+
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<class ADrumActor> drumFactory0;
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<class ADrumActor> drumFactory1;
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<class ADrumActor> drumFactory2;
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<class ADrumActor> drumFactory3;
+	class USoundBase* Arirang;
 
 public:
 
 	float currTime = 0;
 
 	TArray<FNodeInfo> nodeArray;
+	UPROPERTY(EditAnywhere)
+	TArray<FNodeCreateInfo> nodeCreateArray;
 
 	float makeTime = 0;
 
+	float delayTime = 3.7f;
+
 	int32 spawnDrum = 0;
 
+	int32 nodeIndex = 0;
 
 public:
 
 	void LoadNode();
+	void CreateNode();
 };
