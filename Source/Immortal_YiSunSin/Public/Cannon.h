@@ -16,11 +16,15 @@ public:
 	ACannon();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UStaticMeshComponent* mesh;
+		class UStaticMeshComponent* mesh;
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		float grabDistance = 100000;
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		FColor debugColor;
+	UPROPERTY(EditAnywhere)
+		class UParticleSystem* exploEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UEnemyFSM* fsm;
 	
 protected:
 	// Called when the game starts or when spawned
@@ -36,6 +40,8 @@ public:
 	virtual void OnReleased(Button) override;*/
  
  void LaserPoint();
+
+ UFUNCTION(BlueprintCallable)
  void InputFire();
 
 };
