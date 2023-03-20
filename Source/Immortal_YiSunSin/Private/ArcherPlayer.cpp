@@ -99,6 +99,8 @@ void AArcherPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	{
 		enhancedInputComponent->BindAction(GripRight, ETriggerEvent::Started, this, &AArcherPlayer::BowRelease);
 		enhancedInputComponent->BindAction(GripRight, ETriggerEvent::Completed, this, &AArcherPlayer::ShootArrow);
+		enhancedInputComponent->BindAction(thumbstickLeft, ETriggerEvent::Triggered, this, &AArcherPlayer::Move);
+		enhancedInputComponent->BindAction(thumbstickRight, ETriggerEvent::Triggered, this, &AArcherPlayer::RotateAxis);
 	}
 }
 
@@ -119,5 +121,22 @@ void AArcherPlayer::ShootArrow()
 	handleMesh->SetRelativeLocation(tempLoc);
 
 	arrow->Shoot();
+}
+
+void AArcherPlayer::Move(const struct FInputActionValue& value)
+{
+	FVector2D val = value.Get<FVector2D>();
+	FVector direction = FVector(val.Y, val.X, 0);
+
+	AddMovementInput(direction.GetSafeNormal(), 1, false);
+}
+
+void AArcherPlayer::RotateAxis(const struct FInputActionValue& value)
+{
+	FVector2D axis = value.Get<FVector2D>();
+
+	//axis 값을 이용해서 캐릭터(콘트롤러)를 회전한다.
+	AddControllerPitchInput(axis.Y * -1.0f);
+	AddControllerYawInput(axis.X);
 }
 

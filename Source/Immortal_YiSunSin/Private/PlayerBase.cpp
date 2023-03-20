@@ -8,7 +8,6 @@
 #include "MotionControllerComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
-#include "GraspComponent.h"
 #include "MoveComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "ArcherGraspComponent.h"
@@ -40,14 +39,6 @@ APlayerBase::APlayerBase()
 	leftHand->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	leftHand->SetRelativeRotation(FRotator(-25.0f, 180.0f, 90.0f));
 
-	// 디버그용 로그
-	leftLog = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Left Log Text"));
-	leftLog->SetupAttachment(leftController);
-	leftLog->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
-	leftLog->SetTextRenderColor(FColor::Yellow);
-	leftLog->SetHorizontalAlignment(EHTA_Center);
-	leftLog->SetVerticalAlignment(EVRTA_TextCenter);
-
 	rightController = CreateDefaultSubobject<UMotionControllerComponent>(TEXT("Right Controller"));
 	rightController->SetupAttachment(RootComponent);
 	rightController->MotionSource = "Right";
@@ -66,7 +57,7 @@ APlayerBase::APlayerBase()
 	rightLog->SetVerticalAlignment(EVRTA_TextCenter);
 
 	// 액터 컴포넌트
-/*	graspComp = CreateDefaultSubobject<UGraspComponent>(TEXT("Grasp Component"));*/
+	graspComp = CreateDefaultSubobject<UArcherGraspComponent>(TEXT("Grasp Component"));
 	moveComp = CreateDefaultSubobject<UMoveComponent>(TEXT("Move Component"));
 
 }
@@ -101,9 +92,7 @@ void APlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	if (enhancedInputComponent != nullptr)
 	{
-/*		graspComp->SetupPlayerInputComponent(enhancedInputComponent);*/
+		graspComp->SetupPlayerInputComponent(enhancedInputComponent);
 		moveComp->SetupPlayerInputComponent(enhancedInputComponent);
-	}
-
-	
+	}	
 }
