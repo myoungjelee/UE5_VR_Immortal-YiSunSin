@@ -66,6 +66,12 @@ public:
 		
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		class UInputAction* thumbstickRight;
+		
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		class UInputAction* btnX;
+
+	class AActor* grabbedObject_R;
+	class AActor* grabbedObject_L;
 	
 private:
 	class AActor* grabedObject;
@@ -80,6 +86,7 @@ private:
 	void GrabObject(USkeletalMeshComponent* selectHand);
 	void Move(const struct FInputActionValue& value);
 	void RotateAxis(const struct FInputActionValue& value);
+	void OpenWidget();
 
 	/*void TriggerRightAction(const struct FInputActionValue& value);
 	void TriggerRightReleased(const struct FInputActionValue& value);

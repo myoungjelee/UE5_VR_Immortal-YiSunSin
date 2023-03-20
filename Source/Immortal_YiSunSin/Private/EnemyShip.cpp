@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "EnemyShip.h"
 #include "EnemyFSM.h"
 #include <Components/CapsuleComponent.h>
@@ -53,6 +52,7 @@ void AEnemyShip::SetActive(bool bActive)
 		//충돌 활성
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	}
+	
 	// 비활성화
 	else
 	{
