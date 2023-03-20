@@ -25,7 +25,6 @@ void UArcherGraspComponent::BeginPlay()
 
 	player = Cast<APlayerBase>(GetOwner());
 
-	bow = Cast<ABowActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ABowActor::StaticClass()));
 	sword = Cast<ASwordActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ASwordActor::StaticClass()));
 }
 
@@ -45,7 +44,7 @@ void UArcherGraspComponent::SetupPlayerInputComponent(class UEnhancedInputCompon
 void UArcherGraspComponent::GripRightAction(const struct FInputActionValue& value)
 {
 	GrabObject(player->rightHand);
-	//player->rightLog->SetText(FText::FromString(TEXT("right")));
+	player->rightLog->SetText(FText::FromString(TEXT("right")));
 	FVector center = player->rightHand->GetComponentLocation();
 	DrawDebugSphere(GetWorld(), center, grabDistance, 30, FColor::Red, false, -1, 0, 1);
 }
@@ -60,7 +59,6 @@ void UArcherGraspComponent::GrabObject(USkeletalMeshComponent* selectHand)
 {
 	// SphereTrace ¹æ½Ä
 	FVector center = selectHand->GetComponentLocation();
-	//FVector endLoc = center + selectHand->GetRightVector() * grabDistance;
 	FHitResult hitInfo;
 	FCollisionQueryParams params;
 	params.AddIgnoredActor(player);
@@ -77,14 +75,11 @@ void UArcherGraspComponent::GrabObject(USkeletalMeshComponent* selectHand)
 				boxComp->SetSimulatePhysics(false);
 			}
 
-			if (hitInfo.GetActor()->GetName().Contains(TEXT("Sword")))
-			{
-				grabedObject->gripRot = FRotator(-70, 0, -90);
-				grabedObject->AttachToComponent(selectHand, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GrabPoint"));
+			grabedObject->gripRot = FRotator(-70, 0, -90);
+			grabedObject->AttachToComponent(selectHand, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GrabPoint"));
 
-				grabedObject->SetActorRelativeLocation(grabedObject->gripOffset);
-				grabedObject->SetActorRelativeRotation(grabedObject->gripRot);
-			}
+			grabedObject->SetActorRelativeLocation(grabedObject->gripOffset);
+			grabedObject->SetActorRelativeRotation(grabedObject->gripRot);
 		}
 	}
 
@@ -104,11 +99,7 @@ void UArcherGraspComponent::ReleaseObject(USkeletalMeshComponent* selectHand)
 		{
 			boxComp->SetSimulatePhysics(physicsState);
 		}
-		bBowGrab = false;
 
 		grabedObject = nullptr;
-		grabedComp = nullptr;
 	}
-
-	
 }

@@ -61,14 +61,8 @@ public:
 	TEnumAsByte<enum EHMDTrackingOrigin::Type> trackOrigin;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
-	class UGraspComponent* graspComp;
+	class UArcherGraspComponent* graspComp;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
 	class UMoveComponent* moveComp;
-
-	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
-	class UArcherGraspComponent* archerGrasp;
-
-	UPROPERTY(EditAnywhere, Category = "ArcherPlayerInput")
-	class UInputAction* gripRight;
 };

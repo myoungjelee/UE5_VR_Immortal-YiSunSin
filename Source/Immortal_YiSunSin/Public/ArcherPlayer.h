@@ -62,6 +62,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "ArrowSpawn")
 	TSubclassOf<class AArrowActor> arrowFactory;
 
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	class UInputAction* thumbstickLeft;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+class UInputAction* thumbstickRight;
+
 	FVector startLoc;
 	FVector handLoc;
 	FVector tempLoc;
@@ -69,4 +75,6 @@ public:
 
 	void BowRelease();
 	void ShootArrow();
+	void Move(const struct FInputActionValue& value);
+	void RotateAxis(const struct FInputActionValue& value);
 };

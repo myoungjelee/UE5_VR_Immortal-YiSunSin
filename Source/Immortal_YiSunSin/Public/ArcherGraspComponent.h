@@ -24,9 +24,6 @@ public:
 	void SetupPlayerInputComponent(class UEnhancedInputComponent* PlayerInputComponent);
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
-	class UInputAction* grip_left;
-
-	UPROPERTY(EditAnywhere, Category = Inputs)
 	class UInputAction* grip_right;
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
@@ -35,13 +32,10 @@ public:
 private:
 	class APlayerBase* player;
 	class APickupActor* grabedObject;
-	class ABowActor* bow;
 	class ASwordActor* sword;
-	class UStaticMeshComponent* grabedComp;
 
 	bool bIsGrab = false;
 	bool physicsState = false;
-	bool bBowGrab = false;
 
 	void GripRightAction(const struct FInputActionValue& value);
 	void GripRightReleased(const struct FInputActionValue& value);
