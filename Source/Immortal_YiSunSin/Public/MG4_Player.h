@@ -37,12 +37,18 @@ public:
 		class UStaticMeshComponent* headMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UStaticMeshComponent* cannon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UMotionControllerComponent* controllerLeft;
 
 	UPROPERTY(EditAnywhere)
 		class UMotionControllerComponent* controllerRight;
 
 	//Input
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		FColor debugColor;
+
 	UPROPERTY(EditAnywhere)
 		class UInputMappingContext* inputMapping;
 
@@ -51,46 +57,63 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 		class USkeletalMeshComponent* rightHand;
-
-	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* gripLeft;
-
-	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* gripRight;
-		
-	UPROPERTY(EditAnywhere, Category = Inputs)
-		float grabDistance = 30.0f;
-
+	
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		class UInputAction* thumbstickLeft;
 		
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		class UInputAction* thumbstickRight;
-		
+
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		class UInputAction* btnA;
+	
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		class UInputAction* btnX;
 
+	//cannon
+	UPROPERTY(EditAnywhere)
+		class UParticleSystem* exploEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UEnemyFSM* fsm;
+
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		float reachDistance = 100000;
+
+
+	/*UPROPERTY(EditAnywhere, Category = Inputs)
+		class UInputAction* gripLeft;
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		class UInputAction* gripRight;
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		float grabDistance = 30.0f;
 	class AActor* grabbedObject_R;
 	class AActor* grabbedObject_L;
+	class AActor* grabedObject;
+	bool bIsGrab = false;*/
 	
 private:
-	class AActor* grabedObject;
-	bool bIsGrab = false;
 	bool physicsState = false;
 
+public:
 	void Recenter();
-	void GripRightAction(const struct FInputActionValue& value);
-	void GripRightReleased(const struct FInputActionValue& value);
-	void GripLeftAction(const struct FInputActionValue& value);
-	void GripLeftReleased(const struct FInputActionValue& value);
-	void GrabObject(USkeletalMeshComponent* selectHand);
 	void Move(const struct FInputActionValue& value);
 	void RotateAxis(const struct FInputActionValue& value);
+	void LaserPoint();
+	void APressed();
+	void AReleased();
+	void InputFire(bool bFire);
 	void OpenWidget();
-
+	
 	/*void TriggerRightAction(const struct FInputActionValue& value);
 	void TriggerRightReleased(const struct FInputActionValue& value);
 	void TriggerLeftAction(const struct FInputActionValue& value);
 	void TriggerLeftReleased(const struct FInputActionValue& value);*/
+
+	/*void GripRightAction(const struct FInputActionValue& value);
+	void GripRightReleased(const struct FInputActionValue& value);
+	void GripLeftAction(const struct FInputActionValue& value);
+	void GripLeftReleased(const struct FInputActionValue& value);
+	void GrabObject(USkeletalMeshComponent* selectHand);*/
 
 };
