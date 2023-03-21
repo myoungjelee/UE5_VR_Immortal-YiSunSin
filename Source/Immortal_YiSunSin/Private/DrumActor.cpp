@@ -44,7 +44,7 @@ void ADrumActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	FVector p0 = GetActorLocation();
-	FVector vt = FVector::BackwardVector * 500 * DeltaTime;
+	FVector vt = FVector::BackwardVector * drumSpeed * DeltaTime;
 	SetActorLocation(p0 + vt);
 }
 
