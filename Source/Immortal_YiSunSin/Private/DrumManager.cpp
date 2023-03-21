@@ -6,6 +6,7 @@
 #include "RhythmPlayer.h"
 #include <Kismet/GameplayStatics.h>
 #include <Sound/SoundBase.h>
+#include <MotionControllerComponent.h>
 
 #define NODE_MAX 4
 // Sets default values
@@ -80,12 +81,17 @@ void ADrumManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	currTime += DeltaTime;
+	
+	//시간 = 거리/속력
+	FVector handPos = player->r_Controller->GetComponentLocation();
+	delayTime = (FVector(2000,0,0).X-handPos.X)/500;
 	if (currTime > nodeArray[nodeIndex].makeTime - delayTime)
 	{
 		CreateNode();
 		if (nodeIndex < 84)
 		{
 			nodeIndex++;
+			//UE_LOG(LogTemp, Warning, TEXT("%d"), delayTime);
 		}
 		else
 		{
@@ -136,9 +142,9 @@ void ADrumManager::LoadNode()
 		nodeArray.Add(info);
 	}
 	
-	for (int32 i = 0; i < nodeArray.Num(); i++)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%d : %d , %f"), i, nodeArray[i].type, nodeArray[i].makeTime);
-	}
+// 	for (int32 i = 0; i < nodeArray.Num(); i++)
+// 	{
+// 		UE_LOG(LogTemp, Warning, TEXT("%d : %d , %f"), i, nodeArray[i].type, nodeArray[i].makeTime);
+// 	}
 }
 

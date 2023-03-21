@@ -59,6 +59,9 @@ public:
 	class ARhythmPlayer* player;
 
 	UPROPERTY(EditAnywhere)
+		class ADrumActor* drum;
+
+	UPROPERTY(EditAnywhere)
 	class USoundBase* Arirang;
 
 public:
@@ -71,7 +74,7 @@ public:
 
 	float makeTime = 0;
 
-	float delayTime = 3.7f;
+	float delayTime;
 
 	int32 spawnDrum = 0;
 
