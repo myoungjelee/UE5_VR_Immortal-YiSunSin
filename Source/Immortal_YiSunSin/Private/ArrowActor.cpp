@@ -45,6 +45,7 @@ void AArrowActor::Tick(float DeltaTime)
 
 }
 
+// 화살 발사 --> 플레이어에서 실행
 void AArrowActor::Shoot()
 {
 	projectileComp->SetVelocityInLocalSpace(FVector(projectileComp->MaxSpeed, 0, 0));
@@ -54,6 +55,7 @@ void AArrowActor::Shoot()
 	boxComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 }
 
+// 과녁에 박혔을 때
 void AArrowActor::OnTarget(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (!(OtherActor->GetName().Contains(TEXT("Player"))) && bIsShoot)
@@ -65,16 +67,8 @@ void AArrowActor::OnTarget(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 		GetWorld()->GetTimerManager().SetTimer(WaitHandle, FTimerDelegate::CreateLambda([&]()
 			{
 
-				Die();
+				Destroy();
 
 			}), 5.0f, false);
-
 	}
 }
-
-void AArrowActor::Die()
-{
-	Destroy();
-}
-
- 
