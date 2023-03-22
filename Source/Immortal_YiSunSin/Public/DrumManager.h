@@ -80,6 +80,10 @@ public:
 
 	int32 nodeIndex = 0;
 
+	int32 nodeMax = 4;
+
+	bool bEnd = false;
+
 public:
 
 	void LoadNode();

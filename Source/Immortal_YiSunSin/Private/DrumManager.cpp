@@ -8,17 +8,16 @@
 #include <Sound/SoundBase.h>
 #include <MotionControllerComponent.h>
 
-#define NODE_MAX 4
 // Sets default values
 ADrumManager::ADrumManager()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	TArray<FVector> startPos = { FVector(2000, -60, 75), FVector(2000, -30, 125), FVector(2000, 30, 125), FVector(2000, 60, 75) };
 	//FVector startPos[NODE_MAX] = { FVector(2000, -40, 150), FVector(2000, -20, 150), FVector(2000, 20, 150), FVector(2000, 40, 150) };
-	
-	for (int32 i = 0; i < NODE_MAX; i++)
+
+	for (int32 i = 0; i < nodeMax; i++)
 	{
 		FNodeCreateInfo info;
 		FString path = FString::Printf(TEXT("/Script/Engine.Blueprint'/Game/MJ_Blueprint/Rhythm/Drums/BP_Drum%d.BP_Drum%d_C'"), i, i);
@@ -31,7 +30,7 @@ ADrumManager::ADrumManager()
 			nodeCreateArray.Add(info);
 		}
 	}
-	
+
 	/*ConstructorHelpers::FClassFinder<ADrumActor> tempDrum0(TEXT("/Script/Engine.Blueprint'/Game/MJ_Blueprint/Rhythm/Drums/BP_Drum0.BP_Drum0_C'"));
 	if (tempDrum0.Succeeded())
 	{
@@ -67,7 +66,7 @@ ADrumManager::ADrumManager()
 void ADrumManager::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	player = Cast<ARhythmPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), ARhythmPlayer::StaticClass()));
 
 	LoadNode();
@@ -81,21 +80,27 @@ void ADrumManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	currTime += DeltaTime;
-	
+
 	//시간 = 거리/속력
-	FVector hitPos = player->GetActorLocation() + FVector(100,0,0);
-	delayTime = (FVector(2000,0,0).X- hitPos.X)/500;
+	FVector hitPos = player->GetActorLocation() + FVector(100, 0, 0);
+	delayTime = (FVector(2000, 0, 0).X - hitPos.X) / 500;
 	if (currTime > nodeArray[nodeIndex].makeTime - delayTime)
 	{
 		CreateNode();
 		if (nodeIndex < 84)
 		{
 			nodeIndex++;
-			//UE_LOG(LogTemp, Warning, TEXT("%d"), delayTime);
 		}
 		else
 		{
 			nodeArray[nodeIndex].makeTime = 1000;
+
+			FTimerHandle WaitHandle;
+			float WaitTime = 4; //시간을 설정하고
+			GetWorld()->GetTimerManager().SetTimer(WaitHandle, FTimerDelegate::CreateLambda([&]()
+				{
+					bEnd = true;
+				}), WaitTime, false);
 		}
 	}
 }
@@ -141,10 +146,10 @@ void ADrumManager::LoadNode()
 
 		nodeArray.Add(info);
 	}
-	
-// 	for (int32 i = 0; i < nodeArray.Num(); i++)
-// 	{
-// 		UE_LOG(LogTemp, Warning, TEXT("%d : %d , %f"), i, nodeArray[i].type, nodeArray[i].makeTime);
-// 	}
+
+	// 	for (int32 i = 0; i < nodeArray.Num(); i++)
+	// 	{
+	// 		UE_LOG(LogTemp, Warning, TEXT("%d : %d , %f"), i, nodeArray[i].type, nodeArray[i].makeTime);
+	// 	}
 }
 

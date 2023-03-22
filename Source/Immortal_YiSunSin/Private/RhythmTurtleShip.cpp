@@ -9,6 +9,7 @@
 #include "RhythmBarWidget.h"
 #include <UMG/Public/Components/WidgetComponent.h>
 #include <UMG/Public/Components/ProgressBar.h>
+#include "DrumManager.h"
 
 // Sets default values
 ARhythmTurtleShip::ARhythmTurtleShip()
@@ -67,8 +68,7 @@ void ARhythmTurtleShip::BeginPlay()
 	
 	widgetActor = Cast<ARhythmBarWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ARhythmBarWidgetActor::StaticClass()));
 	gaugeWidget = Cast<URhythmBarWidget>(widgetActor->compWidget->GetUserWidgetObject());
-
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *gaugeWidget->GetName());
+	manager = Cast<ADrumManager>(UGameplayStatics::GetActorOfClass(GetWorld(), ADrumManager::StaticClass()));
 	
 	curr = 0;
 }
@@ -79,32 +79,41 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	a += DeltaTime * 8;
-	SetActorRotation(FRotator(0, 90 + a ,0));
+	SetActorRotation(FRotator(0, 90 + a,0));
 
 	gaugeWidget->UpdateGauge(curr, max);
 
  	if (gaugeWidget->gaugeBar->GetPercent() >= 1)
  	{
-		FVector p0 = GetActorLocation();
-		FVector vt = FVector::BackwardVector * 500 * DeltaTime;
-		SetActorLocation(p0 + vt);
- 		
+		sail->SetVisibility(true);
+		bComplete = true;
+		a = 0;
  	}
  	else if (gaugeWidget->gaugeBar->GetPercent() > 0.8f)
  	{
-		sail->SetVisibility(true);
- 	}
- 	else if (gaugeWidget->gaugeBar->GetPercent() > 0.6f)
- 	{
  		head->SetVisibility(true);
  	}
- 	else if (gaugeWidget->gaugeBar->GetPercent() > 0.4f)
+ 	else if (gaugeWidget->gaugeBar->GetPercent() > 0.5f)
  	{
 		top->SetVisibility(true);
  	}
- 	else if (gaugeWidget->gaugeBar->GetPercent() > 0.2f)
+ 	else if (gaugeWidget->gaugeBar->GetPercent() > 0.25f)
  	{
 		bottom->SetVisibility(true);
  	}
+
+	if (manager->bEnd)
+	{
+		if (bComplete)
+		{
+			if (GetActorLocation().X > 2500)
+			{
+				FVector p0 = GetActorLocation();
+				FVector vt = FVector::BackwardVector * 500 * DeltaTime;
+				SetActorLocation(p0 + vt);
+			}
+		}
+	
+	}
 }
 

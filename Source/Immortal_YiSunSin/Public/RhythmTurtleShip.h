@@ -44,9 +44,16 @@ public:
 	UPROPERTY(EditAnywhere)
 		class URhythmBarWidget* gaugeWidget;
 
+	UPROPERTY(EditAnywhere)
+		class ADrumManager* manager;
+
+	UPROPERTY(EditAnywhere)
+	bool bComplete = false;
+	UPROPERTY(EditAnywhere)
 	float a = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float max = 84;	
+	float max = 68;	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float curr;
+
 };

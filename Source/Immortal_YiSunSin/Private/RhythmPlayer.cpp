@@ -99,7 +99,7 @@ void ARhythmPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	if (enhancedInputComponent != nullptr)
 	{
-		enhancedInputComponent->BindAction(grip_Left, ETriggerEvent::Triggered, this, &ARhythmPlayer::Recenter);
+		enhancedInputComponent->BindAction(btn_X, ETriggerEvent::Triggered, this, &ARhythmPlayer::Recenter);
 	}
 }
 

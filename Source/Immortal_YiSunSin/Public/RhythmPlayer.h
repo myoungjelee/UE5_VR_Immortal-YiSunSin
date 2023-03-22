@@ -60,7 +60,7 @@ public:
 		class UInputMappingContext* inputMapping;
 
 	UPROPERTY(EditAnywhere)
-		class UInputAction* grip_Left;
+		class UInputAction* btn_X;
 
 public:
 	
