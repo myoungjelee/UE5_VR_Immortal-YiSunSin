@@ -32,6 +32,9 @@ public:
 public:
 	UPROPERTY(EditAnywhere)
 		class UEnemyFSM* fsm;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Collision")
+		class UBoxComponent* boxCollision;
 
 	// 활성/비활성 하는 기능
 	void SetActive(bool bActive);

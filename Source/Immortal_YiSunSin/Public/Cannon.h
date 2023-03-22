@@ -35,9 +35,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	//cpp랑 blueprint sync 하기 -> button 정의하고 함수 만들기 ??
-	/*virtual void OnClicked(Button) override;
-	virtual void OnReleased(Button) override;*/
  
  void LaserPoint();
 

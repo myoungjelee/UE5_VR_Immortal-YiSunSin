@@ -56,13 +56,13 @@ public:
 	float currHp;
 
 	UPROPERTY(EditAnywhere)
-	float maxHp = 3;
+	float maxHp = 1;
 
 	float traceRange = 1000;
 	float currTime = 0;
 	float idleDelayTime = 2;
 	float damageDelayTime = 2;
-	float dieSpeed = 100;
+	float dieSpeed = 200;
 	bool bDieMove = false;
 
 	//처음 위치

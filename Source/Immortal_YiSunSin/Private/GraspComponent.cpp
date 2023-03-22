@@ -44,7 +44,7 @@ void UGraspComponent::GripLeftAction(const struct FInputActionValue& value)
 {
 	GrabObject(player->leftHand);
 }
-
+ 
 void UGraspComponent::GripLeftReleased(const struct FInputActionValue& value)
 {
 	//ReleaseObject(player->leftHand);

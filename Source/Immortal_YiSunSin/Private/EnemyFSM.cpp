@@ -9,6 +9,7 @@
 #include <NavigationSystem.h>
 #include <Components/CapsuleComponent.h>
 #include "MG4_Player.h"
+#include <Components/BoxComponent.h>
 
 // Sets default values for this component's properties
 UEnemyFSM::UEnemyFSM()
@@ -104,6 +105,8 @@ void UEnemyFSM::UpdateDamaged()
 void UEnemyFSM::UpdateDie()
 {
 	if (bDieMove == false) return;
+
+	
 	FVector p0 = me->GetActorLocation();
 	FVector vt = FVector::DownVector * dieSpeed * GetWorld()->DeltaTimeSeconds;
 	FVector p = p0 + vt;
@@ -157,6 +160,8 @@ void UEnemyFSM::ChangeState(EEnemyState state)
 	case EEnemyState::Die:
 		//충돌안되게 설정
 		me->GetCapsuleComponent()->SetCollisionEnabled (ECollisionEnabled::NoCollision);
+		me->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		me->boxCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	break;
 	}
 }
