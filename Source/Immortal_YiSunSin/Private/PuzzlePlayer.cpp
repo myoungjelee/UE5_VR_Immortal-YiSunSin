@@ -71,7 +71,7 @@ void APuzzlePlayer::BeginPlay()
 
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
-	subsys->AddMappingContext(inputMapping, 3);
+	subsys->AddMappingContext(inputMapping, 0);
 }
 
 // Called every frame

@@ -56,7 +56,7 @@ public:
 	float currHp;
 
 	UPROPERTY(EditAnywhere)
-	float maxHp = 3;
+	float maxHp = 1;
 
 	float traceRange = 1000;
 	float currTime = 0;
