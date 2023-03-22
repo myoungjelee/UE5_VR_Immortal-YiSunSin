@@ -80,7 +80,7 @@ void ARhythmPlayer::BeginPlay()
 
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
-	subsys->AddMappingContext(inputMapping, 4);
+	subsys->AddMappingContext(inputMapping, 0);
 }
 
 // Called every frame

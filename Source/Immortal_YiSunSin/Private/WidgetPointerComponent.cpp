@@ -113,7 +113,7 @@ void UWidgetPointerComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 void UWidgetPointerComponent::SetupPlayerInputComponent(class UEnhancedInputComponent* PlayerInputComponent)
 {
-	PlayerInputComponent->BindAction(left_Grib, ETriggerEvent::Started, this, &UWidgetPointerComponent::GribedPuzzle_L);
+	PlayerInputComponent->BindAction(left_Grib, ETriggerEvent::Triggered, this, &UWidgetPointerComponent::GribedPuzzle_L);
 	PlayerInputComponent->BindAction(left_Grib, ETriggerEvent::Completed, this, &UWidgetPointerComponent::ReleasedPuzzle_L);
 	PlayerInputComponent->BindAction(right_Grib, ETriggerEvent::Started, this, &UWidgetPointerComponent::GribedPuzzle_R);
 	PlayerInputComponent->BindAction(right_Grib, ETriggerEvent::Completed, this, &UWidgetPointerComponent::ReleasedPuzzle_R);
