@@ -5,6 +5,7 @@
 #include <Components/StaticMeshComponent.h>
 #include <Components/SphereComponent.h>
 #include <Kismet/GameplayStatics.h>
+#include "RhythmTurtleShip.h"
 
 // Sets default values
 ADrumActor::ADrumActor()
@@ -36,6 +37,8 @@ void ADrumActor::BeginPlay()
 	Super::BeginPlay();
 	
 	compDrum->OnComponentBeginOverlap.AddDynamic(this, &ADrumActor::OnDrum);
+
+	turtleShip = Cast<ARhythmTurtleShip>(UGameplayStatics::GetActorOfClass(GetWorld(), ARhythmTurtleShip::StaticClass()));
 }
 
 // Called every frame
@@ -56,8 +59,11 @@ void ADrumActor::OnDrum(UPrimitiveComponent* OverlappedComponent, AActor* OtherA
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), drumEffect, GetActorLocation(), GetActorRotation(), FVector3d(0.25));
 		//드럼 액터를 파괴한다
 		Destroy();
-		//UI 점수 1점씩 올린다
-		
+		//UI 점수 올린다
+		if (turtleShip->curr < 84)
+		{
+			turtleShip->curr++;
+		}
 	}
 }
 

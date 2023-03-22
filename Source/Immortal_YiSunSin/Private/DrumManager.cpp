@@ -83,8 +83,8 @@ void ADrumManager::Tick(float DeltaTime)
 	currTime += DeltaTime;
 	
 	//시간 = 거리/속력
-	FVector handPos = player->r_Controller->GetComponentLocation();
-	delayTime = (FVector(2000,0,0).X-handPos.X)/500;
+	FVector hitPos = player->GetActorLocation() + FVector(100,0,0);
+	delayTime = (FVector(2000,0,0).X- hitPos.X)/500;
 	if (currTime > nodeArray[nodeIndex].makeTime - delayTime)
 	{
 		CreateNode();

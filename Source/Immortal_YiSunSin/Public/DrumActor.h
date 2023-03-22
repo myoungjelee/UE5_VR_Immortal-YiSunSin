@@ -48,6 +48,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		class UParticleSystem* drumEffect;
-// 	void ColorOff();
-// 	void ChangeDrumColor(FVector4 color, float glow);
+
+	UPROPERTY(EditAnywhere)
+		class ARhythmTurtleShip* turtleShip;
+
 };
