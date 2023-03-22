@@ -56,7 +56,7 @@ AMG4_Player::AMG4_Player()
 		cannon->SetRelativeRotation(FRotator(0, -90, 90));
 	}
 
-	ConstructorHelpers::FObjectFinder<UParticleSystem> tempExplo(TEXT("/Script/Engine.ParticleSystem'/Game/StarterContent/Particles/P_Fire.P_Fire'"));
+	ConstructorHelpers::FObjectFinder<UParticleSystem> tempExplo(TEXT("/Script/Engine.ParticleSystem'/Game/StarterContent/Particles/P_Explosion.P_Explosion'"));
 	if (tempExplo.Succeeded())
 	{
 		exploEffect = tempExplo.Object;
