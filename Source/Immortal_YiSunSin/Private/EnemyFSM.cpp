@@ -106,7 +106,7 @@ void UEnemyFSM::UpdateDie()
 {
 	if (bDieMove == false) return;
 
-	
+	//UE_LOG(LogTemp, Warning, TEXT(""));
 	FVector p0 = me->GetActorLocation();
 	FVector vt = FVector::DownVector * dieSpeed * GetWorld()->DeltaTimeSeconds;
 	FVector p = p0 + vt;
@@ -158,6 +158,7 @@ void UEnemyFSM::ChangeState(EEnemyState state)
 	}
 	break;
 	case EEnemyState::Die:
+		bDieMove = true;
 		//충돌안되게 설정
 		me->GetCapsuleComponent()->SetCollisionEnabled (ECollisionEnabled::NoCollision);
 		me->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
