@@ -78,32 +78,33 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	a += DeltaTime * 4;
+	a += DeltaTime * 8;
 	SetActorRotation(FRotator(0, 90 + a ,0));
 
 	gaugeWidget->UpdateGauge(curr, max);
 
-	//if (gaugeWidget->gaugeBar->GetPercent() > 0.2f)
-	//{
-	//	bottom->SetVisibility(true);
-	//}
-	//else if (gaugeWidget->gaugeBar->GetPercent() > 0.4f)
-	//{
-	//	top->SetVisibility(true);
-	//}
-	//else if (gaugeWidget->gaugeBar->GetPercent() > 0.6f)
-	//{
-	//	head->SetVisibility(true);
-	//}
-	//else if (gaugeWidget->gaugeBar->GetPercent() > 0.8f)
-	//{
-	//	sail->SetVisibility(true);
-	//}
-	//else if (gaugeWidget->gaugeBar->GetPercent() >= 1)
-	//{
-	//	FVector p0 = GetActorLocation();
-	//	FVector vt = FVector::BackwardVector * 500 * DeltaTime;
-	//	SetActorLocation(p0 + vt);
-	//}
+ 	if (gaugeWidget->gaugeBar->GetPercent() >= 1)
+ 	{
+		FVector p0 = GetActorLocation();
+		FVector vt = FVector::BackwardVector * 500 * DeltaTime;
+		SetActorLocation(p0 + vt);
+ 		
+ 	}
+ 	else if (gaugeWidget->gaugeBar->GetPercent() > 0.8f)
+ 	{
+		sail->SetVisibility(true);
+ 	}
+ 	else if (gaugeWidget->gaugeBar->GetPercent() > 0.6f)
+ 	{
+ 		head->SetVisibility(true);
+ 	}
+ 	else if (gaugeWidget->gaugeBar->GetPercent() > 0.4f)
+ 	{
+		top->SetVisibility(true);
+ 	}
+ 	else if (gaugeWidget->gaugeBar->GetPercent() > 0.2f)
+ 	{
+		bottom->SetVisibility(true);
+ 	}
 }
 
