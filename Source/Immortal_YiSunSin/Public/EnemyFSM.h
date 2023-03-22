@@ -62,7 +62,7 @@ public:
 	float currTime = 0;
 	float idleDelayTime = 2;
 	float damageDelayTime = 2;
-	float dieSpeed = 200;
+	float dieSpeed = 100;
 	bool bDieMove = false;
 
 	//처음 위치
