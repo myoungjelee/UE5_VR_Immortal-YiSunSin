@@ -14,6 +14,7 @@
 #include <Kismet/GameplayStatics.h>
 #include "EnemyShip.h"
 #include "EnemyFSM.h"
+#include <UMG/Public/Blueprint/UserWidgetBlueprint.h>
 
 // Sets default values
 AMG4_Player::AMG4_Player()
@@ -62,6 +63,11 @@ AMG4_Player::AMG4_Player()
 		exploEffect = tempExplo.Object;
 	}
 
+	/*ConstructorHelpers::FClassFinder<UUserWidget> tempUI(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/GN_UI/BP_PauseUI.BP_PauseUI_C'"));
+	if (tempUI.Succeeded())
+	{
+		PauseUI = tempUI.Class;
+	}*/
 }
 
 // Called when the game starts or when spawned
@@ -107,92 +113,6 @@ void AMG4_Player::Recenter()
 	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 
-//void AMG4_Player::GripRightAction(const struct FInputActionValue& value)
-//{
-//	GrabObject(leftHand);
-//}
-//
-//void AMG4_Player::GripRightReleased(const struct FInputActionValue& value)
-//{
-//	if (grabbedObject_R != nullptr)
-//	{
-//		grabbedObject_R->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-//		grabbedObject_R = nullptr;
-//		//이거 넣어줘야하나 ?? 굳이 안넣어도되나 윗줄 코드 있어서?
-//		//bIsGrab = false;
-//	}
-//}
-//
-//void AMG4_Player::GripLeftAction(const struct FInputActionValue& value)
-//{
-//	GrabObject(rightHand);
-//}
-//
-//void AMG4_Player::GripLeftReleased(const struct FInputActionValue& value)
-//{
-//	if (grabbedObject_L != nullptr)
-//	{
-//		grabbedObject_L->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-//		grabbedObject_L = nullptr;
-//		//이거 넣어줘야하나 ?? 굳이 안넣어도되나 윗줄 코드 있어서?
-//		//bIsGrab = false;
-//	}
-//}
-//
-//void AMG4_Player::GrabObject(USkeletalMeshComponent* selectHand) //selectHand 넣어야하나? 아님 변수 따로 설정해주려면 GrabObject_R, L 이렇게 만들어야하나??
-//{
-//	// SphereTrace 방식
-//	FVector rightTrace = rightHand->GetComponentLocation();
-//	FVector rightEnd = rightTrace + rightHand->GetRightVector() * grabDistance;
-//	FVector leftTrace = leftHand->GetComponentLocation();
-//	FVector leftEnd = leftTrace + leftHand->GetRightVector() * grabDistance;
-//
-//	FHitResult hitInfo;
-//	FCollisionQueryParams params;
-//	params.AddIgnoredActor(GetOwner());
-//	
-//	//오른손 그립
-//	if (GetWorld()->SweepSingleByChannel(hitInfo, rightTrace, rightEnd, FQuat::Identity, ECC_Visibility, FCollisionShape::MakeSphere(grabDistance), params))
-//	{
-//		if (hitInfo.GetComponent()->GetName().Contains(TEXT("RightHandle")))
-//		{
-//			DrawDebugSphere(GetWorld(), rightTrace, 30, 20, FColor::Cyan, false, 3, 0, 3);
-//			
-//			grabbedObject_R = hitInfo.GetActor();
-//			hitInfo.GetActor()->AttachToComponent(rightHand, FAttachmentTransformRules::KeepWorldTransform, FName("GrabPoint"));
-//
-//			/*UE_LOG(LogTemp, Warning, TEXT("%s"),*hitInfo.GetActor()->GetName());
-//			UE_LOG(LogTemp, Error, TEXT("%s"),*hitInfo.GetComponent()->GetName());*/
-//		}
-//		/*grabedObject = Cast<AActor>(hitInfo.GetActor());
-//		if (IsValid(grabedObject))
-//		{
-//
-//			UBoxComponent* boxComp = Cast<UBoxComponent>(grabedObject->GetRootComponent());
-//			if (boxComp != nullptr)
-//			{
-//				physicsState = boxComp->IsSimulatingPhysics();
-//				boxComp->SetSimulatePhysics(false);
-//			}
-//
-//			hitInfo.GetActor()->AttachToComponent(rightHand, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GrabPoint"));
-//		}*/
-//	}
-//	//왼손 그립
-//	if (GetWorld()->SweepSingleByChannel(hitInfo, leftTrace, leftEnd, FQuat::Identity, ECC_Visibility, FCollisionShape::MakeSphere(grabDistance), params))
-//	{
-//		if (hitInfo.GetComponent()->GetName().Contains(TEXT("LeftHandle")))
-//		{
-//			DrawDebugSphere(GetWorld(), leftTrace, 30, 20, FColor::Red, false, 3, 0, 3);
-//
-//			grabbedObject_R = hitInfo.GetActor();
-//			hitInfo.GetActor()->AttachToComponent(leftHand, FAttachmentTransformRules::KeepWorldTransform, FName("GrabPoint"));
-//		}
-//	}
-//
-//	bIsGrab = true;
-//}
-
 void AMG4_Player::Move(const struct FInputActionValue& value)
 {
 	FVector2D val = value.Get<FVector2D>();
@@ -204,8 +124,11 @@ void AMG4_Player::Move(const struct FInputActionValue& value)
 void AMG4_Player::RotateAxis(const struct FInputActionValue& value)
 {
 	FVector2D axis = value.Get<FVector2D>();
+	
+	//const float lockRot = FMath::Clamp(axis.X, -45.0f, 45.0f);
 
 	//axis 값을 이용해서 캐릭터(콘트롤러)를 회전한다.
+	//						lockRot
 	AddControllerPitchInput(axis.Y * -1.0f);
 	AddControllerYawInput(axis.X);
 }
@@ -271,5 +194,5 @@ void AMG4_Player::InputFire(bool bFire) //const FInputActionValue& value
 
 void AMG4_Player::OpenWidget()
 {
-	
+
 }
