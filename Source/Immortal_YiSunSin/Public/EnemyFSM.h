@@ -49,8 +49,8 @@ public:
 	UPROPERTY(EditAnywhere)
 		class AAIController* ai;
 
-	UPROPERTY(EditAnywhere)
-		class AActor* actor;
+	/*UPROPERTY(EditAnywhere)
+		class AActor* actor;*/
 	
 	UPROPERTY(EditAnywhere)
 	float currHp;

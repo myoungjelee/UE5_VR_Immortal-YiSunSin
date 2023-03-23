@@ -51,14 +51,14 @@ void AEnemyShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 void AEnemyShip::SetActive(bool bActive)
 {
-	// 활성화
+	// 활성화 bActive == true
 	if (bActive)
 	{
 		//충돌 활성
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	}
 	
-	// 비활성화
+	// 비활성화 bActive == false
 	else
 	{
 		//충돌 비활성

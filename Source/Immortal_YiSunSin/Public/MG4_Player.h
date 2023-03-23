@@ -77,7 +77,6 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UUserWidgetBlueprint* PauseUI;
 
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UEnemyFSM* fsm;
 
@@ -97,6 +96,7 @@ public:
 	
 private:
 	bool physicsState = false;
+	FRotator lockRot;
 
 public:
 	void Recenter();
