@@ -81,12 +81,15 @@ void AMG4_Player::BeginPlay()
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
 	subsys->AddMappingContext(inputMapping, 0);
+
 }
 
 // Called every frame
 void AMG4_Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	UE_LOG(LogTemp, Error, TEXT("%f"), GetActorRotation().Yaw);
 
 	LaserPoint();
 }
@@ -125,12 +128,21 @@ void AMG4_Player::RotateAxis(const struct FInputActionValue& value)
 {
 	FVector2D axis = value.Get<FVector2D>();
 	
-	//const float lockRot = FMath::Clamp(axis.X, -45.0f, 45.0f);
-
 	//axis 값을 이용해서 캐릭터(콘트롤러)를 회전한다.
-	//						lockRot
-	AddControllerPitchInput(axis.Y * -1.0f);
 	AddControllerYawInput(axis.X);
+	lockRot = GetActorRotation();
+	lockRot.Yaw = FMath::Clamp(lockRot.Yaw, -45.0f, 45.0f);
+	/*if (lockRot.Yaw < -45.0f)
+	{
+		lockRot.Yaw = -45.0f;
+		SetActorRotation(FRotator(0, lockRot.Yaw, 0));
+	}
+	if (lockRot.Yaw > 45.0f)
+	{
+		lockRot.Yaw = 45.0f;
+		SetActorRotation(FRotator(0, lockRot.Yaw, 0));
+	}*/
+	//AddControllerPitchInput(axis.Y * -1.0f);
 }
 
 void AMG4_Player::LaserPoint()

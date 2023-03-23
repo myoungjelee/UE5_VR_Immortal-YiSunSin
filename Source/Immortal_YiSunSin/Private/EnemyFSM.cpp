@@ -10,6 +10,7 @@
 #include <Components/CapsuleComponent.h>
 #include "MG4_Player.h"
 #include <Components/BoxComponent.h>
+#include "EnemyShipManager.h"
 
 // Sets default values for this component's properties
 UEnemyFSM::UEnemyFSM()
@@ -114,6 +115,13 @@ void UEnemyFSM::UpdateDie()
 	if (p.Z < -200)
 	{
 		me->Destroy();
+		me->SetActive(false);
+		AActor* actor = UGameplayStatics::GetActorOfClass(GetWorld(), AEnemyShipManager::StaticClass());
+		AEnemyShipManager* enemyManager = Cast<AEnemyShipManager>(actor);
+		enemyManager->enemyArray.Add(me);
+		currHp = maxHp;
+		ChangeState(EEnemyState::Idle);
+		bDieMove = false;
 	}
 	else
 	{
