@@ -79,28 +79,29 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	a += DeltaTime * 8;
-	SetActorRotation(FRotator(0, 90 + a,0));
+	SetActorRotation(FRotator(0, 90 + a, 0));
 
 	gaugeWidget->UpdateGauge(curr, max);
 
- 	if (gaugeWidget->gaugeBar->GetPercent() >= 1)
- 	{
+	if (gaugeWidget->gaugeBar->GetPercent() >= 1)
+	{
 		sail->SetVisibility(true);
 		bComplete = true;
 		a = 0;
- 	}
- 	else if (gaugeWidget->gaugeBar->GetPercent() > 0.8f)
- 	{
- 		head->SetVisibility(true);
- 	}
- 	else if (gaugeWidget->gaugeBar->GetPercent() > 0.5f)
- 	{
+		gaugeWidget->gaugeBar->SetFillColorAndOpacity(FLinearColor::Blue);
+	}
+	else if (gaugeWidget->gaugeBar->GetPercent() > 0.8f)
+	{
+		head->SetVisibility(true);
+	}
+	else if (gaugeWidget->gaugeBar->GetPercent() > 0.5f)
+	{
 		top->SetVisibility(true);
- 	}
- 	else if (gaugeWidget->gaugeBar->GetPercent() > 0.25f)
- 	{
+	}
+	else if (gaugeWidget->gaugeBar->GetPercent() > 0.25f)
+	{
 		bottom->SetVisibility(true);
- 	}
+	}
 
 	if (manager->bEnd)
 	{
@@ -113,7 +114,7 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 				SetActorLocation(p0 + vt);
 			}
 		}
-	
+
 	}
 }
 
