@@ -130,19 +130,15 @@ void AMG4_Player::RotateAxis(const struct FInputActionValue& value)
 	
 	//axis 값을 이용해서 캐릭터(콘트롤러)를 회전한다.
 	AddControllerYawInput(axis.X);
-	lockRot = GetActorRotation();
+	AddControllerPitchInput(axis.Y * -1.0f);
+	UE_LOG(LogTemp, Warning, TEXT("%f"), axis.Y);
+
+	lockRot = GetControlRotation();
 	lockRot.Yaw = FMath::Clamp(lockRot.Yaw, -45.0f, 45.0f);
-	/*if (lockRot.Yaw < -45.0f)
-	{
-		lockRot.Yaw = -45.0f;
-		SetActorRotation(FRotator(0, lockRot.Yaw, 0));
-	}
-	if (lockRot.Yaw > 45.0f)
-	{
-		lockRot.Yaw = 45.0f;
-		SetActorRotation(FRotator(0, lockRot.Yaw, 0));
-	}*/
-	//AddControllerPitchInput(axis.Y * -1.0f);
+	//lockRot.Pitch = FMath::Clamp(lockRot.Pitch, -30.0f, 30.0f);
+	UE_LOG(LogTemp, Error, TEXT("%f"), lockRot.Pitch);
+
+	//GetWorld()->GetFirstPlayerController()->SetControlRotation(lockRot);
 }
 
 void AMG4_Player::LaserPoint()
