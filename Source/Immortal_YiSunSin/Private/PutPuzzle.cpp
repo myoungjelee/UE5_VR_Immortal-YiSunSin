@@ -38,9 +38,15 @@ void APutPuzzle::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	startLoc_s = GetActorLocation() + (GetActorForwardVector() * 49);
+
+	
+
+	startLoc_s = GetActorLocation() + (GetActorForwardVector() * 48);
 	endLoc_s = GetActorLocation() + (GetActorForwardVector() * 47);
-	hit_s = GetWorld()->LineTraceSingleByChannel(hitInfo_s, startLoc_s, endLoc_s, ECC_Visibility);
+	FCollisionObjectQueryParams objectPoint;
+	objectPoint.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldDynamic);
+	//hit_s = GetWorld()->LineTraceSingleByChannel(hitInfo_s, startLoc_s, endLoc_s, ECC_Visibility);
+	hit_s = GetWorld()->LineTraceSingleByObjectType(hitInfo_s,startLoc_s,endLoc_s,objectPoint);
 	//DrawDebugLine(GetWorld(), startLoc_s, endLoc_s, FColor::Red, true);
 	if (hit_s)
 	{
@@ -81,14 +87,12 @@ void APutPuzzle::Tick(float DeltaTime)
 
 void APutPuzzle::OnPuzzle(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-// 	bOverlap = true;
-// 	UE_LOG(LogTemp, Error, TEXT("%d"), bOverlap);
+	//bOverlap = true;
 }
 
 void APutPuzzle::OffPuzzle(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-// 	bOverlap = false;
-// 	UE_LOG(LogTemp, Warning, TEXT("%d"), bOverlap);
+	//bOverlap = false;
 }
 
 void APutPuzzle::SettingPuzzle()
