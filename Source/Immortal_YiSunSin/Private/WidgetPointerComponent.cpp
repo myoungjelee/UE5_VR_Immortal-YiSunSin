@@ -132,6 +132,13 @@ void UWidgetPointerComponent::GribedPuzzle_L()
 		if (hitInfo.GetActor()->GetName().Contains(TEXT("Puzzle")))
 		{
 			grabedPuzzle_L = hitInfo.GetActor();
+
+			if (grabedPuzzle_L->GetActorLocation().X > 900)
+			{
+				FVector grabPos = grabedPuzzle_L->GetActorLocation() - (endLoc - startLoc) * 0.08f;
+				grabedPuzzle_L->SetActorLocation(grabPos);
+			}
+
 			grabedPuzzle_L->AttachToComponent(player->mesh_Left, FAttachmentTransformRules::KeepWorldTransform, FName("PuzzlePoint_L"));
 		}
 	}
@@ -165,6 +172,13 @@ void UWidgetPointerComponent::GribedPuzzle_R()
 		if (hitInfo.GetActor()->GetName().Contains(TEXT("Puzzle")))
 		{
 			grabedPuzzle_R = hitInfo.GetActor();
+
+			if (grabedPuzzle_R->GetActorLocation().X > 900)
+			{
+				FVector grabPos = grabedPuzzle_R->GetActorLocation() - (endLoc - startLoc) * 0.08f;
+				grabedPuzzle_R->SetActorLocation(grabPos);
+			}
+
 			grabedPuzzle_R->AttachToComponent(player->mesh_Right, FAttachmentTransformRules::KeepWorldTransform, FName("PuzzlePoint_R"));
 		}
 	}
