@@ -135,10 +135,10 @@ void AMG4_Player::RotateAxis(const struct FInputActionValue& value)
 
 	lockRot = GetControlRotation();
 	lockRot.Yaw = FMath::Clamp(lockRot.Yaw, -45.0f, 45.0f);
-	//lockRot.Pitch = FMath::Clamp(lockRot.Pitch, -30.0f, 30.0f);
+	lockRot.Pitch = FMath::Clamp(lockRot.Pitch, 0.0f, 15.0f);
 	UE_LOG(LogTemp, Error, TEXT("%f"), lockRot.Pitch);
 
-	//GetWorld()->GetFirstPlayerController()->SetControlRotation(lockRot);
+	GetWorld()->GetFirstPlayerController()->SetControlRotation(lockRot);
 }
 
 void AMG4_Player::LaserPoint()

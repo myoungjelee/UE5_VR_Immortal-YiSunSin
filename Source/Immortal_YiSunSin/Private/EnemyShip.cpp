@@ -13,12 +13,11 @@ AEnemyShip::AEnemyShip()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	//LineTrace 에 감지가 되게 셋팅
-	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	boxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("BOX")); 
 	boxCollision->SetCollisionProfileName(TEXT("BlockAllDynamic"));
-
+	boxCollision->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 
 	//FSM 컴포넌트 추가
 	fsm = CreateDefaultSubobject<UEnemyFSM>(TEXT("FSM"));
