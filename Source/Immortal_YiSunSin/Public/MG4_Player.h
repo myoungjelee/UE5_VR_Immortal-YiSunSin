@@ -77,6 +77,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UUserWidgetBlueprint* PauseUI;
 
+	UPROPERTY(EditAnywhere)
+	class UWidgetComponent* scoreUI;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UEnemyFSM* fsm;
 

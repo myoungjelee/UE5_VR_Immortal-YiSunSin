@@ -11,6 +11,8 @@
 #include "MG4_Player.h"
 #include <Components/BoxComponent.h>
 #include "EnemyShipManager.h"
+#include "ScoreUI.h"
+#include <UMG/Public/Components/WidgetComponent.h>
 
 // Sets default values for this component's properties
 UEnemyFSM::UEnemyFSM()
@@ -31,7 +33,6 @@ void UEnemyFSM::BeginPlay()
 	me = Cast<AEnemyShip>(GetOwner());
 
 	ai = Cast<AAIController>(me->GetController());
-
 }
 
 void UEnemyFSM::NotifyActorBeginOverlap(AActor* OtherActor)
@@ -43,6 +44,11 @@ void UEnemyFSM::NotifyActorBeginOverlap(AActor* OtherActor)
 void UEnemyFSM::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	
+	if (score == nullptr)
+	{
+		score = Cast<UScoreUI>(target->scoreUI->GetUserWidgetObject());
+	}
 
 	switch (currState)
 	{
@@ -171,6 +177,7 @@ void UEnemyFSM::ChangeState(EEnemyState state)
 		me->GetCapsuleComponent()->SetCollisionEnabled (ECollisionEnabled::NoCollision);
 		me->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		me->boxCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		score->UpdateScore(5);
 	break;
 	}
 }

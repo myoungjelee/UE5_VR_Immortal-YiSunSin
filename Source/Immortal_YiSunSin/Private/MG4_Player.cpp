@@ -15,6 +15,7 @@
 #include "EnemyShip.h"
 #include "EnemyFSM.h"
 #include <UMG/Public/Blueprint/UserWidgetBlueprint.h>
+#include <UMG/Public/Components/WidgetComponent.h>
 
 // Sets default values
 AMG4_Player::AMG4_Player()
@@ -68,6 +69,12 @@ AMG4_Player::AMG4_Player()
 	{
 		PauseUI = tempUI.Class;
 	}*/
+
+	scoreUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Score UI"));
+	scoreUI->SetupAttachment(RootComponent);
+	scoreUI->SetRelativeLocation(FVector(1000, 0, 0));
+	scoreUI->SetRelativeRotation(FRotator(0, 180, 0));
+
 }
 
 // Called when the game starts or when spawned

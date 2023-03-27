@@ -45,6 +45,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		class AEnemyShip* me;
 
+	UPROPERTY(EditAnywhere)
+	class UScoreUI* score;
+
 	//ai controller 
 	UPROPERTY(EditAnywhere)
 		class AAIController* ai;
