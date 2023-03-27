@@ -29,5 +29,4 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Dummy")
 	class UProceduralMeshComponent* proComp;
 
-
 };

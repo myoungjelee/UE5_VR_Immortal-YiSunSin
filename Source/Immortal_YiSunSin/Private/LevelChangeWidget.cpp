@@ -13,6 +13,7 @@ void ULevelChangeWidget::NativeConstruct()
 	changeLevel = Cast<UTextBlock>(GetWidgetFromName(TEXT("_changeLevel")));
 	
 	BtnChange->OnClicked.AddDynamic(this, &ULevelChangeWidget::OnClick);
+	ChangeLevel();
 }
 
 void ULevelChangeWidget::OnClick()

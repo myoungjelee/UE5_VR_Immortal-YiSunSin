@@ -15,7 +15,7 @@ class IMMORTAL_YISUNSIN_API ULevelChangeWidget : public UUserWidget
 	GENERATED_BODY()
 	
 protected:
-	void NativeConstruct() override;
+	virtual void NativeConstruct() override;
 
 public:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
