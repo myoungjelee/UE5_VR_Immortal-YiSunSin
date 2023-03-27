@@ -106,7 +106,6 @@ void AMG4_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	enhancedInputComponent->BindAction(btnA, ETriggerEvent::Started, this, &AMG4_Player::APressed);
 	enhancedInputComponent->BindAction(btnA, ETriggerEvent::Completed, this, &AMG4_Player::AReleased);
 
-
 }
 
 void AMG4_Player::Recenter()
@@ -125,15 +124,18 @@ void AMG4_Player::Move(const struct FInputActionValue& value)
 void AMG4_Player::RotateAxis(const struct FInputActionValue& value)
 {
 	FVector2D axis = value.Get<FVector2D>();
-	
-	//const float lockRot = FMath::Clamp(axis.X, -45.0f, 45.0f);
 
 	//axis 값을 이용해서 캐릭터(콘트롤러)를 회전한다.
-	//						lockRot
-
-	
-	AddControllerPitchInput(axis.Y * -1.0f);
 	AddControllerYawInput(axis.X);
+	AddControllerPitchInput(axis.Y * -1.0f);
+	UE_LOG(LogTemp, Warning, TEXT("%f"), axis.Y);
+
+	lockRot = GetControlRotation();
+	lockRot.Yaw = FMath::Clamp(lockRot.Yaw, -45.0f, 45.0f);
+	lockRot.Pitch = FMath::Clamp(lockRot.Pitch, 0.0f, 15.0f);
+	UE_LOG(LogTemp, Error, TEXT("%f"), lockRot.Pitch);
+
+	GetWorld()->GetFirstPlayerController()->SetControlRotation(lockRot);
 }
 
 void AMG4_Player::LaserPoint()
