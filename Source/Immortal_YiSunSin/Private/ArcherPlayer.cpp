@@ -12,6 +12,7 @@
 #include "ArrowActor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "EngineUtils.h"
+#include <UMG/Public/Components/WidgetInteractionComponent.h>
 
 AArcherPlayer::AArcherPlayer()
 {
@@ -51,6 +52,9 @@ AArcherPlayer::AArcherPlayer()
 	handleMesh->SetRelativeLocation(FVector(14.5, 0, 0.12));
 	handleMesh->SetRelativeRotation(FRotator(0, 180, 0));
 	handleMesh->SetRelativeScale3D(FVector(0.05));
+
+	widgetInt = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Widget Interaction"));
+	widgetInt->SetupAttachment(rightController);
 }
 
 void AArcherPlayer::BeginPlay()
@@ -64,6 +68,13 @@ void AArcherPlayer::BeginPlay()
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
 	subsys->AddMappingContext(myMapping, 0);
+
+	if (widgetInt != nullptr)
+	{
+		widgetInt->InteractionDistance = 100000.0f;
+		widgetInt->bEnableHitTesting = true;
+		widgetInt->DebugColor = FColor::Red;
+	}
 
 	handleMesh->SetVisibility(false);
 
@@ -87,6 +98,8 @@ void AArcherPlayer::Tick(float DeltaTime)
 			arrow->SetActorRotation(handleMesh->GetComponentRotation());
 		}
 	}
+
+	FindWidget();
 }
 
 void AArcherPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -99,6 +112,8 @@ void AArcherPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	{
 		enhancedInputComponent->BindAction(GripRight, ETriggerEvent::Started, this, &AArcherPlayer::BowRelease);
 		enhancedInputComponent->BindAction(GripRight, ETriggerEvent::Completed, this, &AArcherPlayer::ShootArrow);
+		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Started, this, &AArcherPlayer::PressWidget);
+		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &AArcherPlayer::ReleaseWidget);
 		enhancedInputComponent->BindAction(thumbstickLeft, ETriggerEvent::Triggered, this, &AArcherPlayer::Move);
 		enhancedInputComponent->BindAction(thumbstickRight, ETriggerEvent::Triggered, this, &AArcherPlayer::RotateAxis);
 	}
@@ -123,6 +138,17 @@ void AArcherPlayer::ShootArrow()
 	arrow->Shoot();
 }
 
+void AArcherPlayer::PressWidget()
+{
+	widgetInt->PressPointerKey(EKeys::LeftMouseButton);
+}
+
+void AArcherPlayer::ReleaseWidget()
+{
+	widgetInt->bShowDebug = false;
+	widgetInt->ReleasePointerKey(EKeys::LeftMouseButton);
+}
+
 void AArcherPlayer::Move(const struct FInputActionValue& value)
 {
 	FVector2D val = value.Get<FVector2D>();
@@ -138,4 +164,23 @@ void AArcherPlayer::RotateAxis(const struct FInputActionValue& value)
 	//axis 값을 이용해서 캐릭터(콘트롤러)를 회전한다.
 	AddControllerPitchInput(axis.Y * -1.0f);
 	AddControllerYawInput(axis.X);
+}
+
+void AArcherPlayer::FindWidget()
+{
+	FVector start = widgetInt->GetComponentLocation();
+	FVector endLoc = start + widgetInt->GetForwardVector() * 10000.0f;
+	FHitResult hitInfo;
+	FCollisionQueryParams params;
+	params.AddIgnoredActor(this);
+
+	//DrawDebugLine(GetWorld(), start, endLoc, FColor::Cyan, false, -1, 0, 2);
+
+	if (GetWorld()->LineTraceSingleByChannel(hitInfo, start, endLoc, ECC_Visibility, params))
+	{
+		if (hitInfo.GetActor()->GetName().Contains(TEXT("UI")))
+		{
+			widgetInt->bShowDebug = true;
+		}
+	}
 }

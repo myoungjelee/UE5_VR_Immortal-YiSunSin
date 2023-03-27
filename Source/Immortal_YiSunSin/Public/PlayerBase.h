@@ -65,4 +65,14 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
 	class UMoveComponent* moveComp;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	class UWidgetInteractionComponent* widgetInt;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
+	class UInputAction* triggerRight;
+
+	void PressWidget();
+	void ReleaseWidget();
+	void FindWidget();
 };

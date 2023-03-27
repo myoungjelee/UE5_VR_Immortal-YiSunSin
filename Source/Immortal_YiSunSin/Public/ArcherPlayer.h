@@ -56,6 +56,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
 	class UInputAction* GripRight;
 
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
+	class UInputAction* triggerRight;
+
 	UPROPERTY(EditAnywhere, Category = "ArrowSpawn")
 	class AArrowActor* arrow;
 
@@ -66,7 +69,10 @@ public:
 	class UInputAction* thumbstickLeft;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
-class UInputAction* thumbstickRight;
+	class UInputAction* thumbstickRight;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	class UWidgetInteractionComponent* widgetInt;
 
 	FVector startLoc;
 	FVector handLoc;
@@ -75,6 +81,9 @@ class UInputAction* thumbstickRight;
 
 	void BowRelease();
 	void ShootArrow();
+	void PressWidget();
+	void ReleaseWidget();
 	void Move(const struct FInputActionValue& value);
 	void RotateAxis(const struct FInputActionValue& value);
+	void FindWidget();
 };

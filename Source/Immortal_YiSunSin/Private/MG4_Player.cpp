@@ -106,6 +106,7 @@ void AMG4_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	enhancedInputComponent->BindAction(btnA, ETriggerEvent::Started, this, &AMG4_Player::APressed);
 	enhancedInputComponent->BindAction(btnA, ETriggerEvent::Completed, this, &AMG4_Player::AReleased);
 
+
 }
 
 void AMG4_Player::Recenter()
@@ -129,6 +130,8 @@ void AMG4_Player::RotateAxis(const struct FInputActionValue& value)
 
 	//axis 값을 이용해서 캐릭터(콘트롤러)를 회전한다.
 	//						lockRot
+
+	
 	AddControllerPitchInput(axis.Y * -1.0f);
 	AddControllerYawInput(axis.X);
 }

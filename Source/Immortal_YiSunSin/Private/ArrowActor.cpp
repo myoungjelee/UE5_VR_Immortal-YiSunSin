@@ -10,7 +10,7 @@ AArrowActor::AArrowActor()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Sphere Component"));
+	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component"));
 	SetRootComponent(boxComp);
 	boxComp->SetBoxExtent(FVector(35.0f, 2.0f, 2.0f));
 
@@ -39,9 +39,6 @@ void AArrowActor::BeginPlay()
 void AArrowActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	FVector p0 = GetActorLocation();
-	FVector vt = GetActorForwardVector() * 2000 * DeltaTime;
 
 }
 

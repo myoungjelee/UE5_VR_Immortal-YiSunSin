@@ -26,9 +26,14 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* meshComp;
 
+	UPROPERTY(EditAnywhere)
+	class UTextRenderComponent* hit;
+
 	UPROPERTY()
 	class AArrowActor* arrow;
 
+	UFUNCTION()
 	void OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 	bool IsShoot(AActor* OtherActor, UPrimitiveComponent* OtherComp);
 };

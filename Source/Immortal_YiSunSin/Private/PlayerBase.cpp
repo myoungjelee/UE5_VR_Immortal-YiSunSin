@@ -11,6 +11,7 @@
 #include "MoveComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "ArcherGraspComponent.h"
+#include <UMG/Public/Components/WidgetInteractionComponent.h>
 
 
 
@@ -56,6 +57,9 @@ APlayerBase::APlayerBase()
 	rightLog->SetHorizontalAlignment(EHTA_Center);
 	rightLog->SetVerticalAlignment(EVRTA_TextCenter);
 
+	widgetInt = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Widget Interaction"));
+	widgetInt->SetupAttachment(rightController);
+
 	// 액터 컴포넌트
 	graspComp = CreateDefaultSubobject<UArcherGraspComponent>(TEXT("Grasp Component"));
 	moveComp = CreateDefaultSubobject<UMoveComponent>(TEXT("Move Component"));
@@ -74,6 +78,13 @@ void APlayerBase::BeginPlay()
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
 	subsys->AddMappingContext(myMapping, 0);
+
+	if (widgetInt != nullptr)
+	{
+		widgetInt->InteractionDistance = 100000.0f;
+		widgetInt->bEnableHitTesting = true;
+		widgetInt->DebugColor = FColor::Red;
+	}
 }
 
 // Called every frame
@@ -81,6 +92,7 @@ void APlayerBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	FindWidget();
 }
 
 // Called to bind functionality to input
@@ -94,5 +106,37 @@ void APlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	{
 		graspComp->SetupPlayerInputComponent(enhancedInputComponent);
 		moveComp->SetupPlayerInputComponent(enhancedInputComponent);
+		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Started, this, &APlayerBase::PressWidget);
+		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget);
 	}	
+}
+
+void APlayerBase::PressWidget()
+{
+	widgetInt->PressPointerKey(EKeys::LeftMouseButton);
+}
+
+void APlayerBase::ReleaseWidget()
+{
+	widgetInt->bShowDebug = false;
+	widgetInt->ReleasePointerKey(EKeys::LeftMouseButton);
+}
+
+void APlayerBase::FindWidget()
+{
+	FVector start = widgetInt->GetComponentLocation();
+	FVector endLoc = start + widgetInt->GetForwardVector() * 10000.0f;
+	FHitResult hitInfo;
+	FCollisionQueryParams params;
+	params.AddIgnoredActor(this);
+
+	//DrawDebugLine(GetWorld(), start, endLoc, FColor::Cyan, false, -1, 0, 2);
+
+	if (GetWorld()->LineTraceSingleByChannel(hitInfo, start, endLoc, ECC_Visibility, params))
+	{
+		if (hitInfo.GetActor()->GetName().Contains(TEXT("UI")))
+		{
+			widgetInt->bShowDebug = true;
+		}
+	}
 }

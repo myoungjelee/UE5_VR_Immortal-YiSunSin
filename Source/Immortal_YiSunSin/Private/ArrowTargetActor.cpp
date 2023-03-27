@@ -6,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "ArrowActor.h"
 #include <Components/BoxComponent.h>
+#include <Components/TextRenderComponent.h>
 
 AArrowTargetActor::AArrowTargetActor()
 {
@@ -16,6 +17,9 @@ AArrowTargetActor::AArrowTargetActor()
 
 	meshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
 	meshComp->SetupAttachment(RootComponent);
+
+	hit = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Hit Infomation"));
+	hit->SetupAttachment(RootComponent);
 }
 
 void AArrowTargetActor::BeginPlay()
@@ -36,6 +40,7 @@ void AArrowTargetActor::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* 
 {
 	if (IsShoot(OtherActor, OtherComp))
 	{
+		hit->SetText(FText::FromString(TEXT("Hit!!!!!!!!!!!")));
 		UE_LOG(LogTemp, Warning, TEXT("Hit!!!!!!!!!!"));
 	}
 }
