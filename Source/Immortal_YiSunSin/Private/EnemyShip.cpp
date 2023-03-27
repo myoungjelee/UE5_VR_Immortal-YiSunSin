@@ -78,8 +78,3 @@ void AEnemyShip::SetActive(bool bActive)
 		fsm->SetActive(bActive);
 	}
 }
-
-void AEnemyShip::AddScore(int32 PointsToAdd)
-{
-	points += PointsToAdd;
-}
