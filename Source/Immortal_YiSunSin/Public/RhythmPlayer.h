@@ -59,8 +59,6 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UInputMappingContext* inputMapping;
 
-	UPROPERTY(EditAnywhere)
-		class UInputAction* btn_X;
 
 public:
 	
@@ -70,6 +68,6 @@ public:
 	UFUNCTION()
 		void OnDrum_Right(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-		void Recenter();
+		//void Recenter();
 
 };

@@ -97,10 +97,10 @@ void ARhythmPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	UEnhancedInputComponent* enhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
-	if (enhancedInputComponent != nullptr)
-	{
-		enhancedInputComponent->BindAction(btn_X, ETriggerEvent::Triggered, this, &ARhythmPlayer::Recenter);
-	}
+// 	if (enhancedInputComponent != nullptr)
+// 	{
+// 		enhancedInputComponent->BindAction(btn_X, ETriggerEvent::Triggered, this, &ARhythmPlayer::Recenter);
+// 	}
 }
 
 void ARhythmPlayer::OnDrum_Left(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -119,8 +119,8 @@ void ARhythmPlayer::OnDrum_Right(UPrimitiveComponent* OverlappedComponent, AActo
 	}
 }
 
-void ARhythmPlayer::Recenter()
-{
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
-}
+// void ARhythmPlayer::Recenter()
+// {
+// 	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
+// }
 

@@ -59,9 +59,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UWidgetPointerComponent* widgetPointerComp;
 
+	UPROPERTY(EditAnywhere)
+	class UWidgetComponent* pauseWidget;
 
 
-// 	UPROPERTY(EditAnywhere)
-// 	AActor* tempActor;
-// 	void TestFunction();
 };

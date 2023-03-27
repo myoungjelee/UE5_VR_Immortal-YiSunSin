@@ -9,6 +9,8 @@
 #include <Kismet/GameplayStatics.h>
 #include "PutPuzzle.h"
 #include <EngineUtils.h>
+#include <UMG/Public/Components/WidgetInteractionComponent.h>
+#include <UMG/Public/Components/WidgetComponent.h>
 
 
 // Sets default values for this component's properties
@@ -117,6 +119,10 @@ void UWidgetPointerComponent::SetupPlayerInputComponent(class UEnhancedInputComp
 	PlayerInputComponent->BindAction(left_Grib, ETriggerEvent::Completed, this, &UWidgetPointerComponent::ReleasedPuzzle_L);
 	PlayerInputComponent->BindAction(right_Grib, ETriggerEvent::Started, this, &UWidgetPointerComponent::GribedPuzzle_R);
 	PlayerInputComponent->BindAction(right_Grib, ETriggerEvent::Completed, this, &UWidgetPointerComponent::ReleasedPuzzle_R);
+	PlayerInputComponent->BindAction(left_Trigger, ETriggerEvent::Started, this, &UWidgetPointerComponent::ClickWidget_L);
+	PlayerInputComponent->BindAction(left_Trigger, ETriggerEvent::Completed, this, &UWidgetPointerComponent::ReleaseWidget_L);
+	PlayerInputComponent->BindAction(right_Trigger, ETriggerEvent::Started, this, &UWidgetPointerComponent::ClickWidget_R);
+	PlayerInputComponent->BindAction(right_Trigger, ETriggerEvent::Completed, this, &UWidgetPointerComponent::ReleaseWidget_R);
 }
 
 void UWidgetPointerComponent::GribedPuzzle_L()
@@ -197,5 +203,30 @@ void UWidgetPointerComponent::ReleasedPuzzle_R()
 			put->SettingPuzzle();
 		}
 	}
+}
+
+void UWidgetPointerComponent::GamePause()
+{
+	player->pauseWidget->SetVisibility(true);
+}
+
+void UWidgetPointerComponent::ClickWidget_L()
+{
+	player->widgetPointer_Left->PressPointerKey(EKeys::LeftMouseButton);
+}
+
+void UWidgetPointerComponent::ReleaseWidget_L()
+{
+	player->widgetPointer_Left->ReleasePointerKey(EKeys::LeftMouseButton);
+}
+
+void UWidgetPointerComponent::ClickWidget_R()
+{
+	player->widgetPointer_Left->PressPointerKey(EKeys::LeftMouseButton);
+}
+
+void UWidgetPointerComponent::ReleaseWidget_R()
+{
+	player->widgetPointer_Left->ReleasePointerKey(EKeys::LeftMouseButton);
 }
 

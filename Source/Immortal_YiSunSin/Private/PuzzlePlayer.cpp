@@ -14,6 +14,7 @@
 #include "WidgetPointerComponent.h"
 
 #include <Misc/OutputDeviceNull.h>
+#include <UMG/Public/Components/WidgetComponent.h>
 // Sets default values
 APuzzlePlayer::APuzzlePlayer()
 {
@@ -54,6 +55,10 @@ APuzzlePlayer::APuzzlePlayer()
 	widgetPointer_Right->bShowDebug = true;
 	widgetPointer_Right->DebugColor = FColor::Red;
 	widgetPointer_Right->SetRelativeRotation(FRotator(-45, 0, 0));
+
+	pauseWidget = CreateDefaultSubobject<UWidgetComponent>("PauseWidget");
+	pauseWidget->SetupAttachment(RootComponent);
+	pauseWidget->SetVisibility(false);
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 

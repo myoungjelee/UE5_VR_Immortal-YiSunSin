@@ -31,6 +31,15 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		class UInputAction* left_Grib;
+
+	UPROPERTY(EditAnywhere)
+		class UInputAction* x_Btn;
+
+	UPROPERTY(EditAnywhere)
+		class UInputAction* left_Trigger;
+
+	UPROPERTY(EditAnywhere)
+		class UInputAction* right_Trigger;
 		
 	UPROPERTY(EditAnywhere)
 		TArray<class APutPuzzle*> putArray;
@@ -60,4 +69,9 @@ public:
 	void ReleasedPuzzle_L();
 	void GribedPuzzle_R();
 	void ReleasedPuzzle_R();
+	void GamePause();
+	void ClickWidget_L();
+	void ReleaseWidget_L();
+	void ClickWidget_R();
+	void ReleaseWidget_R();
 };
