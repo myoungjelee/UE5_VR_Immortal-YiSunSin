@@ -41,7 +41,10 @@ public:
 
 	// 활성/비활성 하는 기능
 	void SetActive(bool bActive);
-
+	
+	UFUNCTION(BlueprintCallable, Category = "Score")
+	void AddScore(int32 PointsToAdd);
+	
 	//죽었을 때 호출되는 함수를 담는 변수
 	FEnemyShipDieDelegate dieDelegate;
 };
