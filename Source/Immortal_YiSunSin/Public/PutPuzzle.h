@@ -36,6 +36,10 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		class UParticleSystem* completePuzzle;
+
+	UPROPERTY(EditAnywhere)
+		class USoundBase* puzzleSound;
+
 public:
 
 	bool bOverlap;
