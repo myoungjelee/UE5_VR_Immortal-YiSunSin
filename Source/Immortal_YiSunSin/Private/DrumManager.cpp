@@ -55,7 +55,7 @@ ADrumManager::ADrumManager()
 		drumFactory3 = tempDrum3.Class;
 	}*/
 
-	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/Audios/MJ/Music/Arirang.Arirang'"));
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/Audios/MJ/RhythmSound/Arirang.Arirang'"));
 	if (tempSound.Succeeded())
 	{
 		Arirang = tempSound.Object;

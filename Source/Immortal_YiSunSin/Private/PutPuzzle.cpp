@@ -5,6 +5,7 @@
 #include <Components/BoxComponent.h>
 #include <Particles/ParticleSystem.h>
 #include <Kismet/GameplayStatics.h>
+#include <Sound/SoundBase.h>
 
 
 // Sets default values
@@ -21,6 +22,12 @@ APutPuzzle::APutPuzzle()
 	if (tempPuzzle.Succeeded())
 	{
 		completePuzzle = tempPuzzle.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Engine/VREditor/Sounds/UI/Object_Snaps_To_Grid.Object_Snaps_To_Grid'"));
+	if (tempSound.Succeeded())
+	{
+		puzzleSound = tempSound.Object;
 	}
 }
 
@@ -103,6 +110,7 @@ void APutPuzzle::SettingPuzzle()
 		setPuzzle->SetActorRotation(compBox->GetComponentRotation());
 
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), completePuzzle, GetActorLocation(), GetActorRotation(), FVector3d(1));
+		UGameplayStatics::PlaySound2D(GetWorld(),puzzleSound);
 
 		setPuzzle = nullptr;
 	}
