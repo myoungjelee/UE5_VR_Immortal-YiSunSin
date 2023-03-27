@@ -61,8 +61,6 @@ public:
 	UPROPERTY(EditAnywhere)
 		class ADrumActor* drum;
 
-	UPROPERTY(EditAnywhere)
-	class USoundBase* Arirang;
 
 public:
 

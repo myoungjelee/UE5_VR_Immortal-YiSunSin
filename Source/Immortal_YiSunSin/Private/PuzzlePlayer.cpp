@@ -62,6 +62,7 @@ APuzzlePlayer::APuzzlePlayer()
 	pauseWidget->SetCollisionProfileName(TEXT("interactionUI"));
 	pauseWidget->SetRelativeLocation(FVector(500,0,300));
 	pauseWidget->SetRelativeRotation(FRotator(0,180,0));
+	pauseWidget->SetDrawSize(FVector2D(1920, 1080));
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 

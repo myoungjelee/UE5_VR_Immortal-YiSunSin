@@ -32,10 +32,10 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UCameraComponent* cam;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UMotionControllerComponent* l_Controller;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UMotionControllerComponent* r_Controller;
 
 	UPROPERTY(EditAnywhere)
@@ -50,6 +50,12 @@ public:
 	UPROPERTY(EditAnywhere)
 		class UStaticMeshComponent* r_Mesh;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UWidgetInteractionComponent* widgetPointer_Left;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UWidgetInteractionComponent* widgetPointer_Right;
+
 	UPROPERTY(EditAnywhere)
 		class UHapticFeedbackEffect_Base* hitHaptic;
 
@@ -58,6 +64,24 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		class UInputMappingContext* inputMapping;
+
+	UPROPERTY(EditAnywhere)
+		class UInputAction* x_Btn;
+
+	UPROPERTY(EditAnywhere)
+		class UInputAction* left_Trigger;
+
+	UPROPERTY(EditAnywhere)
+		class UInputAction* right_Trigger;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UWidgetComponent* pauseWidget;
+
+	UPROPERTY(EditAnywhere)
+		class USoundBase* arirang;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UAudioComponent* sound;
 
 
 public:
@@ -68,6 +92,10 @@ public:
 	UFUNCTION()
 		void OnDrum_Right(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-		//void Recenter();
+	void GamePause();
+	void ClickWidget_L();
+	void ReleaseWidget_L();
+	void ClickWidget_R();
+	void ReleaseWidget_R();
 
 };

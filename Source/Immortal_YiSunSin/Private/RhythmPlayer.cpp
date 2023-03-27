@@ -11,6 +11,9 @@
 #include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputSubsystems.h>
 #include <Kismet/GameplayStatics.h>
 #include <Particles/ParticleSystem.h>
+#include <UMG/Public/Components/WidgetInteractionComponent.h>
+#include <UMG/Public/Components/WidgetComponent.h>
+#include <Components/AudioComponent.h>
 
 // Sets default values
 ARhythmPlayer::ARhythmPlayer()
@@ -36,6 +39,13 @@ ARhythmPlayer::ARhythmPlayer()
 	l_Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	l_Mesh->SetRelativeScale3D(FVector(0.1f));
 	l_Mesh->SetRelativeLocation(FVector(0, 0, -17.5f));
+	
+	widgetPointer_Left = CreateDefaultSubobject<UWidgetInteractionComponent>("Left Pointer");
+	widgetPointer_Left->SetupAttachment(l_Controller);
+	widgetPointer_Left->InteractionDistance = 2000;
+	widgetPointer_Left->bShowDebug = false;
+	widgetPointer_Left->DebugColor = FColor::Red;
+	widgetPointer_Left->SetRelativeRotation(FRotator(-45, 0, 0));
 
 	r_Controller = CreateDefaultSubobject<UMotionControllerComponent>("RightController");
 	r_Controller->SetupAttachment(RootComponent);
@@ -53,6 +63,21 @@ ARhythmPlayer::ARhythmPlayer()
 	r_Mesh->SetRelativeScale3D(FVector(0.1f));
 	r_Mesh->SetRelativeLocation(FVector(0, 0, -17.5f));
 
+	widgetPointer_Right = CreateDefaultSubobject<UWidgetInteractionComponent>("Right Pointer");
+	widgetPointer_Right->SetupAttachment(r_Controller);
+	widgetPointer_Right->InteractionDistance = 2000;
+	widgetPointer_Right->bShowDebug = false;
+	widgetPointer_Right->DebugColor = FColor::Red;
+	widgetPointer_Right->SetRelativeRotation(FRotator(-45, 0, 0));
+
+	pauseWidget = CreateDefaultSubobject<UWidgetComponent>("PauseWidget");
+	pauseWidget->SetupAttachment(RootComponent);
+	pauseWidget->SetVisibility(false);
+	pauseWidget->SetCollisionProfileName(TEXT("interactionUI"));
+	pauseWidget->SetRelativeLocation(FVector(500, 0, 300));
+	pauseWidget->SetRelativeRotation(FRotator(0, 180, 0));
+	pauseWidget->SetDrawSize(FVector2D(1920,1080));
+
 	ConstructorHelpers::FObjectFinder<UStaticMesh> leftMesh(TEXT("/Script/Engine.StaticMesh'/Game/Assets/MJ/Drum/SM_DrumStick.SM_DrumStick'"));
 	if (leftMesh.Succeeded())
 	{
@@ -63,6 +88,36 @@ ARhythmPlayer::ARhythmPlayer()
 	if (rightMesh.Succeeded())
 	{
 		r_Mesh->SetStaticMesh(rightMesh.Object);
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction> tempBtn_X(TEXT("/Script/EnhancedInput.InputAction'/Game/PlayerInput/GN/IA_btnX.IA_btnX'"));
+	if (tempBtn_X.Succeeded())
+	{
+		x_Btn = tempBtn_X.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction> tempTrigger_L(TEXT("/Script/EnhancedInput.InputAction'/Game/PlayerInput/GN/IA_TriggerL.IA_TriggerL'"));
+	if (tempTrigger_L.Succeeded())
+	{
+		left_Trigger = tempTrigger_L.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction> tempTrigger_R(TEXT("/Script/EnhancedInput.InputAction'/Game/PlayerInput/GN/IA_TriggerR.IA_TriggerR'"));
+	if (tempTrigger_R.Succeeded())
+	{
+		right_Trigger = tempTrigger_R.Object;
+	}
+
+	ConstructorHelpers::FClassFinder<UUserWidget> tempWidget(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Rhythm/BP_Rhythm_PauseUI.BP_Rhythm_PauseUI_C'"));
+	if (tempWidget.Succeeded())
+	{
+		pauseWidget->SetWidgetClass(tempWidget.Class);
+	}
+
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/Audios/MJ/RhythmSound/Arirang.Arirang'"));
+	if (tempSound.Succeeded())
+	{
+		arirang = tempSound.Object;
 	}
 }
 
@@ -81,6 +136,8 @@ void ARhythmPlayer::BeginPlay()
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
 	subsys->AddMappingContext(inputMapping, 0);
+
+	sound = UGameplayStatics::SpawnSound2D(GetWorld(), arirang);
 }
 
 // Called every frame
@@ -97,10 +154,14 @@ void ARhythmPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	UEnhancedInputComponent* enhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
-// 	if (enhancedInputComponent != nullptr)
-// 	{
-// 		enhancedInputComponent->BindAction(btn_X, ETriggerEvent::Triggered, this, &ARhythmPlayer::Recenter);
-// 	}
+	if (enhancedInputComponent != nullptr)
+	{
+		enhancedInputComponent->BindAction(x_Btn, ETriggerEvent::Started, this, &ARhythmPlayer::GamePause);
+		enhancedInputComponent->BindAction(left_Trigger, ETriggerEvent::Started, this, &ARhythmPlayer::ClickWidget_L);
+		enhancedInputComponent->BindAction(left_Trigger, ETriggerEvent::Completed, this, &ARhythmPlayer::ReleaseWidget_L);
+		enhancedInputComponent->BindAction(right_Trigger, ETriggerEvent::Started, this, &ARhythmPlayer::ClickWidget_R);
+		enhancedInputComponent->BindAction(right_Trigger, ETriggerEvent::Completed, this, &ARhythmPlayer::ReleaseWidget_R);
+	}
 }
 
 void ARhythmPlayer::OnDrum_Left(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -119,8 +180,32 @@ void ARhythmPlayer::OnDrum_Right(UPrimitiveComponent* OverlappedComponent, AActo
 	}
 }
 
-// void ARhythmPlayer::Recenter()
-// {
-// 	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
-// }
+void ARhythmPlayer::GamePause()
+{
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+	sound->SetPaused(true);
+	widgetPointer_Left->bShowDebug = true;
+	widgetPointer_Right->bShowDebug = true;
+	pauseWidget->SetVisibility(true);
+}
+
+void ARhythmPlayer::ClickWidget_L()
+{
+	widgetPointer_Left->PressPointerKey(EKeys::LeftMouseButton);
+}
+
+void ARhythmPlayer::ReleaseWidget_L()
+{
+	widgetPointer_Left->ReleasePointerKey(EKeys::LeftMouseButton);
+}
+
+void ARhythmPlayer::ClickWidget_R()
+{
+	widgetPointer_Right->PressPointerKey(EKeys::LeftMouseButton);
+}
+
+void ARhythmPlayer::ReleaseWidget_R()
+{
+	widgetPointer_Right->ReleasePointerKey(EKeys::LeftMouseButton);
+}
 
