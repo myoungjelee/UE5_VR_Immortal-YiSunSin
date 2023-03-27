@@ -26,11 +26,12 @@ public:
 
 	void SetupPlayerInputComponent(class UEnhancedInputComponent* PlayerInputComponent);
 
-	UPROPERTY(EditAnywhere)
-		class UInputAction* right_Grib;
 
 	UPROPERTY(EditAnywhere)
 		class UInputAction* left_Grib;
+
+	UPROPERTY(EditAnywhere)
+		class UInputAction* right_Grib;
 
 	UPROPERTY(EditAnywhere)
 		class UInputAction* x_Btn;

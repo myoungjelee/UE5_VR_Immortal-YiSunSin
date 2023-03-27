@@ -59,10 +59,31 @@ APuzzlePlayer::APuzzlePlayer()
 	pauseWidget = CreateDefaultSubobject<UWidgetComponent>("PauseWidget");
 	pauseWidget->SetupAttachment(RootComponent);
 	pauseWidget->SetVisibility(false);
+	pauseWidget->SetCollisionProfileName(TEXT("interactionUI"));
+	pauseWidget->SetRelativeLocation(FVector(500,0,300));
+	pauseWidget->SetRelativeRotation(FRotator(0,180,0));
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
 	widgetPointerComp = CreateDefaultSubobject<UWidgetPointerComponent>("Pointer Component");
+
+	ConstructorHelpers::FClassFinder<UUserWidget> tempWidget(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Jigsaw/BP_Puzzle_PauseUI.BP_Puzzle_PauseUI_C'"));
+	if (tempWidget.Succeeded())
+	{
+		pauseWidget->SetWidgetClass(tempWidget.Class);
+	}
+
+	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh_L(TEXT("/Script/Engine.SkeletalMesh'/Game/Characters/MannequinsXR/Meshes/SKM_MannyXR_left.SKM_MannyXR_left'"));
+	if (tempMesh_L.Succeeded())
+	{
+		mesh_Left->SetSkeletalMesh(tempMesh_L.Object);
+	}
+
+	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh_R(TEXT("/Script/Engine.SkeletalMesh'/Game/Characters/MannequinsXR/Meshes/SKM_MannyXR_right.SKM_MannyXR_right'"));
+	if (tempMesh_R.Succeeded())
+	{
+		mesh_Right->SetSkeletalMesh(tempMesh_R.Object);
+	}
 }
 
 // Called when the game starts or when spawned
