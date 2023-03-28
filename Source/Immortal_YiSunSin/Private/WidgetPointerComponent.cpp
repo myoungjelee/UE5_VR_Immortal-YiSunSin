@@ -171,7 +171,7 @@ void UWidgetPointerComponent::GribedPuzzle_L()
 
 			if (grabedPuzzle_L->GetActorLocation().X > 900)
 			{
-				FVector grabPos = grabedPuzzle_L->GetActorLocation() - (endLoc - startLoc) * 0.1f;
+				FVector grabPos = grabedPuzzle_L->GetActorLocation() - (endLoc - startLoc) * 0.09f;
 				grabedPuzzle_L->SetActorLocation(grabPos);
 			}
 
@@ -211,7 +211,7 @@ void UWidgetPointerComponent::GribedPuzzle_R()
 
 			if (grabedPuzzle_R->GetActorLocation().X > 900)
 			{
-				FVector grabPos = grabedPuzzle_R->GetActorLocation() - (endLoc - startLoc) * 0.1f;
+				FVector grabPos = grabedPuzzle_R->GetActorLocation() - (endLoc - startLoc) * 0.09f;
 				grabedPuzzle_R->SetActorLocation(grabPos);
 			}
 
