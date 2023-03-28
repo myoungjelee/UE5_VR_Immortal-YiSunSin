@@ -12,6 +12,8 @@
 #include "Components/TextRenderComponent.h"
 #include "ArcherGraspComponent.h"
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
+#include <UMG/Public/Components/WidgetComponent.h>
+#include <Kismet/GameplayStatics.h>
 
 
 
@@ -58,7 +60,12 @@ APlayerBase::APlayerBase()
 	rightLog->SetVerticalAlignment(EVRTA_TextCenter);
 
 	widgetInt = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Widget Interaction"));
-	widgetInt->SetupAttachment(rightController);
+ 	widgetInt->SetupAttachment(rightController);
+
+	pauseUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Pause UI"));
+	pauseUI->SetupAttachment(RootComponent);
+	pauseUI->SetRelativeLocation(FVector(765, 0, 300));
+	pauseUI->SetWorldRotation(FRotator(0, 180, 0));
 
 	// 액터 컴포넌트
 	graspComp = CreateDefaultSubobject<UArcherGraspComponent>(TEXT("Grasp Component"));
@@ -84,6 +91,7 @@ void APlayerBase::BeginPlay()
 		widgetInt->InteractionDistance = 100000.0f;
 		widgetInt->bEnableHitTesting = true;
 		widgetInt->DebugColor = FColor::Red;
+		widgetInt->bShowDebug = true;
 	}
 }
 
@@ -108,6 +116,7 @@ void APlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		moveComp->SetupPlayerInputComponent(enhancedInputComponent);
 		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Started, this, &APlayerBase::PressWidget);
 		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget);
+		enhancedInputComponent->BindAction(btnX, ETriggerEvent::Started, this, &APlayerBase::PauseUIOpen);
 	}	
 }
 
@@ -118,7 +127,7 @@ void APlayerBase::PressWidget()
 
 void APlayerBase::ReleaseWidget()
 {
-	widgetInt->bShowDebug = false;
+	//widgetInt->bShowDebug = false;
 	widgetInt->ReleasePointerKey(EKeys::LeftMouseButton);
 }
 
@@ -139,4 +148,11 @@ void APlayerBase::FindWidget()
 			widgetInt->bShowDebug = true;
 		}
 	}
+}
+
+void APlayerBase::PauseUIOpen()
+{
+	pauseUI->SetVisibility(true);
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+	widgetInt->bShowDebug = true;
 }

@@ -7,8 +7,6 @@ ASwordActor::ASwordActor()
 {
 	planeComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Plane Mesh"));
 	planeComp->SetupAttachment(meshComp);
-	planeComp->SetRelativeLocation(FVector(0, -268, 52));
-	planeComp->SetRelativeScale3D(FVector(1, 12, 1));
 
 }
 

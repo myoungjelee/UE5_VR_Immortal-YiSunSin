@@ -65,14 +65,20 @@ public:
 	UPROPERTY(EditAnywhere, Category = "ArrowSpawn")
 	TSubclassOf<class AArrowActor> arrowFactory;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
 	class UInputAction* thumbstickLeft;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
 	class UInputAction* thumbstickRight;
+
+ 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
+ 	class UInputAction* btnX;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UWidgetInteractionComponent* widgetInt;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Components")
+	class UWidgetComponent* pauseUI;
 
 	FVector startLoc;
 	FVector handLoc;
@@ -86,4 +92,5 @@ public:
 	void Move(const struct FInputActionValue& value);
 	void RotateAxis(const struct FInputActionValue& value);
 	void FindWidget();
+	void PauseUIOpen();
 };
