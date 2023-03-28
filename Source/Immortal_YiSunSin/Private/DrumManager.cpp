@@ -5,7 +5,6 @@
 #include "DrumActor.h"
 #include "RhythmPlayer.h"
 #include <Kismet/GameplayStatics.h>
-#include <Sound/SoundBase.h>
 #include <MotionControllerComponent.h>
 
 // Sets default values
@@ -55,11 +54,7 @@ ADrumManager::ADrumManager()
 		drumFactory3 = tempDrum3.Class;
 	}*/
 
-	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/Audios/MJ/RhythmSound/Arirang.Arirang'"));
-	if (tempSound.Succeeded())
-	{
-		Arirang = tempSound.Object;
-	}
+
 }
 
 // Called when the game starts or when spawned
@@ -70,8 +65,6 @@ void ADrumManager::BeginPlay()
 	player = Cast<ARhythmPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), ARhythmPlayer::StaticClass()));
 
 	LoadNode();
-
-	UGameplayStatics::PlaySound2D(GetWorld(), Arirang);
 }
 
 // Called every frame

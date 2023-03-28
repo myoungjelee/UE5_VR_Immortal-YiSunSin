@@ -35,7 +35,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UMotionControllerComponent* controller_Left;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UMotionControllerComponent* controller_Right;
 
 	UPROPERTY(EditAnywhere)
@@ -50,18 +50,17 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UInputMappingContext* inputMapping;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UWidgetInteractionComponent* widgetPointer_Left;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UWidgetInteractionComponent* widgetPointer_Right;
 
-	UPROPERTY(EditAnywhere)
-	class UWidgetPointerComponent* widgetPointerComp;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UWidgetPointerComponent* widgetPointerComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UWidgetComponent* pauseWidget;
 
 
-
-// 	UPROPERTY(EditAnywhere)
-// 	AActor* tempActor;
-// 	void TestFunction();
 };
