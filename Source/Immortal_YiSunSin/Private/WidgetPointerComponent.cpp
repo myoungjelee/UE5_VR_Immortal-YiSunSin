@@ -9,6 +9,9 @@
 #include <Kismet/GameplayStatics.h>
 #include "PutPuzzle.h"
 #include <EngineUtils.h>
+#include <UMG/Public/Components/WidgetInteractionComponent.h>
+#include <UMG/Public/Components/WidgetComponent.h>
+#include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/InputAction.h>
 
 
 // Sets default values for this component's properties
@@ -18,7 +21,35 @@ UWidgetPointerComponent::UWidgetPointerComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	ConstructorHelpers::FObjectFinder<UInputAction> tempGrip_L(TEXT("/Script/EnhancedInput.InputAction'/Game/PlayerInput/GN/IA_GripL.IA_GripL'"));
+	if (tempGrip_L.Succeeded())
+	{
+		left_Grib = tempGrip_L.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction> tempGrip_R(TEXT("/Script/EnhancedInput.InputAction'/Game/PlayerInput/GN/IA_GripR.IA_GripR'"));
+	if (tempGrip_R.Succeeded())
+	{
+		right_Grib = tempGrip_R.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction> tempBtn_X(TEXT("/Script/EnhancedInput.InputAction'/Game/PlayerInput/GN/IA_btnX.IA_btnX'"));
+	if (tempBtn_X.Succeeded())
+	{
+		x_Btn = tempBtn_X.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction> tempTrigger_L(TEXT("/Script/EnhancedInput.InputAction'/Game/PlayerInput/GN/IA_TriggerL.IA_TriggerL'"));
+	if (tempTrigger_L.Succeeded())
+	{
+		left_Trigger = tempTrigger_L.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<UInputAction> tempTrigger_R(TEXT("/Script/EnhancedInput.InputAction'/Game/PlayerInput/GN/IA_TriggerR.IA_TriggerR'"));
+	if (tempTrigger_R.Succeeded())
+	{
+		right_Trigger = tempTrigger_R.Object;
+	}
 }
 
 
@@ -117,6 +148,11 @@ void UWidgetPointerComponent::SetupPlayerInputComponent(class UEnhancedInputComp
 	PlayerInputComponent->BindAction(left_Grib, ETriggerEvent::Completed, this, &UWidgetPointerComponent::ReleasedPuzzle_L);
 	PlayerInputComponent->BindAction(right_Grib, ETriggerEvent::Started, this, &UWidgetPointerComponent::GribedPuzzle_R);
 	PlayerInputComponent->BindAction(right_Grib, ETriggerEvent::Completed, this, &UWidgetPointerComponent::ReleasedPuzzle_R);
+	PlayerInputComponent->BindAction(x_Btn, ETriggerEvent::Started, this, &UWidgetPointerComponent::GamePause);
+	PlayerInputComponent->BindAction(left_Trigger, ETriggerEvent::Started, this, &UWidgetPointerComponent::ClickWidget_L);
+	PlayerInputComponent->BindAction(left_Trigger, ETriggerEvent::Completed, this, &UWidgetPointerComponent::ReleaseWidget_L);
+	PlayerInputComponent->BindAction(right_Trigger, ETriggerEvent::Started, this, &UWidgetPointerComponent::ClickWidget_R);
+	PlayerInputComponent->BindAction(right_Trigger, ETriggerEvent::Completed, this, &UWidgetPointerComponent::ReleaseWidget_R);
 }
 
 void UWidgetPointerComponent::GribedPuzzle_L()
@@ -135,7 +171,7 @@ void UWidgetPointerComponent::GribedPuzzle_L()
 
 			if (grabedPuzzle_L->GetActorLocation().X > 900)
 			{
-				FVector grabPos = grabedPuzzle_L->GetActorLocation() - (endLoc - startLoc) * 0.08f;
+				FVector grabPos = grabedPuzzle_L->GetActorLocation() - (endLoc - startLoc) * 0.1f;
 				grabedPuzzle_L->SetActorLocation(grabPos);
 			}
 
@@ -175,7 +211,7 @@ void UWidgetPointerComponent::GribedPuzzle_R()
 
 			if (grabedPuzzle_R->GetActorLocation().X > 900)
 			{
-				FVector grabPos = grabedPuzzle_R->GetActorLocation() - (endLoc - startLoc) * 0.08f;
+				FVector grabPos = grabedPuzzle_R->GetActorLocation() - (endLoc - startLoc) * 0.1f;
 				grabedPuzzle_R->SetActorLocation(grabPos);
 			}
 
@@ -197,5 +233,31 @@ void UWidgetPointerComponent::ReleasedPuzzle_R()
 			put->SettingPuzzle();
 		}
 	}
+}
+
+void UWidgetPointerComponent::GamePause()
+{
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+	player->pauseWidget->SetVisibility(true);
+}
+
+void UWidgetPointerComponent::ClickWidget_L()
+{
+	player->widgetPointer_Left->PressPointerKey(EKeys::LeftMouseButton);
+}
+
+void UWidgetPointerComponent::ReleaseWidget_L()
+{
+	player->widgetPointer_Left->ReleasePointerKey(EKeys::LeftMouseButton);
+}
+
+void UWidgetPointerComponent::ClickWidget_R()
+{
+	player->widgetPointer_Right->PressPointerKey(EKeys::LeftMouseButton);
+}
+
+void UWidgetPointerComponent::ReleaseWidget_R()
+{
+	player->widgetPointer_Right->ReleasePointerKey(EKeys::LeftMouseButton);
 }
 
