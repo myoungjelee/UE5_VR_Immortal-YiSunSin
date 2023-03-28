@@ -113,8 +113,38 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 				FVector vt = FVector::BackwardVector * 500 * DeltaTime;
 				SetActorLocation(p0 + vt);
 			}
+
+
+// 			FTimerHandle WaitHandle;
+// 			float WaitTime = 5; //시간을 설정하고
+// 			GetWorld()->GetTimerManager().SetTimer(WaitHandle, FTimerDelegate::CreateLambda([&]()
+// 				{
+// 					//GetWorld()->GetFirstPlayerController()->PlayerCameraManager->StartCameraFade(0, 1.0f, 1.0f, FLinearColor::Black,false,true);
+// 					//UE_LOG(LogTemp, Warning, TEXT("Fade!!!"));
+// 
+// 
+// 					OpenMainLevel();
+// 				}), WaitTime, false);
+			
+
+			FTimerHandle fadelTimer;
+			GetWorld()->GetTimerManager().SetTimer(fadelTimer, this, &ARhythmTurtleShip::CameraFade, 5.0f, false);
+
+			FTimerHandle levelTimer;
+			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 6.0f, false);
+
 		}
 
 	}
+}
+
+void ARhythmTurtleShip::CameraFade()
+{
+	GetWorld()->GetFirstPlayerController()->PlayerCameraManager->StartCameraFade(0, 1.0f, 1.0f, FLinearColor::Black);
+}
+
+void ARhythmTurtleShip::OpenMainLevel()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainLevel"));
 }
 
