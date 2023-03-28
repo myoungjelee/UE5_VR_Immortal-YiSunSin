@@ -72,10 +72,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
 	class UInputAction* triggerRight;
 
-// 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
-// 	class UInputAction* btnX;
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
+	class UInputAction* btnX;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Components")
 	class UWidgetComponent* pauseUI;
 
 	void PressWidget();

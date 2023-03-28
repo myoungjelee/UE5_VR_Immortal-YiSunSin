@@ -13,6 +13,7 @@
 #include "ArcherGraspComponent.h"
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
 #include <UMG/Public/Components/WidgetComponent.h>
+#include <Kismet/GameplayStatics.h>
 
 
 
@@ -63,6 +64,8 @@ APlayerBase::APlayerBase()
 
 	pauseUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Pause UI"));
 	pauseUI->SetupAttachment(RootComponent);
+	pauseUI->SetRelativeLocation(FVector(765, 0, 300));
+	pauseUI->SetWorldRotation(FRotator(0, 180, 0));
 
 	// 액터 컴포넌트
 	graspComp = CreateDefaultSubobject<UArcherGraspComponent>(TEXT("Grasp Component"));
@@ -83,13 +86,12 @@ void APlayerBase::BeginPlay()
 
 	subsys->AddMappingContext(myMapping, 0);
 
-	//pauseUI->SetVisibility(false);
-
 	if (widgetInt != nullptr)
 	{
 		widgetInt->InteractionDistance = 100000.0f;
 		widgetInt->bEnableHitTesting = true;
 		widgetInt->DebugColor = FColor::Red;
+		widgetInt->bShowDebug = true;
 	}
 }
 
@@ -114,7 +116,7 @@ void APlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		moveComp->SetupPlayerInputComponent(enhancedInputComponent);
 		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Started, this, &APlayerBase::PressWidget);
 		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget);
-		//enhancedInputComponent->BindAction(btnX, ETriggerEvent::Started, this, &APlayerBase::PauseUIOpen);
+		enhancedInputComponent->BindAction(btnX, ETriggerEvent::Started, this, &APlayerBase::PauseUIOpen);
 	}	
 }
 
@@ -125,7 +127,7 @@ void APlayerBase::PressWidget()
 
 void APlayerBase::ReleaseWidget()
 {
-	widgetInt->bShowDebug = false;
+	//widgetInt->bShowDebug = false;
 	widgetInt->ReleasePointerKey(EKeys::LeftMouseButton);
 }
 
@@ -150,5 +152,7 @@ void APlayerBase::FindWidget()
 
 void APlayerBase::PauseUIOpen()
 {
-
+	pauseUI->SetVisibility(true);
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+	widgetInt->bShowDebug = true;
 }

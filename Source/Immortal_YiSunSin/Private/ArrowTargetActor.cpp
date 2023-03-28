@@ -20,6 +20,7 @@ AArrowTargetActor::AArrowTargetActor()
 
 	hit = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Hit Infomation"));
 	hit->SetupAttachment(RootComponent);
+	hit->SetTextRenderColor(FColor::Red);
 }
 
 void AArrowTargetActor::BeginPlay()
@@ -40,8 +41,7 @@ void AArrowTargetActor::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* 
 {
 	if (IsShoot(OtherActor, OtherComp))
 	{
-		hit->SetText(FText::FromString(TEXT("Hit!!!!!!!!!!!")));
-		UE_LOG(LogTemp, Warning, TEXT("Hit!!!!!!!!!!"));
+		hit->SetText(FText::FromString(TEXT("HIT!")));
 	}
 }
 

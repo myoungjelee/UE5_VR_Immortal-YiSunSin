@@ -71,13 +71,13 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
 	class UInputAction* thumbstickRight;
 
-// 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
-// 	class UInputAction* btnX;
+ 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
+ 	class UInputAction* btnX;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UWidgetInteractionComponent* widgetInt;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Components")
 	class UWidgetComponent* pauseUI;
 
 	FVector startLoc;

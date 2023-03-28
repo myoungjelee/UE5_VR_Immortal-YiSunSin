@@ -13,6 +13,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
 #include <UMG/Public/Components/WidgetComponent.h>
+#include <Kismet/GameplayStatics.h>
 
 AArcherPlayer::AArcherPlayer()
 {
@@ -58,6 +59,8 @@ AArcherPlayer::AArcherPlayer()
 
 	pauseUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Pause UI"));
 	pauseUI->SetupAttachment(RootComponent);
+	pauseUI->SetRelativeLocation(FVector(765, 0, 300));
+	pauseUI->SetWorldRotation(FRotator(0, 180, 0));
 }
 
 void AArcherPlayer::BeginPlay()
@@ -77,10 +80,10 @@ void AArcherPlayer::BeginPlay()
 		widgetInt->InteractionDistance = 100000.0f;
 		widgetInt->bEnableHitTesting = true;
 		widgetInt->DebugColor = FColor::Red;
+		widgetInt->bShowDebug = false;
 	}
 
 	handleMesh->SetVisibility(false);
-	//pauseUI->SetVisibility(false);
 	startLoc = handleMesh->GetComponentLocation();
 	tempLoc = handleMesh->GetRelativeLocation();
 }
@@ -92,12 +95,13 @@ void AArcherPlayer::Tick(float DeltaTime)
 	FVector temp = rightHand->GetComponentLocation() - startLoc;
 	handLoc = rightHand->GetComponentLocation();
 
-	if (temp.Length() < 150)
+
+	if (temp.Length() < 105 && temp.Length() > 85)
 	{
 		if (bBowPulling == true)
 		{
 			handleMesh->SetWorldLocation(handLoc);
-			arrow->SetActorLocation(handleMesh->GetComponentLocation() + arrow->GetActorForwardVector() * 35);
+			arrow->SetActorLocation(handleMesh->GetComponentLocation() + arrow->GetActorForwardVector() * 40);
 			arrow->SetActorRotation(handleMesh->GetComponentRotation());
 		}
 	}
@@ -119,7 +123,7 @@ void AArcherPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &AArcherPlayer::ReleaseWidget);
 		enhancedInputComponent->BindAction(thumbstickLeft, ETriggerEvent::Triggered, this, &AArcherPlayer::Move);
 		enhancedInputComponent->BindAction(thumbstickRight, ETriggerEvent::Triggered, this, &AArcherPlayer::RotateAxis);
-		//enhancedInputComponent->BindAction(btnX, ETriggerEvent::Started, this, &AArcherPlayer::PauseUIOpen);
+		enhancedInputComponent->BindAction(btnX, ETriggerEvent::Started, this, &AArcherPlayer::PauseUIOpen);
 	}
 }
 
@@ -191,5 +195,7 @@ void AArcherPlayer::FindWidget()
 
 void AArcherPlayer::PauseUIOpen()
 {
-
+	pauseUI->SetVisibility(true);
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+	widgetInt->bShowDebug = true;
 }
