@@ -80,7 +80,7 @@ void AArcherPlayer::BeginPlay()
 	}
 
 	handleMesh->SetVisibility(false);
-
+	//pauseUI->SetVisibility(false);
 	startLoc = handleMesh->GetComponentLocation();
 	tempLoc = handleMesh->GetRelativeLocation();
 }
@@ -119,6 +119,7 @@ void AArcherPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &AArcherPlayer::ReleaseWidget);
 		enhancedInputComponent->BindAction(thumbstickLeft, ETriggerEvent::Triggered, this, &AArcherPlayer::Move);
 		enhancedInputComponent->BindAction(thumbstickRight, ETriggerEvent::Triggered, this, &AArcherPlayer::RotateAxis);
+		//enhancedInputComponent->BindAction(btnX, ETriggerEvent::Started, this, &AArcherPlayer::PauseUIOpen);
 	}
 }
 
@@ -186,4 +187,9 @@ void AArcherPlayer::FindWidget()
 			widgetInt->bShowDebug = true;
 		}
 	}
+}
+
+void AArcherPlayer::PauseUIOpen()
+{
+
 }

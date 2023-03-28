@@ -83,6 +83,8 @@ void APlayerBase::BeginPlay()
 
 	subsys->AddMappingContext(myMapping, 0);
 
+	//pauseUI->SetVisibility(false);
+
 	if (widgetInt != nullptr)
 	{
 		widgetInt->InteractionDistance = 100000.0f;
@@ -112,6 +114,7 @@ void APlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		moveComp->SetupPlayerInputComponent(enhancedInputComponent);
 		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Started, this, &APlayerBase::PressWidget);
 		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget);
+		//enhancedInputComponent->BindAction(btnX, ETriggerEvent::Started, this, &APlayerBase::PauseUIOpen);
 	}	
 }
 
@@ -143,4 +146,9 @@ void APlayerBase::FindWidget()
 			widgetInt->bShowDebug = true;
 		}
 	}
+}
+
+void APlayerBase::PauseUIOpen()
+{
+
 }
