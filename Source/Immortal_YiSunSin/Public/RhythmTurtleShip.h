@@ -56,4 +56,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float curr;
 
+	void CameraFade();
+	void OpenMainLevel();
+
 };
