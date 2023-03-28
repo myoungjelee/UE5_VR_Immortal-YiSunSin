@@ -11,8 +11,8 @@
 #include <GameFramework/PlayerController.h>
 #include "ArrowActor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "EngineUtils.h"
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
+#include <UMG/Public/Components/WidgetComponent.h>
 
 AArcherPlayer::AArcherPlayer()
 {
@@ -55,6 +55,9 @@ AArcherPlayer::AArcherPlayer()
 
 	widgetInt = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Widget Interaction"));
 	widgetInt->SetupAttachment(rightController);
+
+	pauseUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Pause UI"));
+	pauseUI->SetupAttachment(RootComponent);
 }
 
 void AArcherPlayer::BeginPlay()

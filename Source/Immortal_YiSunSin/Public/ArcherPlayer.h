@@ -74,6 +74,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UWidgetInteractionComponent* widgetInt;
 
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	class UWidgetComponent* pauseUI;
+
 	FVector startLoc;
 	FVector handLoc;
 	FVector tempLoc;

@@ -12,6 +12,7 @@
 #include "Components/TextRenderComponent.h"
 #include "ArcherGraspComponent.h"
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
+#include <UMG/Public/Components/WidgetComponent.h>
 
 
 
@@ -58,7 +59,10 @@ APlayerBase::APlayerBase()
 	rightLog->SetVerticalAlignment(EVRTA_TextCenter);
 
 	widgetInt = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Widget Interaction"));
-	widgetInt->SetupAttachment(rightController);
+ 	widgetInt->SetupAttachment(rightController);
+
+	pauseUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Pause UI"));
+	pauseUI->SetupAttachment(RootComponent);
 
 	// 액터 컴포넌트
 	graspComp = CreateDefaultSubobject<UArcherGraspComponent>(TEXT("Grasp Component"));
