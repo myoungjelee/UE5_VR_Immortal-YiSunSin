@@ -53,16 +53,17 @@ public:
 		class UInputMappingContext* inputMapping;
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* move;
-	
-	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* turn;
-
-	UPROPERTY(EditAnywhere, Category = Inputs)
 		class UInputAction* btnX;
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		FColor debugColor;
+
+	//teleport
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		class UInputAction* move;
+	
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		class UInputAction* turn;
 
 public:
 	void Recenter();
