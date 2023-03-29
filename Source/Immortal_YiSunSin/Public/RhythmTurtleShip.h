@@ -50,6 +50,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		class ALevelSequenceActor* levelSequence;
 
+		UPROPERTY(EditAnywhere)
+		class ARhythmPlayer* player;
+
 	UPROPERTY(EditAnywhere)
 	bool bComplete = false;
 	UPROPERTY(EditAnywhere)
@@ -61,5 +64,6 @@ public:
 
 	void FadeOut();
 	void OpenMainLevel();
+	void GameOver();
 
 };

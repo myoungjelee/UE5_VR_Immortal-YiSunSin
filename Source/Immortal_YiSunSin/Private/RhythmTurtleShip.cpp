@@ -13,6 +13,8 @@
 #include <LevelSequence/Public/LevelSequenceActor.h>
 #include <LevelSequence/Public/LevelSequence.h>
 #include <MovieScene/Public/MovieSceneSequencePlayer.h>
+#include "RhythmPlayer.h"
+#include <UMG/Public/Components/WidgetInteractionComponent.h>
 
 // Sets default values
 ARhythmTurtleShip::ARhythmTurtleShip()
@@ -73,6 +75,7 @@ void ARhythmTurtleShip::BeginPlay()
 	gaugeWidget = Cast<URhythmBarWidget>(widgetActor->compWidget->GetUserWidgetObject());
 	manager = Cast<ADrumManager>(UGameplayStatics::GetActorOfClass(GetWorld(), ADrumManager::StaticClass()));
 	levelSequence = Cast<ALevelSequenceActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ALevelSequenceActor::StaticClass()));
+	player = Cast<ARhythmPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), ARhythmPlayer::StaticClass()));
 	
 	curr = 0;
 }
@@ -136,9 +139,12 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 
 			FTimerHandle levelTimer;
 			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 5.5f, false);
-
 		}
-
+		else
+		{
+			FTimerHandle gameOverTimer;
+			GetWorld()->GetTimerManager().SetTimer(gameOverTimer, this, &ARhythmTurtleShip::GameOver, 3.0f, false);
+		}
 	}
 }
 
@@ -153,5 +159,14 @@ void ARhythmTurtleShip::FadeOut()
 void ARhythmTurtleShip::OpenMainLevel()
 {
 	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainLevel"));
+}
+
+void ARhythmTurtleShip::GameOver()
+{
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+	player->widgetPointer_Left->bShowDebug = true;
+	player->widgetPointer_Right->bShowDebug = true;
+	player->gameOverWidget->SetVisibility(true);
+	player->gameOverWidget->SetCollisionProfileName(TEXT("interactionUI"));
 }
 

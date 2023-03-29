@@ -14,6 +14,7 @@
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
 #include <UMG/Public/Components/WidgetComponent.h>
 #include <Components/AudioComponent.h>
+#include <Haptics/HapticFeedbackEffect_Base.h>
 
 // Sets default values
 ARhythmPlayer::ARhythmPlayer()
@@ -73,10 +74,18 @@ ARhythmPlayer::ARhythmPlayer()
 	pauseWidget = CreateDefaultSubobject<UWidgetComponent>("PauseWidget");
 	pauseWidget->SetupAttachment(RootComponent);
 	pauseWidget->SetVisibility(false);
-	pauseWidget->SetCollisionProfileName(TEXT("interactionUI"));
-	pauseWidget->SetRelativeLocation(FVector(500, 0, 300));
+	pauseWidget->SetCollisionProfileName(TEXT("NoCollision"));
+	pauseWidget->SetRelativeLocation(FVector(700, 0, 300));
 	pauseWidget->SetRelativeRotation(FRotator(0, 180, 0));
 	pauseWidget->SetDrawSize(FVector2D(1920,1080));
+
+	gameOverWidget = CreateDefaultSubobject<UWidgetComponent>("GameOverWidget");
+	gameOverWidget->SetupAttachment(RootComponent);
+	gameOverWidget->SetVisibility(false);
+	gameOverWidget->SetCollisionProfileName(TEXT("NoCollision"));
+	gameOverWidget->SetRelativeLocation(FVector(700, 0, 300));
+	gameOverWidget->SetRelativeRotation(FRotator(0, 180, 0));
+	gameOverWidget->SetDrawSize(FVector2D(1920, 1080));
 
 	ConstructorHelpers::FObjectFinder<UStaticMesh> leftMesh(TEXT("/Script/Engine.StaticMesh'/Game/Assets/MJ/Drum/SM_DrumStick.SM_DrumStick'"));
 	if (leftMesh.Succeeded())
@@ -88,6 +97,12 @@ ARhythmPlayer::ARhythmPlayer()
 	if (rightMesh.Succeeded())
 	{
 		r_Mesh->SetStaticMesh(rightMesh.Object);
+	}
+
+	ConstructorHelpers::FObjectFinder<UHapticFeedbackEffect_Base> tempHit(TEXT("/Script/Engine.HapticFeedbackEffect_Curve'/Game/MJ_Blueprint/Rhythm/RhythmHaptic.RhythmHaptic'"));
+	if (tempHit.Succeeded())
+	{
+		hitHaptic = tempHit.Object;
 	}
 
 	ConstructorHelpers::FObjectFinder<UInputAction> tempBtn_X(TEXT("/Script/EnhancedInput.InputAction'/Game/PlayerInput/GN/IA_btnX.IA_btnX'"));
@@ -108,10 +123,16 @@ ARhythmPlayer::ARhythmPlayer()
 		right_Trigger = tempTrigger_R.Object;
 	}
 
-	ConstructorHelpers::FClassFinder<UUserWidget> tempWidget(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Rhythm/BP_Rhythm_PauseUI.BP_Rhythm_PauseUI_C'"));
-	if (tempWidget.Succeeded())
+	ConstructorHelpers::FClassFinder<UUserWidget> tempPause(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Rhythm/BP_Rhythm_PauseUI.BP_Rhythm_PauseUI_C'"));
+	if (tempPause.Succeeded())
 	{
-		pauseWidget->SetWidgetClass(tempWidget.Class);
+		pauseWidget->SetWidgetClass(tempPause.Class);
+	}
+
+	ConstructorHelpers::FClassFinder<UUserWidget> tempGameOver(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Rhythm/BP_Rhythm_GameOverUI.BP_Rhythm_GameOverUI_C'"));
+	if (tempGameOver.Succeeded())
+	{
+		gameOverWidget->SetWidgetClass(tempGameOver.Class);
 	}
 
 	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/Audios/MJ/RhythmSound/Arirang.Arirang'"));
@@ -187,6 +208,7 @@ void ARhythmPlayer::GamePause()
 	widgetPointer_Left->bShowDebug = true;
 	widgetPointer_Right->bShowDebug = true;
 	pauseWidget->SetVisibility(true);
+	pauseWidget->SetCollisionProfileName(TEXT("interactionUI"));
 }
 
 void ARhythmPlayer::ClickWidget_L()

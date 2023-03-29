@@ -20,47 +20,50 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-public: 
+public:
 
 	UPROPERTY(EditAnywhere)
-	class UCameraComponent* cam;
+		class UCameraComponent* cam;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UMotionControllerComponent* controller_Left;
+		class UMotionControllerComponent* controller_Left;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UMotionControllerComponent* controller_Right;
+		class UMotionControllerComponent* controller_Right;
 
 	UPROPERTY(EditAnywhere)
-	class USkeletalMeshComponent* mesh_Left;
+		class USkeletalMeshComponent* mesh_Left;
 
 	UPROPERTY(EditAnywhere)
-	class USkeletalMeshComponent* mesh_Right;
+		class USkeletalMeshComponent* mesh_Right;
 
 	UPROPERTY(EditAnywhere)
-	TEnumAsByte<enum EHMDTrackingOrigin::Type> trackOrigin;
+		TEnumAsByte<enum EHMDTrackingOrigin::Type> trackOrigin;
 
 	UPROPERTY(EditAnywhere)
-	class UInputMappingContext* inputMapping;
+		class UInputMappingContext* inputMapping;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UWidgetInteractionComponent* widgetPointer_Left;
+		class UWidgetInteractionComponent* widgetPointer_Left;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UWidgetInteractionComponent* widgetPointer_Right;
+		class UWidgetInteractionComponent* widgetPointer_Right;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UWidgetPointerComponent* widgetPointerComp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UWidgetComponent* pauseWidget;
+		class UWidgetComponent* pauseWidget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UWidgetComponent* gameOverWidget;
 
 
 };
