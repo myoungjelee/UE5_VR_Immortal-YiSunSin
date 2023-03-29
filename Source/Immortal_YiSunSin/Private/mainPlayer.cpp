@@ -69,11 +69,8 @@ void AmainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	UEnhancedInputComponent* enhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
 	//Move Input Binding
-	enhancedInputComponent->BindAction(thumbstickLeft, ETriggerEvent::Triggered, this, &AmainPlayer::Move);
-	enhancedInputComponent->BindAction(thumbstickRight, ETriggerEvent::Triggered, this, &AmainPlayer::RotateAxis);
-	enhancedInputComponent->BindAction(triggerLeft, ETriggerEvent::Triggered, this, &AmainPlayer::OnTriggerLeft);
-	enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Triggered, this, &AmainPlayer::OnTriggerRight);
-	enhancedInputComponent->BindAction(btnX, ETriggerEvent::Started, this, &AmainPlayer::OpenWidget);
+	enhancedInputComponent->BindAction(turn, ETriggerEvent::Triggered, this, &AmainPlayer::RotateAxis);
+	enhancedInputComponent->BindAction(move, ETriggerEvent::Triggered, this, &AmainPlayer::Move);
 }
 
 void AmainPlayer::Recenter()
@@ -87,6 +84,7 @@ void AmainPlayer::Move(const struct FInputActionValue& value)
 	FVector direction = FVector(val.Y, val.X, 0);
 
 	AddMovementInput(direction.GetSafeNormal(), 1, false);
+
 }
 
 void AmainPlayer::RotateAxis(const struct FInputActionValue& value)
@@ -94,22 +92,5 @@ void AmainPlayer::RotateAxis(const struct FInputActionValue& value)
 	FVector2D axis = value.Get<FVector2D>();
 
 	//axis 값을 이용해서 캐릭터(콘트롤러)를 회전한다.
-	//AddControllerPitchInput(axis.Y * -1.0f);
 	AddControllerYawInput(axis.X);
 }
-
-void AmainPlayer::OnTriggerLeft()
-{
-
-}
-
-void AmainPlayer::OnTriggerRight()
-{
-
-}
-
-void AmainPlayer::OpenWidget()
-{
-
-}
-

@@ -53,16 +53,10 @@ public:
 		class UInputMappingContext* inputMapping;
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* thumbstickLeft;
-
-	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* thumbstickRight;
-
-	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* triggerLeft;
+		class UInputAction* move;
 	
 	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* triggerRight;
+		class UInputAction* turn;
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		class UInputAction* btnX;
@@ -74,7 +68,5 @@ public:
 	void Recenter();
 	void Move(const struct FInputActionValue& value);
 	void RotateAxis(const struct FInputActionValue& value);
-	void OnTriggerLeft();
-	void OnTriggerRight();
-	void OpenWidget();
-};
+	
+	};
