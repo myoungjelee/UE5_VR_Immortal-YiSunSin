@@ -10,6 +10,9 @@
 #include <UMG/Public/Components/WidgetComponent.h>
 #include <UMG/Public/Components/ProgressBar.h>
 #include "DrumManager.h"
+#include <LevelSequence/Public/LevelSequenceActor.h>
+#include <LevelSequence/Public/LevelSequence.h>
+#include <MovieScene/Public/MovieSceneSequencePlayer.h>
 
 // Sets default values
 ARhythmTurtleShip::ARhythmTurtleShip()
@@ -69,6 +72,7 @@ void ARhythmTurtleShip::BeginPlay()
 	widgetActor = Cast<ARhythmBarWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ARhythmBarWidgetActor::StaticClass()));
 	gaugeWidget = Cast<URhythmBarWidget>(widgetActor->compWidget->GetUserWidgetObject());
 	manager = Cast<ADrumManager>(UGameplayStatics::GetActorOfClass(GetWorld(), ADrumManager::StaticClass()));
+	levelSequence = Cast<ALevelSequenceActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ALevelSequenceActor::StaticClass()));
 	
 	curr = 0;
 }
@@ -128,19 +132,22 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 			
 
 			FTimerHandle fadelTimer;
-			GetWorld()->GetTimerManager().SetTimer(fadelTimer, this, &ARhythmTurtleShip::CameraFade, 5.0f, false);
+			GetWorld()->GetTimerManager().SetTimer(fadelTimer, this, &ARhythmTurtleShip::FadeOut, 4.0f, false);
 
 			FTimerHandle levelTimer;
-			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 6.0f, false);
+			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 5.5f, false);
 
 		}
 
 	}
 }
 
-void ARhythmTurtleShip::CameraFade()
+void ARhythmTurtleShip::FadeOut()
 {
-	GetWorld()->GetFirstPlayerController()->PlayerCameraManager->StartCameraFade(0, 1.0f, 1.0f, FLinearColor::Black);
+	//GetWorld()->GetFirstPlayerController()->PlayerCameraManager->StartCameraFade(0, 1.0f, 2.0f, FLinearColor::Black);
+	ULevelSequence* endSequence = LoadObject<ULevelSequence>(nullptr, TEXT("/Script/LevelSequence.LevelSequence'/Game/Sequence/EndLevelSequence.EndLevelSequence'"));
+ 	levelSequence->SetSequence(endSequence);
+ 	levelSequence->GetSequencePlayer()->Play();
 }
 
 void ARhythmTurtleShip::OpenMainLevel()

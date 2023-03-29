@@ -67,6 +67,9 @@ void UWidgetPointerComponent::BeginPlay()
 
 	params_L.AddIgnoredActor(player);
 	params_R.AddIgnoredActor(player);
+
+	/*UYiSunSinInstance* yisunsin = Cast<UYiSunSinInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	yisunsin->score;*/
 }
 
 
