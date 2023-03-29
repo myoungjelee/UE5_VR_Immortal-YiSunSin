@@ -48,6 +48,9 @@ public:
 		class ADrumManager* manager;
 
 	UPROPERTY(EditAnywhere)
+		class ALevelSequenceActor* levelSequence;
+
+	UPROPERTY(EditAnywhere)
 	bool bComplete = false;
 	UPROPERTY(EditAnywhere)
 	float a = 0;
@@ -56,7 +59,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float curr;
 
-	void CameraFade();
+	void FadeOut();
 	void OpenMainLevel();
 
 };
