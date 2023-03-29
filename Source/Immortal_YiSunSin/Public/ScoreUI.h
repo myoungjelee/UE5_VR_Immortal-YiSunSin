@@ -20,7 +20,8 @@ protected:
 public:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UTextBlock* scoreBinding;
-
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 score;
 
 	UFUNCTION()
