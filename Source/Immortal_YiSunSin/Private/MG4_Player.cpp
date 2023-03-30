@@ -206,5 +206,5 @@ void AMG4_Player::InputFire(bool bFire) //const FInputActionValue& value
 
 void AMG4_Player::OpenWidget()
 {
-
+	
 }
