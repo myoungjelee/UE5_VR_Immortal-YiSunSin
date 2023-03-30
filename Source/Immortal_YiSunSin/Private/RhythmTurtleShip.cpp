@@ -10,6 +10,11 @@
 #include <UMG/Public/Components/WidgetComponent.h>
 #include <UMG/Public/Components/ProgressBar.h>
 #include "DrumManager.h"
+#include <LevelSequence/Public/LevelSequenceActor.h>
+#include <LevelSequence/Public/LevelSequence.h>
+#include <MovieScene/Public/MovieSceneSequencePlayer.h>
+#include "RhythmPlayer.h"
+#include <UMG/Public/Components/WidgetInteractionComponent.h>
 
 // Sets default values
 ARhythmTurtleShip::ARhythmTurtleShip()
@@ -69,6 +74,8 @@ void ARhythmTurtleShip::BeginPlay()
 	widgetActor = Cast<ARhythmBarWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ARhythmBarWidgetActor::StaticClass()));
 	gaugeWidget = Cast<URhythmBarWidget>(widgetActor->compWidget->GetUserWidgetObject());
 	manager = Cast<ADrumManager>(UGameplayStatics::GetActorOfClass(GetWorld(), ADrumManager::StaticClass()));
+	levelSequence = Cast<ALevelSequenceActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ALevelSequenceActor::StaticClass()));
+	player = Cast<ARhythmPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), ARhythmPlayer::StaticClass()));
 	
 	curr = 0;
 }
@@ -113,8 +120,53 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 				FVector vt = FVector::BackwardVector * 500 * DeltaTime;
 				SetActorLocation(p0 + vt);
 			}
-		}
 
+
+// 			FTimerHandle WaitHandle;
+// 			float WaitTime = 5; //시간을 설정하고
+// 			GetWorld()->GetTimerManager().SetTimer(WaitHandle, FTimerDelegate::CreateLambda([&]()
+// 				{
+// 					//GetWorld()->GetFirstPlayerController()->PlayerCameraManager->StartCameraFade(0, 1.0f, 1.0f, FLinearColor::Black,false,true);
+// 					//UE_LOG(LogTemp, Warning, TEXT("Fade!!!"));
+// 
+// 
+// 					OpenMainLevel();
+// 				}), WaitTime, false);
+			
+
+			FTimerHandle fadelTimer;
+			GetWorld()->GetTimerManager().SetTimer(fadelTimer, this, &ARhythmTurtleShip::FadeOut, 4.0f, false);
+
+			FTimerHandle levelTimer;
+			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 5.5f, false);
+		}
+		else
+		{
+			FTimerHandle gameOverTimer;
+			GetWorld()->GetTimerManager().SetTimer(gameOverTimer, this, &ARhythmTurtleShip::GameOver, 3.0f, false);
+		}
 	}
+}
+
+void ARhythmTurtleShip::FadeOut()
+{
+	//GetWorld()->GetFirstPlayerController()->PlayerCameraManager->StartCameraFade(0, 1.0f, 2.0f, FLinearColor::Black);
+	ULevelSequence* endSequence = LoadObject<ULevelSequence>(nullptr, TEXT("/Script/LevelSequence.LevelSequence'/Game/Sequence/EndLevelSequence.EndLevelSequence'"));
+ 	levelSequence->SetSequence(endSequence);
+ 	levelSequence->GetSequencePlayer()->Play();
+}
+
+void ARhythmTurtleShip::OpenMainLevel()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainLevel"));
+}
+
+void ARhythmTurtleShip::GameOver()
+{
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+	player->widgetPointer_Left->bShowDebug = true;
+	player->widgetPointer_Right->bShowDebug = true;
+	player->gameOverWidget->SetVisibility(true);
+	player->gameOverWidget->SetCollisionProfileName(TEXT("interactionUI"));
 }
 

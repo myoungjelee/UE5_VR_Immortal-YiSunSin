@@ -48,6 +48,12 @@ public:
 		class ADrumManager* manager;
 
 	UPROPERTY(EditAnywhere)
+		class ALevelSequenceActor* levelSequence;
+
+		UPROPERTY(EditAnywhere)
+		class ARhythmPlayer* player;
+
+	UPROPERTY(EditAnywhere)
 	bool bComplete = false;
 	UPROPERTY(EditAnywhere)
 	float a = 0;
@@ -55,5 +61,9 @@ public:
 	float max = 68;	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float curr;
+
+	void FadeOut();
+	void OpenMainLevel();
+	void GameOver();
 
 };

@@ -21,3 +21,5 @@ void UScoreUI::UpdateScore(int32 point)
 	FString playerScore = FString::Printf(TEXT("%d"), score);
 	scoreBinding->SetText(FText::FromString(playerScore));
 }
+
+

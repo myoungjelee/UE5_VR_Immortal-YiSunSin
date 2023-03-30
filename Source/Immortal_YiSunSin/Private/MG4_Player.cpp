@@ -108,7 +108,6 @@ void AMG4_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	//Move Input Binding
 	enhancedInputComponent->BindAction(thumbstickLeft, ETriggerEvent::Triggered, this, &AMG4_Player::Move);
 	enhancedInputComponent->BindAction(thumbstickRight, ETriggerEvent::Triggered, this, &AMG4_Player::RotateAxis);
-	enhancedInputComponent->BindAction(btnX, ETriggerEvent::Started, this, &AMG4_Player::OpenWidget);
 	//trigger Input Binding
 	enhancedInputComponent->BindAction(btnA, ETriggerEvent::Started, this, &AMG4_Player::APressed);
 	enhancedInputComponent->BindAction(btnA, ETriggerEvent::Completed, this, &AMG4_Player::AReleased);
@@ -202,9 +201,4 @@ void AMG4_Player::InputFire(bool bFire) //const FInputActionValue& value
 		}
 	bHit = false;
 	}
-}
-
-void AMG4_Player::OpenWidget()
-{
-	
 }

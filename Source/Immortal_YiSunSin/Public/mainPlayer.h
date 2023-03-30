@@ -53,28 +53,31 @@ public:
 		class UInputMappingContext* inputMapping;
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* thumbstickLeft;
-
-	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* thumbstickRight;
-
-	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* triggerLeft;
-	
-	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* triggerRight;
-
-	UPROPERTY(EditAnywhere, Category = Inputs)
 		class UInputAction* btnX;
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		FColor debugColor;
 
+	//teleport
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		class UInputAction* move;
+	
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		class UInputAction* turn;
+
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		float power = 1000;
+
+	bool bIsShowLine = false;
+	TArray<FVector> lineLoc;
+
 public:
 	void Recenter();
 	void Move(const struct FInputActionValue& value);
 	void RotateAxis(const struct FInputActionValue& value);
-	void OnTriggerLeft();
-	void OnTriggerRight();
-	void OpenWidget();
+	void Teleport();
+	void DrawMoveLine();
+	void ShowLine();
+	void HideLine();
+	void TeleportFade();
 };

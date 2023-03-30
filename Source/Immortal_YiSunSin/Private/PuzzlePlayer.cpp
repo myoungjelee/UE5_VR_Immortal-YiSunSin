@@ -12,9 +12,9 @@
 #include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h>
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
 #include "WidgetPointerComponent.h"
-
 #include <Misc/OutputDeviceNull.h>
 #include <UMG/Public/Components/WidgetComponent.h>
+#include <Sound/SoundBase.h>
 // Sets default values
 APuzzlePlayer::APuzzlePlayer()
 {
@@ -59,19 +59,33 @@ APuzzlePlayer::APuzzlePlayer()
 	pauseWidget = CreateDefaultSubobject<UWidgetComponent>("PauseWidget");
 	pauseWidget->SetupAttachment(RootComponent);
 	pauseWidget->SetVisibility(false);
-	pauseWidget->SetCollisionProfileName(TEXT("interactionUI"));
-	pauseWidget->SetRelativeLocation(FVector(500,0,300));
+	pauseWidget->SetCollisionProfileName(TEXT("NoCollision"));
+	pauseWidget->SetRelativeLocation(FVector(700,0,300));
 	pauseWidget->SetRelativeRotation(FRotator(0,180,0));
 	pauseWidget->SetDrawSize(FVector2D(1920, 1080));
+
+	gameOverWidget = CreateDefaultSubobject<UWidgetComponent>("GameOverWidget");
+	gameOverWidget->SetupAttachment(RootComponent);
+	gameOverWidget->SetVisibility(false);
+	gameOverWidget->SetCollisionProfileName(TEXT("NoCollision"));
+	gameOverWidget->SetRelativeLocation(FVector(700, 0, 300));
+	gameOverWidget->SetRelativeRotation(FRotator(0, 180, 0));
+	gameOverWidget->SetDrawSize(FVector2D(1920, 1080));
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
 	widgetPointerComp = CreateDefaultSubobject<UWidgetPointerComponent>("Pointer Component");
 
-	ConstructorHelpers::FClassFinder<UUserWidget> tempWidget(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Jigsaw/BP_Puzzle_PauseUI.BP_Puzzle_PauseUI_C'"));
-	if (tempWidget.Succeeded())
+	ConstructorHelpers::FClassFinder<UUserWidget> tempPause(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Jigsaw/BP_Puzzle_PauseUI.BP_Puzzle_PauseUI_C'"));
+	if (tempPause.Succeeded())
 	{
-		pauseWidget->SetWidgetClass(tempWidget.Class);
+		pauseWidget->SetWidgetClass(tempPause.Class);
+	}
+
+	ConstructorHelpers::FClassFinder<UUserWidget> tempGameOver(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Jigsaw/BP_Puzzle_GameOverUI.BP_Puzzle_GameOverUI_C'"));
+	if (tempGameOver.Succeeded())
+	{
+		gameOverWidget->SetWidgetClass(tempGameOver.Class);
 	}
 
 	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh_L(TEXT("/Script/Engine.SkeletalMesh'/Game/Characters/MannequinsXR/Meshes/SKM_MannyXR_left.SKM_MannyXR_left'"));
@@ -84,6 +98,12 @@ APuzzlePlayer::APuzzlePlayer()
 	if (tempMesh_R.Succeeded())
 	{
 		mesh_Right->SetSkeletalMesh(tempMesh_R.Object);
+	}
+
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/Audios/MJ/PuzzleSound/PuzzleBGM.PuzzleBGM'"));
+	if (tempSound.Succeeded())
+	{
+		gameSound = tempSound.Object;
 	}
 }
 
@@ -99,6 +119,9 @@ void APuzzlePlayer::BeginPlay()
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
 	subsys->AddMappingContext(inputMapping, 0);
+
+	bgm = UGameplayStatics::SpawnSound2D(GetWorld(),gameSound);
+
 }
 
 // Called every frame

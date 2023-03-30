@@ -77,6 +77,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UWidgetComponent* pauseWidget;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UWidgetComponent* gameOverWidget;
+
 	UPROPERTY(EditAnywhere)
 		class USoundBase* arirang;
 

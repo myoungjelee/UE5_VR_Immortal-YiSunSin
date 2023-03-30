@@ -26,7 +26,7 @@ void AEnemyShipManager::BeginPlay()
 	//spawn pos ¼¼ÆÃ
 	FindSpawnPos();
 
-	for (int32 i = 0; i < 10; i++)
+	for (int32 i = 0; i < 50; i++)
 	{
 		FActorSpawnParameters param;
 		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

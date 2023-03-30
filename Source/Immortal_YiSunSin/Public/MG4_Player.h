@@ -73,9 +73,6 @@ public:
 	//cannon
 	UPROPERTY(EditAnywhere)
 		class UParticleSystem* exploEffect;
-		
-	UPROPERTY(EditAnywhere)
-		class UUserWidgetBlueprint* PauseUI;
 
 	UPROPERTY(EditAnywhere)
 	class UWidgetComponent* scoreUI;
@@ -85,17 +82,6 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		float reachDistance = 100000;
-
-	/*UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* gripLeft;
-	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* gripRight;
-	UPROPERTY(EditAnywhere, Category = Inputs)
-		float grabDistance = 30.0f;
-	class AActor* grabbedObject_R;
-	class AActor* grabbedObject_L;
-	class AActor* grabedObject;
-	bool bIsGrab = false;*/
 	
 private:
 	bool physicsState = false;
@@ -109,17 +95,5 @@ public:
 	void APressed();
 	void AReleased();
 	void InputFire(bool bFire);
-	void OpenWidget();
-	
-	/*void TriggerRightAction(const struct FInputActionValue& value);
-	void TriggerRightReleased(const struct FInputActionValue& value);
-	void TriggerLeftAction(const struct FInputActionValue& value);
-	void TriggerLeftReleased(const struct FInputActionValue& value);*/
-
-	/*void GripRightAction(const struct FInputActionValue& value);
-	void GripRightReleased(const struct FInputActionValue& value);
-	void GripLeftAction(const struct FInputActionValue& value);
-	void GripLeftReleased(const struct FInputActionValue& value);
-	void GrabObject(USkeletalMeshComponent* selectHand);*/
 
 };
