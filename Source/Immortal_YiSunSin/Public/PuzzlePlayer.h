@@ -65,5 +65,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UWidgetComponent* gameOverWidget;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class USoundBase* gameSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UAudioComponent* bgm;
+
 
 };

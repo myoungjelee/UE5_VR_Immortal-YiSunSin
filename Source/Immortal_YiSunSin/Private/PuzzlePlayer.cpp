@@ -12,9 +12,9 @@
 #include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h>
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
 #include "WidgetPointerComponent.h"
-
 #include <Misc/OutputDeviceNull.h>
 #include <UMG/Public/Components/WidgetComponent.h>
+#include <Sound/SoundBase.h>
 // Sets default values
 APuzzlePlayer::APuzzlePlayer()
 {
@@ -99,6 +99,12 @@ APuzzlePlayer::APuzzlePlayer()
 	{
 		mesh_Right->SetSkeletalMesh(tempMesh_R.Object);
 	}
+
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/Audios/MJ/PuzzleSound/PuzzleBGM.PuzzleBGM'"));
+	if (tempSound.Succeeded())
+	{
+		gameSound = tempSound.Object;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -113,6 +119,8 @@ void APuzzlePlayer::BeginPlay()
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
 	subsys->AddMappingContext(inputMapping, 0);
+
+	bgm = UGameplayStatics::SpawnSound2D(GetWorld(),gameSound);
 
 }
 

@@ -243,6 +243,7 @@ void UWidgetPointerComponent::GamePause()
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
 	player->pauseWidget->SetVisibility(true);
 	player->pauseWidget->SetCollisionProfileName(TEXT("interactionUI"));
+	player->bgm->SetPaused(true);
 }
 
 void UWidgetPointerComponent::ClickWidget_L()
