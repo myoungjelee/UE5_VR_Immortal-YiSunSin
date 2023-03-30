@@ -65,9 +65,19 @@ public:
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		class UInputAction* turn;
 
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		float power = 1000;
+
+	bool bIsShowLine = false;
+	TArray<FVector> lineLoc;
+
 public:
 	void Recenter();
 	void Move(const struct FInputActionValue& value);
 	void RotateAxis(const struct FInputActionValue& value);
-	
-	};
+	void Teleport();
+	void DrawMoveLine();
+	void ShowLine();
+	void HideLine();
+	void TeleportFade();
+};
