@@ -114,10 +114,10 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 	{
 		if (bComplete)
 		{
-			if (GetActorLocation().X > 2500)
+			if (GetActorLocation().X > 6500)
 			{
 				FVector p0 = GetActorLocation();
-				FVector vt = FVector::BackwardVector * 500 * DeltaTime;
+				FVector vt = FVector::BackwardVector * 2500 * DeltaTime;
 				SetActorLocation(p0 + vt);
 			}
 

@@ -16,7 +16,8 @@ APutPuzzle::APutPuzzle()
 
 	compBox = CreateDefaultSubobject<UBoxComponent>("Box");
 	SetRootComponent(compBox);
-	compBox->SetRelativeScale3D(FVector(1.25f));
+	compBox->SetBoxExtent(FVector(50));
+	compBox->SetCollisionProfileName(TEXT("NoCollision"));
 
 	ConstructorHelpers::FObjectFinder<UParticleSystem> tempPuzzle(TEXT("/Script/Engine.ParticleSystem'/Game/FXVarietyPack/Particles/P_ky_shotShockwave.P_ky_shotShockwave'"));
 	if (tempPuzzle.Succeeded())
@@ -36,8 +37,22 @@ void APutPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	compBox->OnComponentBeginOverlap.AddDynamic(this, &APutPuzzle::OnPuzzle);
-	compBox->OnComponentEndOverlap.AddDynamic(this, &APutPuzzle::OffPuzzle);
+// 	compBox->OnComponentBeginOverlap.AddDynamic(this, &APutPuzzle::OnPuzzle);
+// 	compBox->OnComponentEndOverlap.AddDynamic(this, &APutPuzzle::OffPuzzle);
+
+	GetRootComponent()->SetRelativeScale3D(FVector(2));
+
+	FVector startPos = FVector(1095, 120, 2900);
+
+	FString label = GetActorLabel();
+	label = label.Replace(TEXT("BP_PutPuzzle"), TEXT(""));
+	int32 idx = FCString::Atoi(*label) - 1;
+	//UE_LOG(LogTemp, Warning, TEXT("%d"), idx);
+
+	FVector pos = startPos;
+	pos.Y += (idx % 4) * 200;
+	pos.Z -= (idx / 4) * 200;
+	SetActorLocation(pos);
 }
 
 // Called every frame
@@ -45,16 +60,14 @@ void APutPuzzle::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
-	
-
-	startLoc_s = GetActorLocation() + (GetActorForwardVector() * 48);
-	endLoc_s = GetActorLocation() + (GetActorForwardVector() * 47);
-	FCollisionObjectQueryParams objectPoint;
-	objectPoint.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldDynamic);
-	//hit_s = GetWorld()->LineTraceSingleByChannel(hitInfo_s, startLoc_s, endLoc_s, ECC_Visibility);
-	hit_s = GetWorld()->LineTraceSingleByObjectType(hitInfo_s,startLoc_s,endLoc_s,objectPoint);
-	//DrawDebugLine(GetWorld(), startLoc_s, endLoc_s, FColor::Red, true);
+	startLoc_s = GetActorLocation() + FVector(104, 0 , 0);
+	endLoc_s = GetActorLocation() + FVector(99, 0, 0);
+// 	FCollisionObjectQueryParams objectPoint;
+// 	objectPoint.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldDynamic);
+// 	hit_s = GetWorld()->LineTraceSingleByObjectType(hitInfo_s,startLoc_s,endLoc_s,objectPoint);
+	hit_s = GetWorld()->LineTraceSingleByChannel(hitInfo_s, startLoc_s, endLoc_s, ECollisionChannel::ECC_WorldDynamic);
+	DrawDebugLine(GetWorld(), startLoc_s, endLoc_s, FColor::Red, true,-1,0,1);
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), *hitInfo_s.GetActor()->GetName());
 	if (hit_s)
 	{
 		bOverlap = true;
@@ -64,10 +77,11 @@ void APutPuzzle::Tick(float DeltaTime)
 		bOverlap = false;
 	}
 
-	startLoc = GetActorLocation() + (GetActorForwardVector() * 49);
-	endLoc = GetActorLocation() + (GetActorForwardVector() * -500);
+	
+	startLoc = GetActorLocation() + GetActorForwardVector();
+	endLoc = GetActorLocation() + (GetActorForwardVector() * -900);
 	hit = GetWorld()->LineTraceSingleByChannel(hitInfo, startLoc, endLoc, ECC_Visibility);
-
+	//DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Red, true, -1, 0, 3);
 	if (bOverlap == false)
 	{
 		if (hit)
@@ -75,7 +89,7 @@ void APutPuzzle::Tick(float DeltaTime)
 			if (hitInfo.GetActor()->GetName().Contains(TEXT("Puzzle")))
 			{
 				setPuzzle = hitInfo.GetActor();
-				DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Green, false, -1, 0, 3);
+				DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Emerald, false, -1, 0, 10);
 			}
 			else
 			{
@@ -106,7 +120,7 @@ void APutPuzzle::SettingPuzzle()
 {
 	if (setPuzzle != nullptr)
 	{
-		setPuzzle->SetActorLocation(compBox->GetComponentLocation() + FVector(-15, 0, -60));
+		setPuzzle->SetActorLocation(compBox->GetComponentLocation());
 		setPuzzle->SetActorRotation(compBox->GetComponentRotation());
 
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), completePuzzle, GetActorLocation(), GetActorRotation(), FVector3d(1));
