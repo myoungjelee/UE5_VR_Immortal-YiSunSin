@@ -53,6 +53,7 @@ void AmainPlayer::BeginPlay()
 	APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
 
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
+	
 
 	subsys->AddMappingContext(inputMapping, 0);
 }
@@ -76,10 +77,10 @@ void AmainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	UEnhancedInputComponent* enhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
 	//Move Input Binding
-	enhancedInputComponent->BindAction(move, ETriggerEvent::Triggered, this, &AmainPlayer::Move);
-	enhancedInputComponent->BindAction(turn, ETriggerEvent::Triggered, this, &AmainPlayer::RotateAxis);
-	enhancedInputComponent->BindAction(move, ETriggerEvent::Triggered, this, &AmainPlayer::ShowLine);
-	enhancedInputComponent->BindAction(move, ETriggerEvent::Completed, this, &AmainPlayer::HideLine);
+	enhancedInputComponent->BindAction(thumbstickR, ETriggerEvent::Triggered, this, &AmainPlayer::Move);
+	enhancedInputComponent->BindAction(thumbstickL, ETriggerEvent::Triggered, this, &AmainPlayer::RotateAxis);
+	enhancedInputComponent->BindAction(btnB, ETriggerEvent::Started, this, &AmainPlayer::ShowLine);
+	enhancedInputComponent->BindAction(btnB, ETriggerEvent::Completed, this, &AmainPlayer::HideLine);
 }
 
 void AmainPlayer::Recenter()

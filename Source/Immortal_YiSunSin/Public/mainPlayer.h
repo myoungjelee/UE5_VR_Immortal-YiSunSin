@@ -54,16 +54,19 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		class UInputAction* btnX;
+		
+	UPROPERTY(EditAnywhere, Category = Inputs)
+		class UInputAction* btnB;
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		FColor debugColor;
 
 	//teleport
 	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* move;
+		class UInputAction* thumbstickR;
 	
 	UPROPERTY(EditAnywhere, Category = Inputs)
-		class UInputAction* turn;
+		class UInputAction* thumbstickL;
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		float power = 1000;

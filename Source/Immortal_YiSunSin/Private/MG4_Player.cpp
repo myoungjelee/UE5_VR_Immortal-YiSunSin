@@ -202,3 +202,4 @@ void AMG4_Player::InputFire(bool bFire) //const FInputActionValue& value
 	bHit = false;
 	}
 }
+ 
