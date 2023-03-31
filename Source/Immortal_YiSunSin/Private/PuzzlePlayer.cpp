@@ -15,6 +15,7 @@
 #include <Misc/OutputDeviceNull.h>
 #include <UMG/Public/Components/WidgetComponent.h>
 #include <Sound/SoundBase.h>
+#include <Components/AudioComponent.h>
 // Sets default values
 APuzzlePlayer::APuzzlePlayer()
 {
@@ -143,5 +144,6 @@ void APuzzlePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 		widgetPointerComp->SetupPlayerInputComponent(enhancedInputComponent);
 	}
 }
+
 
 

@@ -71,5 +71,4 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UAudioComponent* bgm;
 
-
 };
