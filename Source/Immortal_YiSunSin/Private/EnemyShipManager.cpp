@@ -10,7 +10,7 @@ AEnemyShipManager::AEnemyShipManager()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
-	ConstructorHelpers::FClassFinder<AEnemyShip> tempEnemy(TEXT("/Script/Engine.Blueprint'/Game/GN_Blueprint/MG4/BP_enemyShip.BP_enemyShip_C'"));
+	ConstructorHelpers::FClassFinder<AEnemyShip> tempEnemy(TEXT("/Script/Engine.Blueprint'/Game/GN_Blueprint/MG4/BP_enemyShip_.BP_enemyShip_C'"));
 	if (tempEnemy.Succeeded())
 	{
 		enemyFactory = tempEnemy.Class;
@@ -26,7 +26,7 @@ void AEnemyShipManager::BeginPlay()
 	//spawn pos ¼¼ÆÃ
 	FindSpawnPos();
 
-	for (int32 i = 0; i < 50; i++)
+	for (int32 i = 0; i < 40; i++)
 	{
 		FActorSpawnParameters param;
 		param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

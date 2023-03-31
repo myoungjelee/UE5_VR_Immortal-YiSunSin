@@ -28,7 +28,7 @@ public:
 	float spawnTime = 0;
 	float currTime = 0;
 	float minTime = 1;
-	float maxTime = 5;
+	float maxTime = 2;
 
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class AEnemyShip> enemyFactory;

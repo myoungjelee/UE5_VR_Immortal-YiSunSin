@@ -177,7 +177,7 @@ void UEnemyFSM::ChangeState(EEnemyState state)
 		me->GetCapsuleComponent()->SetCollisionEnabled (ECollisionEnabled::NoCollision);
 		me->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		me->boxCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		score->UpdateScore(5);
+		score->UpdateScore(1);
 	break;
 	}
 }

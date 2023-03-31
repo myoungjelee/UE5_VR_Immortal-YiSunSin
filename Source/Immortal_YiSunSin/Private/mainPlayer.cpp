@@ -32,6 +32,7 @@ AmainPlayer::AmainPlayer()
 	leftHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Left Hand"));
 	leftHand->SetupAttachment(controllerLeft);
 	leftHand->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	leftHand->SetRelativeRotation(FRotator(-25.0f, 180.0f, 90.0f));
 
 	controllerRight = CreateDefaultSubobject<UMotionControllerComponent>("Right Controller");
 	controllerRight->SetupAttachment(RootComponent);
@@ -40,6 +41,7 @@ AmainPlayer::AmainPlayer()
 	rightHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right Hand"));
 	rightHand->SetupAttachment(controllerRight);
 	rightHand->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	rightHand->SetRelativeRotation(FRotator(85.0f, 0.0f, 90.0f));
 
 	bUseControllerRotationPitch = true;
 }
