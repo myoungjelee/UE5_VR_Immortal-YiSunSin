@@ -10,7 +10,7 @@ AEnemyShipManager::AEnemyShipManager()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
-	ConstructorHelpers::FClassFinder<AEnemyShip> tempEnemy(TEXT("/Script/Engine.Blueprint'/Game/GN_Blueprint/MG4/BP_enemyShip_.BP_enemyShip_C'"));
+	ConstructorHelpers::FClassFinder<AEnemyShip> tempEnemy(TEXT("/Script/Engine.Blueprint'/Game/GN_Blueprint/MG4/BP_enemyShip_.BP_enemyShip__C'"));
 	if (tempEnemy.Succeeded())
 	{
 		enemyFactory = tempEnemy.Class;
