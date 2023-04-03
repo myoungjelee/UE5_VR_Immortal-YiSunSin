@@ -53,6 +53,9 @@ public:
 		UPROPERTY(EditAnywhere)
 		class ARhythmPlayer* player;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class AMoviePlayerActor* moviePlayer;
+
 	UPROPERTY(EditAnywhere)
 	bool bComplete = false;
 	UPROPERTY(EditAnywhere)
@@ -65,5 +68,6 @@ public:
 	void FadeOut();
 	void OpenMainLevel();
 	void GameOver();
+	void PlayMovie();
 
 };

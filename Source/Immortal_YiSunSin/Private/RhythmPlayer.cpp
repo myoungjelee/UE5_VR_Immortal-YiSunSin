@@ -15,6 +15,7 @@
 #include <UMG/Public/Components/WidgetComponent.h>
 #include <Components/AudioComponent.h>
 #include <Haptics/HapticFeedbackEffect_Base.h>
+#include "MoviePlayerActor.h"
 
 // Sets default values
 ARhythmPlayer::ARhythmPlayer()
@@ -153,6 +154,7 @@ void ARhythmPlayer::BeginPlay()
 	UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(trackOrigin.GetValue());
 
 	APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
+	moviePlayer = Cast<AMoviePlayerActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMoviePlayerActor::StaticClass()));
 
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
@@ -209,6 +211,8 @@ void ARhythmPlayer::GamePause()
 	widgetPointer_Right->bShowDebug = true;
 	pauseWidget->SetVisibility(true);
 	pauseWidget->SetCollisionProfileName(TEXT("interactionUI"));
+
+	moviePlayer->PausedMovie();
 }
 
 void ARhythmPlayer::ClickWidget_L()
