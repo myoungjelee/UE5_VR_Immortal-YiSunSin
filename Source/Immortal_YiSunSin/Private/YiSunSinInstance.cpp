@@ -7,6 +7,8 @@ void UYiSunSinInstance::Init()
 {
 	Super::Init();
 
-	score = 100;
+	pos = FVector(-2800, -1020, 92);
+
+	rot = FRotator(0);
 
 }

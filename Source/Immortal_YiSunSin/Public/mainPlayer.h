@@ -71,6 +71,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		float power = 1000;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UYiSunSinInstance* instance;
+
 	bool bIsShowLine = false;
 	TArray<FVector> lineLoc;
 
