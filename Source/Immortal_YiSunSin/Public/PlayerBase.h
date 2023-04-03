@@ -63,9 +63,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
 	class UArcherGraspComponent* graspComp;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
-	class UMoveComponent* moveComp;
-
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UWidgetInteractionComponent* widgetInt;
 
@@ -82,4 +79,5 @@ public:
 	void ReleaseWidget();
 	void FindWidget();
 	void PauseUIOpen();
+
 };

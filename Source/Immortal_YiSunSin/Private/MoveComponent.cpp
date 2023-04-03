@@ -4,6 +4,7 @@
 #include "MoveComponent.h"
 #include "PlayerBase.h"
 #include "EnhancedInputComponent.h"
+#include "WarriorPlayer.h"
 
 UMoveComponent::UMoveComponent()
 {
@@ -15,7 +16,7 @@ void UMoveComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	player = Cast<APlayerBase>(GetOwner());
+	player = Cast<AWarriorPlayer>(GetOwner());
 }
 
 void UMoveComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -34,9 +35,8 @@ void UMoveComponent::SetupPlayerInputComponent(class UEnhancedInputComponent* Pl
 void UMoveComponent::Move(const FInputActionValue& value)
 {
 	FVector2D val = value.Get<FVector2D>();
-	FVector direction = FVector(val.Y, val.X, 0);
-
-	player->AddMovementInput(direction.GetSafeNormal(), 1, false);
+	FVector forwardDirection = FVector(1, 0, 0) * val.Y;
+	player->AddActorLocalOffset(forwardDirection * moveSpeed);
 }
 
 // 플레이어 회전

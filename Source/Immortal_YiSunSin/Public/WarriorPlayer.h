@@ -3,17 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
-#include "ArcherPlayer.generated.h"
+#include "WarriorPlayer.generated.h"
 
 UCLASS()
-class IMMORTAL_YISUNSIN_API AArcherPlayer : public APawn
+class IMMORTAL_YISUNSIN_API AWarriorPlayer : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	AArcherPlayer();
+	AWarriorPlayer();
 
 protected:
 	virtual void BeginPlay() override;
@@ -23,11 +23,12 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
-	class UCapsuleComponent* rootComp;
-
+public:
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UCameraComponent* cam;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	class UStaticMeshComponent* headMesh;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UMotionControllerComponent* leftController;
@@ -35,11 +36,17 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class USkeletalMeshComponent* leftHand;
 
+	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
+	class UTextRenderComponent* leftLog;
+
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UMotionControllerComponent* rightController;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class USkeletalMeshComponent* rightHand;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
+	class UTextRenderComponent* rightLog;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UInputMappingContext* myMapping;
@@ -47,72 +54,43 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Settings|ModuleSetting")
 	TEnumAsByte<enum EHMDTrackingOrigin::Type> trackOrigin;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
-	class USkeletalMeshComponent* bowComp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Components")
-	class UStaticMeshComponent* handleMesh;
-
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
-	class UInputAction* GripRight;
-
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
-	class UInputAction* triggerRight;
-
-	UPROPERTY(EditAnywhere, Category = "ArrowSpawn")
-	class AArrowActor* arrow;
-
-	UPROPERTY(EditAnywhere, Category = "ArrowSpawn")
-	TSubclassOf<class AArrowActor> arrowFactory;
-
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
-	class UInputAction* thumbstickLeft;
-
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
-	class UInputAction* thumbstickRight;
-
- 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
- 	class UInputAction* btnX;
+	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
+	class UArcherGraspComponent* graspComp;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UWidgetInteractionComponent* widgetInt;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Widget")
-	class UWidgetComponent* pauseUI;
+	UPROPERTY(EditAnywhere, Category = Inputs)
+	class UInputAction* rightThumbstick;
+
+	UPROPERTY(EditAnywhere, Category = Inputs)
+	class UInputAction* leftThumbstick;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
+	class UInputAction* triggerRight;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
+	class UInputAction* btnX;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Widget")
-	class UWidgetComponent* scoreUI;
+	class UWidgetComponent* pauseUI;
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Widget")
+	class UWidgetComponent* gameoverUI;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Widget")
 	class UWidgetComponent* resultUI;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Widget")
-	class UWidgetComponent* gameoverUI;
+	class UWidgetComponent* timerUI;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
-	class UScoreUI* score;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
-	class UGameResultWidget* result;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Sound")
-	class USoundBase* bowRelease;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Sound")
-	class USoundBase* bowPull;
-
-	FVector startLoc;
-	FVector handLoc;
-	FVector tempLoc;
-	bool bBowPulling = false;
-	int32 shootCnt = 0;
-
-	void BowRelease();
-	void ShootArrow();
+public:
 	void PressWidget();
 	void ReleaseWidget();
-	void Move(const struct FInputActionValue& value);
-	void RotateAxis(const struct FInputActionValue& value);
 	void FindWidget();
 	void PauseUIOpen();
+
+	void Move(const struct FInputActionValue& value);
+	void RotateAxis(const struct FInputActionValue& value);
+
 };

@@ -30,7 +30,7 @@ public:
 	float grabDistance = 15.0f;
 
 private:
-	class APlayerBase* player;
+	class AWarriorPlayer* player;
 	class APickupActor* grabedObject;
 	class ASwordActor* sword;
 

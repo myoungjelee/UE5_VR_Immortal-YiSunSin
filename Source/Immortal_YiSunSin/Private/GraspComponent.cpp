@@ -21,9 +21,7 @@ void UGraspComponent::BeginPlay()
 	Super::BeginPlay();
 
 	player = Cast<APlayerBase>(GetOwner());
-	//bow = Cast<ABowActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ABowActor::StaticClass()));
 
-	//FVector slideLoc = bow->handleMesh->GetComponentLocation();
 }
 
 void UGraspComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -37,7 +35,7 @@ void UGraspComponent::SetupPlayerInputComponent(class UEnhancedInputComponent* P
 	PlayerInputComponent->BindAction(grip_left, ETriggerEvent::Started, this, &UGraspComponent::GripLeftAction);
 	PlayerInputComponent->BindAction(grip_left, ETriggerEvent::Completed, this, &UGraspComponent::GripLeftReleased);
 	PlayerInputComponent->BindAction(grip_right, ETriggerEvent::Started, this, &UGraspComponent::GripRightAction);
-	PlayerInputComponent->BindAction(grip_right, ETriggerEvent::Completed, this, &UGraspComponent::GripRightReleased);
+	//PlayerInputComponent->BindAction(grip_right, ETriggerEvent::Completed, this, &UGraspComponent::GripRightReleased);
 }
 
 void UGraspComponent::GripLeftAction(const struct FInputActionValue& value)
@@ -47,7 +45,6 @@ void UGraspComponent::GripLeftAction(const struct FInputActionValue& value)
  
 void UGraspComponent::GripLeftReleased(const struct FInputActionValue& value)
 {
-	//ReleaseObject(player->leftHand);
 	bIsGrab = false;
 }
 
@@ -61,7 +58,7 @@ void UGraspComponent::GripRightAction(const struct FInputActionValue& value)
 void UGraspComponent::GripRightReleased(const struct FInputActionValue& value)
 {
 	//ReleaseObject(player->rightHand);
-	bIsGrab = false;
+	//bIsGrab = false;
 }
 
 // 액터 잡기
@@ -100,7 +97,7 @@ void UGraspComponent::GrabObject(USkeletalMeshComponent* selectHand)
 	bIsGrab = true;
 }
 
-// 액터 놓기
+//액터 놓기
 void UGraspComponent::ReleaseObject(USkeletalMeshComponent* selectHand)
 {
 	if (grabedObject != nullptr)

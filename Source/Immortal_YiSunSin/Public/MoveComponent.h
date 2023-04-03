@@ -29,7 +29,9 @@ public:
 	class UInputAction* leftThumbstick;
 
 private:
-	class APlayerBase* player;
+	class AWarriorPlayer* player;
+
+	float moveSpeed = 60.0f;
 
 	void Move(const struct FInputActionValue& value);
 	void RotateAxis(const struct FInputActionValue& value);
