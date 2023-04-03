@@ -122,15 +122,19 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 				FVector vt = FVector::BackwardVector * 2500 * DeltaTime;
 				SetActorLocation(p0 + vt);
 			}
+			else if (GetActorLocation().X <= 6500)
+			{
+				FTimerHandle movieTimer;
+				GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::PlayMovie, 2.0f, false);
+			}
 
-			FTimerHandle movieTimer;
-			GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::PlayMovie, 4.0f, false);
+
 			
 			FTimerHandle fadeTimer;
-			GetWorld()->GetTimerManager().SetTimer(fadeTimer, this, &ARhythmTurtleShip::FadeOut, 26.0f, false);
+			GetWorld()->GetTimerManager().SetTimer(fadeTimer, this, &ARhythmTurtleShip::FadeOut, 31.0f, false);
 
 			FTimerHandle levelTimer;
-			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 26.5f, false);
+			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 31.5f, false);
 		}
 		else
 		{
@@ -164,7 +168,6 @@ void ARhythmTurtleShip::GameOver()
 
 void ARhythmTurtleShip::PlayMovie()
 {
-	moviePlayer->plane->SetVisibility(true);
 	moviePlayer->PlayMovie();
 }
 

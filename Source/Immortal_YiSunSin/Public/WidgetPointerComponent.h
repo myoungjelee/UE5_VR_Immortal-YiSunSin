@@ -45,6 +45,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		TArray<class APutPuzzle*> putArray;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class AMoviePlayerActor* moviePlayer;
+
 	class APuzzlePlayer* player;
 	class AActor* grabedPuzzle_L;
 	class AActor* grabedPuzzle_R;

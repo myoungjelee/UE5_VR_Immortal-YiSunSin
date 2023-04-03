@@ -34,6 +34,8 @@ void AMoviePlayerActor::BeginPlay()
 	Super::BeginPlay();
 	
 	mediaSound->SetMediaPlayer(mediaPlayer);
+
+	
 }
 
 // Called every frame
@@ -45,6 +47,8 @@ void AMoviePlayerActor::Tick(float DeltaTime)
 
 void AMoviePlayerActor::PlayMovie()
 {
+	plane->SetVisibility(true);
+
 	mediaPlayer->OpenSource(mediaSource);
 
 	mediaPlayer->Play();

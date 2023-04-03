@@ -206,7 +206,11 @@ void ARhythmPlayer::OnDrum_Right(UPrimitiveComponent* OverlappedComponent, AActo
 void ARhythmPlayer::GamePause()
 {
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
-	sound->SetPaused(true);
+	if (sound != nullptr)
+	{
+		sound->SetPaused(true);
+	}
+	
 	widgetPointer_Left->bShowDebug = true;
 	widgetPointer_Right->bShowDebug = true;
 	pauseWidget->SetVisibility(true);
