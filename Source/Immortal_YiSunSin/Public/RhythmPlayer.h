@@ -86,6 +86,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UAudioComponent* sound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class AMoviePlayerActor* moviePlayer;
+
 
 public:
 	

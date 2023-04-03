@@ -15,6 +15,7 @@
 #include <MovieScene/Public/MovieSceneSequencePlayer.h>
 #include "RhythmPlayer.h"
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
+#include "MoviePlayerActor.h"
 
 // Sets default values
 ARhythmTurtleShip::ARhythmTurtleShip()
@@ -76,7 +77,8 @@ void ARhythmTurtleShip::BeginPlay()
 	manager = Cast<ADrumManager>(UGameplayStatics::GetActorOfClass(GetWorld(), ADrumManager::StaticClass()));
 	levelSequence = Cast<ALevelSequenceActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ALevelSequenceActor::StaticClass()));
 	player = Cast<ARhythmPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), ARhythmPlayer::StaticClass()));
-	
+	moviePlayer = Cast<AMoviePlayerActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMoviePlayerActor::StaticClass()));
+
 	curr = 0;
 }
 
@@ -121,24 +123,14 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 				SetActorLocation(p0 + vt);
 			}
 
-
-// 			FTimerHandle WaitHandle;
-// 			float WaitTime = 5; //시간을 설정하고
-// 			GetWorld()->GetTimerManager().SetTimer(WaitHandle, FTimerDelegate::CreateLambda([&]()
-// 				{
-// 					//GetWorld()->GetFirstPlayerController()->PlayerCameraManager->StartCameraFade(0, 1.0f, 1.0f, FLinearColor::Black,false,true);
-// 					//UE_LOG(LogTemp, Warning, TEXT("Fade!!!"));
-// 
-// 
-// 					OpenMainLevel();
-// 				}), WaitTime, false);
+			FTimerHandle movieTimer;
+			GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::PlayMovie, 4.0f, false);
 			
-
-			FTimerHandle fadelTimer;
-			GetWorld()->GetTimerManager().SetTimer(fadelTimer, this, &ARhythmTurtleShip::FadeOut, 4.0f, false);
+			FTimerHandle fadeTimer;
+			GetWorld()->GetTimerManager().SetTimer(fadeTimer, this, &ARhythmTurtleShip::FadeOut, 26.0f, false);
 
 			FTimerHandle levelTimer;
-			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 5.5f, false);
+			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 26.5f, false);
 		}
 		else
 		{
@@ -168,5 +160,11 @@ void ARhythmTurtleShip::GameOver()
 	player->widgetPointer_Right->bShowDebug = true;
 	player->gameOverWidget->SetVisibility(true);
 	player->gameOverWidget->SetCollisionProfileName(TEXT("interactionUI"));
+}
+
+void ARhythmTurtleShip::PlayMovie()
+{
+	moviePlayer->plane->SetVisibility(true);
+	moviePlayer->PlayMovie();
 }
 
