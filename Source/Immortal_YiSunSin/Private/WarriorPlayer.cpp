@@ -1,8 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PlayerBase.h"
-#include "Components/CapsuleComponent.h"
+#include "WarriorPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "MotionControllerComponent.h"
@@ -15,16 +14,9 @@
 #include <UMG/Public/Components/WidgetComponent.h>
 #include <Kismet/GameplayStatics.h>
 
-
-
-// Sets default values
-APlayerBase::APlayerBase()
+AWarriorPlayer::AWarriorPlayer()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	rootComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Root Comp"));
-	SetRootComponent(rootComp);
 
 	cam = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera Component"));
 	cam->SetupAttachment(RootComponent);
@@ -60,7 +52,7 @@ APlayerBase::APlayerBase()
 	rightLog->SetVerticalAlignment(EVRTA_TextCenter);
 
 	widgetInt = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Widget Interaction"));
- 	widgetInt->SetupAttachment(leftController);
+	widgetInt->SetupAttachment(leftController);
 	widgetInt->SetRelativeRotation(FRotator(0, -60, 0));
 
 	pauseUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Pause UI"));
@@ -72,13 +64,28 @@ APlayerBase::APlayerBase()
 	graspComp = CreateDefaultSubobject<UArcherGraspComponent>(TEXT("Grasp Component"));
 
 	bUseControllerRotationPitch = true;
+	AutoPossessPlayer = EAutoReceiveInput::Player0;
+
+	resultUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Result UI"));
+	resultUI->SetupAttachment(RootComponent);
+	resultUI->SetRelativeLocation(FVector(765, 0, 300));
+	resultUI->SetRelativeRotation(FRotator(0, 180, 0));
+
+	gameoverUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Gameover UI"));
+	gameoverUI->SetupAttachment(RootComponent);
+	gameoverUI->SetRelativeLocation(FVector(765, 0, 300));
+	gameoverUI->SetRelativeRotation(FRotator(0, 180, 0));
+
+	timerUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Timer UI"));
+	timerUI->SetupAttachment(RootComponent);
+	timerUI->SetRelativeLocation(FVector(1200, 0, 0));
+	timerUI->SetRelativeRotation(FRotator(0, 180, 0));
 }
 
-// Called when the game starts or when spawned
-void APlayerBase::BeginPlay()
+void AWarriorPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(trackOrigin.GetValue());
 
 	APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
@@ -94,18 +101,17 @@ void APlayerBase::BeginPlay()
 		widgetInt->DebugColor = FColor::Red;
 		widgetInt->bShowDebug = true;
 	}
+	
 }
 
-// Called every frame
-void APlayerBase::Tick(float DeltaTime)
+void AWarriorPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 	FindWidget();
 }
 
-// Called to bind functionality to input
-void APlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AWarriorPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
@@ -114,24 +120,26 @@ void APlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	if (enhancedInputComponent != nullptr)
 	{
 		graspComp->SetupPlayerInputComponent(enhancedInputComponent);
-		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Started, this, &APlayerBase::PressWidget);
-		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget);
-		enhancedInputComponent->BindAction(btnX, ETriggerEvent::Started, this, &APlayerBase::PauseUIOpen);
-	}	
+		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Started, this, &AWarriorPlayer::PressWidget);
+		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &AWarriorPlayer::ReleaseWidget);
+		enhancedInputComponent->BindAction(btnX, ETriggerEvent::Started, this, &AWarriorPlayer::PauseUIOpen);
+		//enhancedInputComponent->BindAction(rightThumbstick, ETriggerEvent::Triggered, this, &AWarriorPlayer::RotateAxis);
+		//enhancedInputComponent->BindAction(leftThumbstick, ETriggerEvent::Triggered, this, &AWarriorPlayer::Move);
+	}
 }
 
-void APlayerBase::PressWidget()
+void AWarriorPlayer::PressWidget()
 {
 	widgetInt->PressPointerKey(EKeys::LeftMouseButton);
 }
 
-void APlayerBase::ReleaseWidget()
+void AWarriorPlayer::ReleaseWidget()
 {
 	//widgetInt->bShowDebug = false;
 	widgetInt->ReleasePointerKey(EKeys::LeftMouseButton);
 }
 
-void APlayerBase::FindWidget()
+void AWarriorPlayer::FindWidget()
 {
 	FVector start = widgetInt->GetComponentLocation();
 	FVector endLoc = start + widgetInt->GetForwardVector() * 10000.0f;
@@ -143,16 +151,32 @@ void APlayerBase::FindWidget()
 
 	if (GetWorld()->LineTraceSingleByChannel(hitInfo, start, endLoc, ECC_Visibility, params))
 	{
-		if (hitInfo.GetActor()->GetName().Contains(TEXT("UI")))
+		if (hitInfo.GetComponent()->GetName().Contains(TEXT("UI")))
 		{
 			widgetInt->bShowDebug = true;
 		}
 	}
 }
 
-void APlayerBase::PauseUIOpen()
+void AWarriorPlayer::PauseUIOpen()
 {
 	pauseUI->SetVisibility(true);
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
 	widgetInt->bShowDebug = true;
+}
+
+void AWarriorPlayer::Move(const FInputActionValue& value)
+{
+	FVector2D val = value.Get<FVector2D>();
+	FVector direction = FVector(val.Y, val.X, 0);
+
+	AddMovementInput(direction.GetSafeNormal(), 1, false);
+}
+
+// 플레이어 회전
+void AWarriorPlayer::RotateAxis(const FInputActionValue& value)
+{
+	FVector2D axis = value.Get<FVector2D>();
+
+	AddControllerYawInput(axis.X);
 }

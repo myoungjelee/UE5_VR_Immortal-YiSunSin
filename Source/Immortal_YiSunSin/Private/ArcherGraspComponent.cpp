@@ -10,7 +10,7 @@
 #include "BowActor.h"
 #include "SwordActor.h"
 #include <Kismet/GameplayStatics.h>
-#include "PlayerBase.h"
+#include "WarriorPlayer.h"
 
 UArcherGraspComponent::UArcherGraspComponent()
 {
@@ -23,7 +23,7 @@ void UArcherGraspComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	player = Cast<APlayerBase>(GetOwner());
+	player = Cast<AWarriorPlayer>(GetOwner());
 
 	sword = Cast<ASwordActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ASwordActor::StaticClass()));
 }
@@ -38,7 +38,7 @@ void UArcherGraspComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 void UArcherGraspComponent::SetupPlayerInputComponent(class UEnhancedInputComponent* PlayerInputComponent)
 {
 	PlayerInputComponent->BindAction(grip_right, ETriggerEvent::Started, this, &UArcherGraspComponent::GripRightAction);
-	PlayerInputComponent->BindAction(grip_right, ETriggerEvent::Completed, this, &UArcherGraspComponent::GripRightReleased);
+	//PlayerInputComponent->BindAction(grip_right, ETriggerEvent::Completed, this, &UArcherGraspComponent::GripRightReleased);
 }
 
 void UArcherGraspComponent::GripRightAction(const struct FInputActionValue& value)

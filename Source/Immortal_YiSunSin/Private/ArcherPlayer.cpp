@@ -14,6 +14,8 @@
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
 #include <UMG/Public/Components/WidgetComponent.h>
 #include <Kismet/GameplayStatics.h>
+#include "ScoreUI.h"
+#include "GameResultWidget.h"
 
 AArcherPlayer::AArcherPlayer()
 {
@@ -61,6 +63,21 @@ AArcherPlayer::AArcherPlayer()
 	pauseUI->SetupAttachment(RootComponent);
 	pauseUI->SetRelativeLocation(FVector(765, 0, 300));
 	pauseUI->SetWorldRotation(FRotator(0, 180, 0));
+
+	scoreUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Score UI"));
+	scoreUI->SetupAttachment(RootComponent);
+	scoreUI->SetRelativeLocation(FVector(1200, 0, 0));
+	scoreUI->SetRelativeRotation(FRotator(0, 180, 0));
+
+	resultUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Result UI"));
+	resultUI->SetupAttachment(RootComponent);
+	resultUI->SetRelativeLocation(FVector(765, 0, 300));
+	resultUI->SetRelativeRotation(FRotator(0, 180, 0));
+
+	gameoverUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Gameover UI"));
+	gameoverUI->SetupAttachment(RootComponent);
+	gameoverUI->SetRelativeLocation(FVector(765, 0, 300));
+	gameoverUI->SetRelativeRotation(FRotator(0, 180, 0));
 }
 
 void AArcherPlayer::BeginPlay()
@@ -75,6 +92,9 @@ void AArcherPlayer::BeginPlay()
 
 	subsys->AddMappingContext(myMapping, 0);
 
+	score = Cast<UScoreUI>(scoreUI->GetUserWidgetObject());
+	result = Cast<UGameResultWidget>(resultUI->GetUserWidgetObject());
+
 	if (widgetInt != nullptr)
 	{
 		widgetInt->InteractionDistance = 100000.0f;
@@ -84,8 +104,11 @@ void AArcherPlayer::BeginPlay()
 	}
 
 	handleMesh->SetVisibility(false);
+	resultUI->SetVisibility(false);
+	gameoverUI->SetVisibility(false);
 	startLoc = handleMesh->GetComponentLocation();
 	tempLoc = handleMesh->GetRelativeLocation();
+
 }
 
 void AArcherPlayer::Tick(float DeltaTime)
@@ -96,7 +119,7 @@ void AArcherPlayer::Tick(float DeltaTime)
 	handLoc = rightHand->GetComponentLocation();
 
 
-	if (temp.Length() < 105 && temp.Length() > 85)
+	if (temp.Length() < 120 && temp.Length() > 70)
 	{
 		if (bBowPulling == true)
 		{
@@ -107,6 +130,24 @@ void AArcherPlayer::Tick(float DeltaTime)
 	}
 
 	FindWidget();
+
+	if (shootCnt >= 3)
+	{
+		if (score->score > 10)
+		{
+			// 게임을 일시중지하고 UI를 띄운다.
+			result->SetScore(score->score);
+			resultUI->SetVisibility(true);
+			UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+			widgetInt->bShowDebug = true;
+		}
+		else
+		{
+			gameoverUI->SetVisibility(true);
+			UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+			widgetInt->bShowDebug = true;
+		}
+	}
 }
 
 void AArcherPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -144,6 +185,7 @@ void AArcherPlayer::ShootArrow()
 	handleMesh->SetRelativeLocation(tempLoc);
 
 	arrow->Shoot();
+	UGameplayStatics::PlaySound2D(GetWorld(), bowRelease);
 }
 
 void AArcherPlayer::PressWidget()

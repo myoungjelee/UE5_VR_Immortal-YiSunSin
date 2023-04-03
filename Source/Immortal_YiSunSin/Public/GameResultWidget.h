@@ -4,30 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "LevelChangeWidget.generated.h"
+#include "GameResultWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IMMORTAL_YISUNSIN_API ULevelChangeWidget : public UUserWidget
+class IMMORTAL_YISUNSIN_API UGameResultWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
 protected:
-	virtual void NativeConstruct() override;
+	void NativeConstruct() override;
 
 public:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
-	class UButton* BtnChange;
-
-	UPROPERTY()
-	class UTextBlock* changeLevel;
+	class UTextBlock* scoreResult;
 
 	UFUNCTION()
-	void OnClick();
-
-	UFUNCTION()
-	void ChangeLevel();
+	void SetScore(int32 point);
 
 };
