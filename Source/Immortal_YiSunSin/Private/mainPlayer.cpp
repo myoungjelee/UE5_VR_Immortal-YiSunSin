@@ -11,6 +11,8 @@
 #include <Components/CapsuleComponent.h>
 #include <GameFramework/PlayerController.h>
 #include <Kismet/GameplayStatics.h>
+#include "YiSunSinInstance.h"
+#include <Kismet/KismetSystemLibrary.h>
 
 // Sets default values
 AmainPlayer::AmainPlayer()
@@ -44,6 +46,7 @@ AmainPlayer::AmainPlayer()
 	rightHand->SetRelativeRotation(FRotator(85.0f, 0.0f, 90.0f));
 
 	bUseControllerRotationPitch = true;
+	bUseControllerRotationYaw = true;
 }
 
 // Called when the game starts or when spawned
@@ -55,9 +58,21 @@ void AmainPlayer::BeginPlay()
 	APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
 
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
-	
 
 	subsys->AddMappingContext(inputMapping, 0);
+
+	instance = Cast<UYiSunSinInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	SetActorLocation(instance->pos);
+	playerCon->SetControlRotation(instance->rot);
+
+// 	FString str = FString::Printf(TEXT("Pos : %f, %f, %f"), instance->pos.X, instance->pos.Y, instance->pos.Z);
+// 	FString str2 = FString::Printf(TEXT("Rot : %f, %f, %f"), instance->rot.Roll, instance->rot.Pitch, instance->rot.Yaw);
+// 	UKismetSystemLibrary::PrintString(GetWorld(), str, true, true, FLinearColor::Blue);
+// 	UKismetSystemLibrary::PrintString(GetWorld(), str2, true, true, FLinearColor::Red);
+
+	UE_LOG(LogTemp, Warning, TEXT("Pos : %f, %f, %f"), instance->pos.X, instance->pos.Y, instance->pos.Z);
+	UE_LOG(LogTemp, Error, TEXT("Rot : %f, %f, %f"), instance->rot.Roll, instance->rot.Pitch, instance->rot.Yaw);
 }
 
 // Called every frame

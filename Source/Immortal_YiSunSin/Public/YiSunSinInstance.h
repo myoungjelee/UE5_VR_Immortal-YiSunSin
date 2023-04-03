@@ -19,5 +19,10 @@ public:
 
 public:
 	UPROPERTY(BlueprintReadWrite)
-	int32 score;
+	FVector pos;
+
+	UPROPERTY(BlueprintReadWrite)
+		FRotator rot;
+
+
 };
