@@ -185,10 +185,10 @@ void AMG4_Player::InputFire(bool bFire) //const FInputActionValue& value
 	if (bHit == true)
 	{
 		// 맞은 위치에 effect 보여준다.
-		UGameplayStatics::SpawnEmitterAtLocation(
+		/*UGameplayStatics::SpawnEmitterAtLocation(
 			GetWorld(),
 			exploEffect,
-			hitInfo.ImpactPoint);
+			hitInfo.ImpactPoint);*/
 
 		// 만약에 맞은놈이 ship 라면
 		AActor* actor = hitInfo.GetActor();
