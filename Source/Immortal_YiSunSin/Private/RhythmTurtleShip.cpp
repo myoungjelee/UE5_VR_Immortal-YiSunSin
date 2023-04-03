@@ -78,10 +78,7 @@ void ARhythmTurtleShip::BeginPlay()
 	levelSequence = Cast<ALevelSequenceActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ALevelSequenceActor::StaticClass()));
 	player = Cast<ARhythmPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), ARhythmPlayer::StaticClass()));
 	moviePlayer = Cast<AMoviePlayerActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMoviePlayerActor::StaticClass()));
-	
 
-	FTimerHandle movieTimer;
-	GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::PlayMovie, 4.0f, false);
 	curr = 0;
 }
 
