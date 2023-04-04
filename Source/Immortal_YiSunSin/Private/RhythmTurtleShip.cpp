@@ -128,7 +128,7 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 			}
 
 				FTimerHandle movieTimer;
-				GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::PlayMovie, 5.0f, false);
+				GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::OpenMovie, 5.0f, false);
 
 
 
@@ -169,8 +169,8 @@ void ARhythmTurtleShip::GameOver()
 	player->gameOverWidget->SetCollisionProfileName(TEXT("interactionUI"));
 }
 
-void ARhythmTurtleShip::PlayMovie()
+void ARhythmTurtleShip::OpenMovie()
 {
-	moviePlayer->PlayMovie();
+	moviePlayer->OpenMovie();
 }
 

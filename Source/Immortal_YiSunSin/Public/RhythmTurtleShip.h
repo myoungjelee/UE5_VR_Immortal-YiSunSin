@@ -68,6 +68,6 @@ public:
 	void FadeOut();
 	void OpenMainLevel();
 	void GameOver();
-	void PlayMovie();
+	void OpenMovie();
 
 };

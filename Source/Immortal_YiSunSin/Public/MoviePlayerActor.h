@@ -43,6 +43,8 @@ public:
 public:
 
 	UFUNCTION(BlueprintCallable)
+		void OpenMovie();
+	UFUNCTION(BlueprintCallable)
 	void PlayMovie();
 	UFUNCTION(BlueprintCallable)
 	void PausedMovie();
