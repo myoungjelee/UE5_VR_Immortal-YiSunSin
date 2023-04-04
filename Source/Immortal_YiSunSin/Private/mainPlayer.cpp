@@ -109,6 +109,7 @@ void AmainPlayer::Move(const struct FInputActionValue& value)
 {
 	FVector2D val = value.Get<FVector2D>();
 	//FVector direction = FVector(GetActorForwardVector()*val.Y,GetActorRightVector()*val.X, 0);
+	//플레이어 디렉션으로 이동
 	FVector dir = GetActorForwardVector()* val.Y + GetActorRightVector()* val.X;
 	AddMovementInput(dir.GetSafeNormal(), 1, false);
 }
