@@ -42,7 +42,7 @@ void APutPuzzle::BeginPlay()
 
 	GetRootComponent()->SetRelativeScale3D(FVector(2));
 
-	FVector startPos = FVector(1095, 120, 2900);
+	FVector startPos = FVector(1095, -125, 2900);
 
 	FString label = GetActorLabel();
 	label = label.Replace(TEXT("BP_PutPuzzle"), TEXT(""));

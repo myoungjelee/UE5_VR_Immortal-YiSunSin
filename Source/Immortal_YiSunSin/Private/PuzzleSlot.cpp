@@ -18,7 +18,7 @@ void APuzzleSlot::BeginPlay()
 
 	GetRootComponent()->SetRelativeScale3D(FVector(2));
 
-	FVector startPos = FVector(1300, 120, 2900);
+	FVector startPos = FVector(1300, -125, 2900);
 
 	FString label = GetActorLabel();
 	label = label.Replace(TEXT("Slot"), TEXT(""));
