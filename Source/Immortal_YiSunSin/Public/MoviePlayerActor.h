@@ -46,4 +46,9 @@ public:
 	void PlayMovie();
 	UFUNCTION(BlueprintCallable)
 	void PausedMovie();
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bPaused;
 };

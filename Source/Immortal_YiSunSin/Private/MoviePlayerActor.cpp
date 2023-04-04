@@ -45,9 +45,16 @@ void AMoviePlayerActor::Tick(float DeltaTime)
 
 void AMoviePlayerActor::PlayMovie()
 {
-	mediaPlayer->OpenSource(mediaSource);
+	plane->SetVisibility(true);
 
-	mediaPlayer->Play();
+	if (mediaPlayer->IsPlaying())
+	{
+		mediaPlayer->Play();
+	}
+	else
+	{
+		mediaPlayer->OpenSource(mediaSource);
+	}
 }
 
 void AMoviePlayerActor::PausedMovie()

@@ -13,6 +13,8 @@
 #include <UMG/Public/Components/WidgetComponent.h>
 #include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/InputAction.h>
 #include <Components/AudioComponent.h>
+#include "MoviePlayerActor.h"
+#include <MediaAssets/Public/MediaPlayer.h>
 
 
 // Sets default values for this component's properties
@@ -60,6 +62,7 @@ void UWidgetPointerComponent::BeginPlay()
 	Super::BeginPlay();
 
 	player = Cast<APuzzlePlayer>(GetOwner());
+	moviePlayer = Cast<AMoviePlayerActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMoviePlayerActor::StaticClass()));
 
 	for (TActorIterator<APutPuzzle> it(GetWorld()); it; ++it)
 	{
@@ -249,6 +252,8 @@ void UWidgetPointerComponent::GamePause()
 	{
 		player->bgm->SetPaused(true);
 	}
+	
+	moviePlayer->PausedMovie();
 }
 
 void UWidgetPointerComponent::ClickWidget_L()

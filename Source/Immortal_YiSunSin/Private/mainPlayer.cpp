@@ -61,16 +61,16 @@ void AmainPlayer::BeginPlay()
 
 	subsys->AddMappingContext(inputMapping, 0);
 
-// 	instance = Cast<UYiSunSinInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-// 
-// 	SetActorLocation(instance->pos);
-// 	playerCon->SetControlRotation(instance->rot);
-// 
-// // 	FString str = FString::Printf(TEXT("Pos : %f, %f, %f"), instance->pos.X, instance->pos.Y, instance->pos.Z);
-// // 	FString str2 = FString::Printf(TEXT("Rot : %f, %f, %f"), instance->rot.Roll, instance->rot.Pitch, instance->rot.Yaw);
-// // 	UKismetSystemLibrary::PrintString(GetWorld(), str, true, true, FLinearColor::Blue);
-// // 	UKismetSystemLibrary::PrintString(GetWorld(), str2, true, true, FLinearColor::Red);
-// 
+ 	instance = Cast<UYiSunSinInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+ 
+ 	SetActorLocation(instance->pos);
+ 	playerCon->SetControlRotation(instance->rot);
+ 
+ // 	FString str = FString::Printf(TEXT("Pos : %f, %f, %f"), instance->pos.X, instance->pos.Y, instance->pos.Z);
+ // 	FString str2 = FString::Printf(TEXT("Rot : %f, %f, %f"), instance->rot.Roll, instance->rot.Pitch, instance->rot.Yaw);
+ // 	UKismetSystemLibrary::PrintString(GetWorld(), str, true, true, FLinearColor::Blue);
+ // 	UKismetSystemLibrary::PrintString(GetWorld(), str2, true, true, FLinearColor::Red);
+ 
 // 	UE_LOG(LogTemp, Warning, TEXT("Pos : %f, %f, %f"), instance->pos.X, instance->pos.Y, instance->pos.Z);
 // 	UE_LOG(LogTemp, Error, TEXT("Rot : %f, %f, %f"), instance->rot.Roll, instance->rot.Pitch, instance->rot.Yaw);
 }

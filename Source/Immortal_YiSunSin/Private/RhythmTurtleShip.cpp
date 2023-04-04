@@ -17,6 +17,7 @@
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
 #include "MoviePlayerActor.h"
 
+
 // Sets default values
 ARhythmTurtleShip::ARhythmTurtleShip()
 {
@@ -80,6 +81,9 @@ void ARhythmTurtleShip::BeginPlay()
 	moviePlayer = Cast<AMoviePlayerActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMoviePlayerActor::StaticClass()));
 
 	curr = 0;
+
+// 	FTimerHandle movieTimer;
+// 	GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::PlayMovie, 5.0f, false);
 }
 
 // Called every frame
@@ -123,14 +127,17 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 				SetActorLocation(p0 + vt);
 			}
 
-			FTimerHandle movieTimer;
-			GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::PlayMovie, 4.0f, false);
+				FTimerHandle movieTimer;
+				GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::PlayMovie, 5.0f, false);
+
+
+
 			
 			FTimerHandle fadeTimer;
-			GetWorld()->GetTimerManager().SetTimer(fadeTimer, this, &ARhythmTurtleShip::FadeOut, 26.0f, false);
+			GetWorld()->GetTimerManager().SetTimer(fadeTimer, this, &ARhythmTurtleShip::FadeOut, 31.0f, false);
 
 			FTimerHandle levelTimer;
-			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 26.5f, false);
+			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 31.5f, false);
 		}
 		else
 		{
@@ -164,7 +171,6 @@ void ARhythmTurtleShip::GameOver()
 
 void ARhythmTurtleShip::PlayMovie()
 {
-	moviePlayer->plane->SetVisibility(true);
 	moviePlayer->PlayMovie();
 }
 
