@@ -34,8 +34,6 @@ void AMoviePlayerActor::BeginPlay()
 	Super::BeginPlay();
 	
 	mediaSound->SetMediaPlayer(mediaPlayer);
-
-	
 }
 
 // Called every frame
@@ -49,9 +47,14 @@ void AMoviePlayerActor::PlayMovie()
 {
 	plane->SetVisibility(true);
 
-	mediaPlayer->OpenSource(mediaSource);
-
-	mediaPlayer->Play();
+	if (mediaPlayer->IsPlaying())
+	{
+		mediaPlayer->Play();
+	}
+	else
+	{
+		mediaPlayer->OpenSource(mediaSource);
+	}
 }
 
 void AMoviePlayerActor::PausedMovie()

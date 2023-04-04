@@ -17,6 +17,7 @@
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
 #include "MoviePlayerActor.h"
 
+
 // Sets default values
 ARhythmTurtleShip::ARhythmTurtleShip()
 {
@@ -80,6 +81,9 @@ void ARhythmTurtleShip::BeginPlay()
 	moviePlayer = Cast<AMoviePlayerActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMoviePlayerActor::StaticClass()));
 
 	curr = 0;
+
+// 	FTimerHandle movieTimer;
+// 	GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::PlayMovie, 5.0f, false);
 }
 
 // Called every frame
@@ -122,11 +126,10 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 				FVector vt = FVector::BackwardVector * 2500 * DeltaTime;
 				SetActorLocation(p0 + vt);
 			}
-			else if (GetActorLocation().X <= 6500)
-			{
+
 				FTimerHandle movieTimer;
-				GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::PlayMovie, 2.0f, false);
-			}
+				GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::PlayMovie, 5.0f, false);
+
 
 
 			
