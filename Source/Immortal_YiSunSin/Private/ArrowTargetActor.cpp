@@ -82,17 +82,21 @@ void AArrowTargetActor::BeginPlay()
 	Super::BeginPlay();
 
 	player = Cast<AArcherPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AArcherPlayer::StaticClass()));
-	
-	ring1->OnComponentBeginOverlap.AddDynamic(this, &AArrowTargetActor::OnHit1);
-	ring2->OnComponentBeginOverlap.AddDynamic(this, &AArrowTargetActor::OnHit2);
-	ring3->OnComponentBeginOverlap.AddDynamic(this, &AArrowTargetActor::OnHit3);
-	ring4->OnComponentBeginOverlap.AddDynamic(this, &AArrowTargetActor::OnHit4);
-	ring5->OnComponentBeginOverlap.AddDynamic(this, &AArrowTargetActor::OnHit5);
-	ring6->OnComponentBeginOverlap.AddDynamic(this, &AArrowTargetActor::OnHit6);
-	ring7->OnComponentBeginOverlap.AddDynamic(this, &AArrowTargetActor::OnHit7);
-	ring8->OnComponentBeginOverlap.AddDynamic(this, &AArrowTargetActor::OnHit8);
-	ring9->OnComponentBeginOverlap.AddDynamic(this, &AArrowTargetActor::OnHit9);
-	ring10->OnComponentBeginOverlap.AddDynamic(this, &AArrowTargetActor::OnHit10);
+
+	TArray<UActorComponent*> Components = GetComponentsByClass(UStaticMeshComponent::StaticClass());
+	for (UActorComponent* Component : Components)
+	{
+		UStaticMeshComponent* Mesh = Cast<UStaticMeshComponent>(Component);
+		if (Mesh != nullptr)
+		{
+			rings.Add(Mesh);
+		}
+	}
+
+	for (UStaticMeshComponent* Mesh : rings)
+	{
+		Mesh->OnComponentBeginOverlap.AddDynamic(this, &AArrowTargetActor::OnHit);
+	}
 }
 
 void AArrowTargetActor::Tick(float DeltaTime)
@@ -104,136 +108,27 @@ void AArrowTargetActor::Tick(float DeltaTime)
 		scoreUI = Cast<UScoreUI>(player->scoreUI->GetUserWidgetObject());
 	}
 
+	if (bSpawn)
+	{
+		setTime += DeltaTime;
+		if (setTime > 3)
+		{
+			SetActive(false);
+		}
+	}
 }
 
 // È­»ì°ú ºÎµúÇûÀ» ¶§
-void AArrowTargetActor::OnHit1(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AArrowTargetActor::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (IsShoot(OtherActor, OtherComp))
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), hitTarget);
-		point = 1;
-		FString playerScore = FString::Printf(TEXT("%d"), point);
+		FString playerScore = FString::Printf(TEXT("Hit!!"), point);
 		hit->SetText(FText::FromString(playerScore));
-		scoreUI->UpdateScore(point);
 		player->shootCnt++;
-	}
-}
-
-void AArrowTargetActor::OnHit2(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (IsShoot(OtherActor, OtherComp))
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), hitTarget);
-		point = 2;
-		FString playerScore = FString::Printf(TEXT("%d"), point);
-		hit->SetText(FText::FromString(playerScore));
-		scoreUI->UpdateScore(point);
-		player->shootCnt++;
-	}
-}
-
-void AArrowTargetActor::OnHit3(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (IsShoot(OtherActor, OtherComp))
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), hitTarget);
-		point = 3;
-		FString playerScore = FString::Printf(TEXT("%d"), point);
-		hit->SetText(FText::FromString(playerScore));
-		scoreUI->UpdateScore(point);
-		player->shootCnt++;
-	}
-}
-
-void AArrowTargetActor::OnHit4(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (IsShoot(OtherActor, OtherComp))
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), hitTarget);
-		point = 4;
-		FString playerScore = FString::Printf(TEXT("%d"), point);
-		hit->SetText(FText::FromString(playerScore));
-		scoreUI->UpdateScore(point);
-		player->shootCnt++;
-	}
-}
-
-void AArrowTargetActor::OnHit5(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (IsShoot(OtherActor, OtherComp))
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), hitTarget);
-		point = 5;
-		FString playerScore = FString::Printf(TEXT("%d"), point);
-		hit->SetText(FText::FromString(playerScore));
-		scoreUI->UpdateScore(point);
-		player->shootCnt++;
-	}
-}
-
-void AArrowTargetActor::OnHit6(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (IsShoot(OtherActor, OtherComp))
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), hitTarget);
-		point = 6;
-		FString playerScore = FString::Printf(TEXT("%d"), point);
-		hit->SetText(FText::FromString(playerScore));
-		scoreUI->UpdateScore(point);
-		player->shootCnt++;
-	}
-}
-
-void AArrowTargetActor::OnHit7(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (IsShoot(OtherActor, OtherComp))
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), hitTarget);
-		point = 7;
-		FString playerScore = FString::Printf(TEXT("%d"), point);
-		hit->SetText(FText::FromString(playerScore));
-		scoreUI->UpdateScore(point);
-		player->shootCnt++;
-	}
-}
-
-void AArrowTargetActor::OnHit8(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (IsShoot(OtherActor, OtherComp))
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), hitTarget);
-		point = 8;
-		FString playerScore = FString::Printf(TEXT("%d"), point);
-		hit->SetText(FText::FromString(playerScore));
-		scoreUI->UpdateScore(point);
-		player->shootCnt++;
-	}
-}
-
-void AArrowTargetActor::OnHit9(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (IsShoot(OtherActor, OtherComp))
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), hitTarget);
-		point = 9;
-		FString playerScore = FString::Printf(TEXT("%d"), point);
-		hit->SetText(FText::FromString(playerScore));
-		scoreUI->UpdateScore(point);
-		player->shootCnt++;
-	}
-}
-
-void AArrowTargetActor::OnHit10(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (IsShoot(OtherActor, OtherComp))
-	{
-		UGameplayStatics::PlaySound2D(GetWorld(), hitTarget);
-		point = 10;
-		FString playerScore = FString::Printf(TEXT("%d"), point);
-		hit->SetText(FText::FromString(playerScore));
-		scoreUI->UpdateScore(point);
-		player->shootCnt++;
+		scoreUI->UpdateScore(player->shootCnt);
+		SetActive(false);
 	}
 }
 
@@ -248,4 +143,45 @@ bool AArrowTargetActor::IsShoot(AActor* OtherActor, UPrimitiveComponent* OtherCo
 	}
 	
 	return false;
+}
+
+void AArrowTargetActor::SetActive(bool bActive)
+{
+	TArray<UActorComponent*> Components = GetComponentsByClass(UStaticMeshComponent::StaticClass());
+	for (UActorComponent* Component : Components)
+	{
+		UStaticMeshComponent* Mesh = Cast<UStaticMeshComponent>(Component);
+		if (Mesh != nullptr)
+		{
+			rings.Add(Mesh);
+		}
+	}
+
+	if (bActive)
+	{
+		for (UStaticMeshComponent* Mesh : rings)
+		{
+			Mesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		}
+	}
+	else
+	{
+		for (UStaticMeshComponent* Mesh : rings)
+		{
+			Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		}
+
+		targetHit.ExecuteIfBound(this);
+	}
+
+	bSpawn = bActive;
+
+	for (UStaticMeshComponent* Mesh : rings)
+	{
+		Mesh->SetActive(bActive);
+		Mesh->SetVisibility(bActive);
+	}
+
+	hit->SetActive(bActive);
+	hit->SetVisibility(bActive);
 }

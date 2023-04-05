@@ -22,9 +22,11 @@ AArrowActor::AArrowActor()
 
 	projectileComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Component"));
 	projectileComp->SetUpdatedComponent(boxComp);
-	projectileComp->InitialSpeed = 2000.0f;
-	projectileComp->MaxSpeed = 2000.0f;
+	projectileComp->InitialSpeed = 3000.0f;
+	projectileComp->MaxSpeed = 3000.0f;
 	projectileComp->bShouldBounce = false;
+	projectileComp->bRotationFollowsVelocity = true;
+
 }
 
 void AArrowActor::BeginPlay()

@@ -89,6 +89,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Widget")
 	class UWidgetComponent* gameoverUI;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Widget")
+	class UWidgetComponent* timerUI;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
 	class UScoreUI* score;
 
@@ -107,6 +110,9 @@ public:
 	bool bBowPulling = false;
 	int32 shootCnt = 0;
 
+	bool bIsShowLine = false;
+	TArray<FVector> lineLoc;
+
 	void BowRelease();
 	void ShootArrow();
 	void PressWidget();
@@ -115,4 +121,5 @@ public:
 	void RotateAxis(const struct FInputActionValue& value);
 	void FindWidget();
 	void PauseUIOpen();
+	void DrawMoveLine();
 };

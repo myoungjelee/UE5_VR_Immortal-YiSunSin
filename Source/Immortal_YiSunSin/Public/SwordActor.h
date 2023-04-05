@@ -23,4 +23,7 @@ protected:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UStaticMeshComponent* planeComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 hitMesh = 0;
 };
