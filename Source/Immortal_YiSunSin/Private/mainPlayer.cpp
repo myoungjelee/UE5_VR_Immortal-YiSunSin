@@ -94,8 +94,8 @@ void AmainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	UEnhancedInputComponent* enhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
 	//Move Input Binding
-	enhancedInputComponent->BindAction(thumbstickR, ETriggerEvent::Triggered, this, &AmainPlayer::Move);
-	enhancedInputComponent->BindAction(thumbstickL, ETriggerEvent::Triggered, this, &AmainPlayer::RotateAxis);
+	enhancedInputComponent->BindAction(thumbstickL, ETriggerEvent::Triggered, this, &AmainPlayer::Move);
+	enhancedInputComponent->BindAction(thumbstickR, ETriggerEvent::Triggered, this, &AmainPlayer::RotateAxis);
 	enhancedInputComponent->BindAction(btnB, ETriggerEvent::Started, this, &AmainPlayer::ShowLine);
 	enhancedInputComponent->BindAction(btnB, ETriggerEvent::Completed, this, &AmainPlayer::HideLine);
 }
@@ -209,7 +209,7 @@ void AmainPlayer::ShowLine()
 void AmainPlayer::HideLine()
 {
 	bIsShowLine = false;
-	Teleport();
+	//Teleport();
 	TeleportFade();
 }
 

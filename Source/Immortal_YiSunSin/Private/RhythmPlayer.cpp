@@ -160,6 +160,8 @@ void ARhythmPlayer::BeginPlay()
 
 	subsys->AddMappingContext(inputMapping, 0);
 
+	playerCon->SetControlRotation(FRotator(0));
+
 	sound = UGameplayStatics::SpawnSound2D(GetWorld(), arirang);
 }
 
