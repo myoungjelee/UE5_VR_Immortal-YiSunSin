@@ -37,7 +37,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Drum)
 		float glowPower;
 
-		UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere)
 		float drumSpeed = 500;
 
 	class UMaterialInstanceDynamic* keyMat;
