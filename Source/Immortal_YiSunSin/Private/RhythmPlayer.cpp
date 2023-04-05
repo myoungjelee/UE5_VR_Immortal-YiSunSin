@@ -41,7 +41,7 @@ ARhythmPlayer::ARhythmPlayer()
 	l_Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	l_Mesh->SetRelativeScale3D(FVector(0.1f));
 	l_Mesh->SetRelativeLocation(FVector(0, 0, -17.5f));
-	
+
 	widgetPointer_Left = CreateDefaultSubobject<UWidgetInteractionComponent>("Left Pointer");
 	widgetPointer_Left->SetupAttachment(l_Controller);
 	widgetPointer_Left->InteractionDistance = 2000;
@@ -78,7 +78,7 @@ ARhythmPlayer::ARhythmPlayer()
 	pauseWidget->SetCollisionProfileName(TEXT("NoCollision"));
 	pauseWidget->SetRelativeLocation(FVector(700, 0, 300));
 	pauseWidget->SetRelativeRotation(FRotator(0, 180, 0));
-	pauseWidget->SetDrawSize(FVector2D(1920,1080));
+	pauseWidget->SetDrawSize(FVector2D(1920, 1080));
 
 	gameOverWidget = CreateDefaultSubobject<UWidgetComponent>("GameOverWidget");
 	gameOverWidget->SetupAttachment(RootComponent);
@@ -194,7 +194,7 @@ void ARhythmPlayer::OnDrum_Left(UPrimitiveComponent* OverlappedComponent, AActor
 	if (OtherActor->GetName().Contains(TEXT("Drum")))
 	{
 		GetWorld()->GetFirstPlayerController()->PlayHapticEffect(hitHaptic, EControllerHand::Left, 1, false);
-	}	
+	}
 }
 
 void ARhythmPlayer::OnDrum_Right(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -212,7 +212,7 @@ void ARhythmPlayer::GamePause()
 	{
 		sound->SetPaused(true);
 	}
-	
+
 	widgetPointer_Left->bShowDebug = true;
 	widgetPointer_Right->bShowDebug = true;
 	pauseWidget->SetVisibility(true);

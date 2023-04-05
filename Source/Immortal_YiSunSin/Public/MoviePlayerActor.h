@@ -10,8 +10,8 @@ UCLASS()
 class IMMORTAL_YISUNSIN_API AMoviePlayerActor : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AMoviePlayerActor();
 
@@ -19,12 +19,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UMaterial* mediaMaterial;
 
@@ -45,12 +45,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void OpenMovie();
 	UFUNCTION(BlueprintCallable)
-	void PlayMovie();
+		void PlayMovie();
 	UFUNCTION(BlueprintCallable)
-	void PausedMovie();
+		void PausedMovie();
+	UFUNCTION(BlueprintCallable)
+		void OnMediaPlayerEndReached();
 
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bPaused;
+		bool bEnd = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float currTime = 0;
 };

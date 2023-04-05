@@ -7,19 +7,19 @@
 #include "YiSunSinInstance.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class IMMORTAL_YISUNSIN_API UYiSunSinInstance : public UGameInstance
 {
 	GENERATED_BODY()
-	
+
 public:
 	virtual void Init() override;
 
 public:
 	UPROPERTY(BlueprintReadWrite)
-	FVector pos;
+		FVector pos;
 
 	UPROPERTY(BlueprintReadWrite)
 		FRotator rot;

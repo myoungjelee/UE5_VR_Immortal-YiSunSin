@@ -37,17 +37,17 @@ void APutPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 
-// 	compBox->OnComponentBeginOverlap.AddDynamic(this, &APutPuzzle::OnPuzzle);
-// 	compBox->OnComponentEndOverlap.AddDynamic(this, &APutPuzzle::OffPuzzle);
+	// 	compBox->OnComponentBeginOverlap.AddDynamic(this, &APutPuzzle::OnPuzzle);
+	// 	compBox->OnComponentEndOverlap.AddDynamic(this, &APutPuzzle::OffPuzzle);
 
 	GetRootComponent()->SetRelativeScale3D(FVector(2));
 
 	FVector startPos = FVector(1095, -125, 2900);
 
-	FString label = GetActorLabel();
-	label = label.Replace(TEXT("BP_PutPuzzle"), TEXT(""));
-	int32 idx = FCString::Atoi(*label) - 1;
-	//UE_LOG(LogTemp, Warning, TEXT("%d"), idx);
+	// 	FString label = GetActorLabel();
+	// 	label = label.Replace(TEXT("BP_PutPuzzle"), TEXT(""));
+	// 	int32 idx = FCString::Atoi(*label) - 1;
+		//UE_LOG(LogTemp, Warning, TEXT("%d"), idx);
 
 	FVector pos = startPos;
 	pos.Y += (idx % 4) * 200;
@@ -60,13 +60,13 @@ void APutPuzzle::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	startLoc_s = GetActorLocation() + FVector(104, 0 , 0);
+	startLoc_s = GetActorLocation() + FVector(104, 0, 0);
 	endLoc_s = GetActorLocation() + FVector(99, 0, 0);
-// 	FCollisionObjectQueryParams objectPoint;
-// 	objectPoint.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldDynamic);
-// 	hit_s = GetWorld()->LineTraceSingleByObjectType(hitInfo_s,startLoc_s,endLoc_s,objectPoint);
+	// 	FCollisionObjectQueryParams objectPoint;
+	// 	objectPoint.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldDynamic);
+	// 	hit_s = GetWorld()->LineTraceSingleByObjectType(hitInfo_s,startLoc_s,endLoc_s,objectPoint);
 	hit_s = GetWorld()->LineTraceSingleByChannel(hitInfo_s, startLoc_s, endLoc_s, ECollisionChannel::ECC_WorldDynamic);
-	DrawDebugLine(GetWorld(), startLoc_s, endLoc_s, FColor::Red, true,-1,0,1);
+	DrawDebugLine(GetWorld(), startLoc_s, endLoc_s, FColor::Red, true, -1, 0, 1);
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *hitInfo_s.GetActor()->GetName());
 	if (hit_s)
 	{
@@ -77,7 +77,7 @@ void APutPuzzle::Tick(float DeltaTime)
 		bOverlap = false;
 	}
 
-	
+
 	startLoc = GetActorLocation() + GetActorForwardVector();
 	endLoc = GetActorLocation() + (GetActorForwardVector() * -900);
 	hit = GetWorld()->LineTraceSingleByChannel(hitInfo, startLoc, endLoc, ECC_Visibility);
@@ -124,7 +124,7 @@ void APutPuzzle::SettingPuzzle()
 		setPuzzle->SetActorRotation(compBox->GetComponentRotation());
 
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), completePuzzle, GetActorLocation(), GetActorRotation(), FVector3d(1));
-		UGameplayStatics::PlaySound2D(GetWorld(),puzzleSound);
+		UGameplayStatics::PlaySound2D(GetWorld(), puzzleSound);
 
 		setPuzzle = nullptr;
 	}

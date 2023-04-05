@@ -197,7 +197,7 @@ void UWidgetPointerComponent::ReleasedPuzzle_L()
 
 		for (APutPuzzle* put : putArray)
 		{
-				put->SettingPuzzle();
+			put->SettingPuzzle();
 		}
 	}
 }
@@ -252,7 +252,7 @@ void UWidgetPointerComponent::GamePause()
 	{
 		player->bgm->SetPaused(true);
 	}
-	
+
 	moviePlayer->PausedMovie();
 }
 

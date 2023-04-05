@@ -28,4 +28,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FVector end;
+
+	UPROPERTY(EditAnywhere)
+		int32 idx;
 };
