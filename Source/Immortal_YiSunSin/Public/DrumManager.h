@@ -14,10 +14,10 @@ struct FNodeInfo
 public:
 	//0 : q, 1 : w, 2 : e, 3 :r
 	UPROPERTY()
-		int32 type;
+		int32 type = 0;
 
 	UPROPERTY()
-		float makeTime;
+		float makeTime = 0;
 };
 
 USTRUCT(BlueprintType)
@@ -31,7 +31,7 @@ public:
 		TSubclassOf<class ADrumActor> drumActor;
 
 	UPROPERTY(EditAnywhere)
-		FVector pos;
+		FVector pos = FVector(0);
 };
 
 
