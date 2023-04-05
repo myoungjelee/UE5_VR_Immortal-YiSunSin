@@ -50,24 +50,27 @@ public:
 	UPROPERTY(EditAnywhere)
 		class ALevelSequenceActor* levelSequence;
 
-		UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere)
 		class ARhythmPlayer* player;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class AMoviePlayerActor* moviePlayer;
 
-	UPROPERTY(EditAnywhere)
-	bool bComplete = false;
-	UPROPERTY(EditAnywhere)
-	float a = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float max = 68;	
+		bool bComplete = false;
+	UPROPERTY(EditAnywhere)
+		float a = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float curr;
+		float max = 68;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float curr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32 bMoviePlay = 0;
 
 	void FadeOut();
 	void OpenMainLevel();
 	void GameOver();
-	void PlayMovie();
+	void OpenMovie();
+	void CheckMovie();
 
 };

@@ -19,7 +19,7 @@
 // Sets default values
 APuzzlePlayer::APuzzlePlayer()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	cam = CreateDefaultSubobject<UCameraComponent>("Cam");
@@ -39,7 +39,7 @@ APuzzlePlayer::APuzzlePlayer()
 	widgetPointer_Left->InteractionDistance = 2000;
 	widgetPointer_Left->bShowDebug = true;
 	widgetPointer_Left->DebugColor = FColor::Red;
-	widgetPointer_Left->SetRelativeRotation(FRotator(-45,0,0));
+	widgetPointer_Left->SetRelativeRotation(FRotator(-45, 0, 0));
 
 	controller_Right = CreateDefaultSubobject<UMotionControllerComponent>("Right Controller");
 	controller_Right->SetupAttachment(RootComponent);
@@ -61,8 +61,8 @@ APuzzlePlayer::APuzzlePlayer()
 	pauseWidget->SetupAttachment(RootComponent);
 	pauseWidget->SetVisibility(false);
 	pauseWidget->SetCollisionProfileName(TEXT("NoCollision"));
-	pauseWidget->SetRelativeLocation(FVector(700,0,300));
-	pauseWidget->SetRelativeRotation(FRotator(0,180,0));
+	pauseWidget->SetRelativeLocation(FVector(700, 0, 300));
+	pauseWidget->SetRelativeRotation(FRotator(0, 180, 0));
 	pauseWidget->SetDrawSize(FVector2D(1920, 1080));
 
 	gameOverWidget = CreateDefaultSubobject<UWidgetComponent>("GameOverWidget");
@@ -112,7 +112,7 @@ APuzzlePlayer::APuzzlePlayer()
 void APuzzlePlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(trackOrigin.GetValue());
 
 	APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
@@ -121,7 +121,7 @@ void APuzzlePlayer::BeginPlay()
 
 	subsys->AddMappingContext(inputMapping, 0);
 
-	bgm = UGameplayStatics::SpawnSound2D(GetWorld(),gameSound);
+	bgm = UGameplayStatics::SpawnSound2D(GetWorld(), gameSound);
 
 }
 

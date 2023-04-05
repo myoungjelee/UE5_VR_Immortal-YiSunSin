@@ -18,11 +18,11 @@ void APuzzleSlot::BeginPlay()
 
 	GetRootComponent()->SetRelativeScale3D(FVector(2));
 
-	FVector startPos = FVector(1300, 120, 2900);
+	FVector startPos = FVector(1300, -125, 2900);
 
-	FString label = GetActorLabel();
+	/*FString label = GetActorLabel();
 	label = label.Replace(TEXT("Slot"), TEXT(""));
-	int32 idx = FCString::Atoi(*label) - 1;
+	int32 idx = FCString::Atoi(*label) - 1;*/
 	//UE_LOG(LogTemp, Warning, TEXT("%d"), idx);
 
 	FVector pos = startPos;

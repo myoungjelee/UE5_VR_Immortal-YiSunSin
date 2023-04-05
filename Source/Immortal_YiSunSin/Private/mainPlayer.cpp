@@ -61,16 +61,16 @@ void AmainPlayer::BeginPlay()
 
 	subsys->AddMappingContext(inputMapping, 0);
 
-// 	instance = Cast<UYiSunSinInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-// 
-// 	SetActorLocation(instance->pos);
-// 	playerCon->SetControlRotation(instance->rot);
-// 
-// // 	FString str = FString::Printf(TEXT("Pos : %f, %f, %f"), instance->pos.X, instance->pos.Y, instance->pos.Z);
-// // 	FString str2 = FString::Printf(TEXT("Rot : %f, %f, %f"), instance->rot.Roll, instance->rot.Pitch, instance->rot.Yaw);
-// // 	UKismetSystemLibrary::PrintString(GetWorld(), str, true, true, FLinearColor::Blue);
-// // 	UKismetSystemLibrary::PrintString(GetWorld(), str2, true, true, FLinearColor::Red);
-// 
+ 	instance = Cast<UYiSunSinInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+ 
+ 	SetActorLocation(instance->pos);
+ 	playerCon->SetControlRotation(instance->rot);
+ 
+ // 	FString str = FString::Printf(TEXT("Pos : %f, %f, %f"), instance->pos.X, instance->pos.Y, instance->pos.Z);
+ // 	FString str2 = FString::Printf(TEXT("Rot : %f, %f, %f"), instance->rot.Roll, instance->rot.Pitch, instance->rot.Yaw);
+ // 	UKismetSystemLibrary::PrintString(GetWorld(), str, true, true, FLinearColor::Blue);
+ // 	UKismetSystemLibrary::PrintString(GetWorld(), str2, true, true, FLinearColor::Red);
+ 
 // 	UE_LOG(LogTemp, Warning, TEXT("Pos : %f, %f, %f"), instance->pos.X, instance->pos.Y, instance->pos.Z);
 // 	UE_LOG(LogTemp, Error, TEXT("Rot : %f, %f, %f"), instance->rot.Roll, instance->rot.Pitch, instance->rot.Yaw);
 }
@@ -94,8 +94,8 @@ void AmainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	UEnhancedInputComponent* enhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 
 	//Move Input Binding
-	enhancedInputComponent->BindAction(thumbstickR, ETriggerEvent::Triggered, this, &AmainPlayer::Move);
-	enhancedInputComponent->BindAction(thumbstickL, ETriggerEvent::Triggered, this, &AmainPlayer::RotateAxis);
+	enhancedInputComponent->BindAction(thumbstickL, ETriggerEvent::Triggered, this, &AmainPlayer::Move);
+	enhancedInputComponent->BindAction(thumbstickR, ETriggerEvent::Triggered, this, &AmainPlayer::RotateAxis);
 	enhancedInputComponent->BindAction(btnB, ETriggerEvent::Started, this, &AmainPlayer::ShowLine);
 	enhancedInputComponent->BindAction(btnB, ETriggerEvent::Completed, this, &AmainPlayer::HideLine);
 }
@@ -109,6 +109,7 @@ void AmainPlayer::Move(const struct FInputActionValue& value)
 {
 	FVector2D val = value.Get<FVector2D>();
 	//FVector direction = FVector(GetActorForwardVector()*val.Y,GetActorRightVector()*val.X, 0);
+	//플레이어 디렉션으로 이동
 	FVector dir = GetActorForwardVector()* val.Y + GetActorRightVector()* val.X;
 	AddMovementInput(dir.GetSafeNormal(), 1, false);
 }
@@ -208,7 +209,7 @@ void AmainPlayer::ShowLine()
 void AmainPlayer::HideLine()
 {
 	bIsShowLine = false;
-	Teleport();
+	//Teleport();
 	TeleportFade();
 }
 

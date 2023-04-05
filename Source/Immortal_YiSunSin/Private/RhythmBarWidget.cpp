@@ -9,7 +9,7 @@ void URhythmBarWidget::NativeConstruct()
 	Super::NativeConstruct();
 
 	//gaugeBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("Gauge")));
-	
+
 }
 
 void URhythmBarWidget::UpdateGauge(float curr, float max)

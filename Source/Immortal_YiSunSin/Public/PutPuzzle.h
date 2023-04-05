@@ -10,8 +10,8 @@ UCLASS()
 class IMMORTAL_YISUNSIN_API APutPuzzle : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	APutPuzzle();
 
@@ -19,14 +19,14 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	
+
 	UPROPERTY(EditAnywhere)
-	class UBoxComponent* compBox;
+		class UBoxComponent* compBox;
 
 	UPROPERTY(EditAnywhere)
 		class AActor* overlapPuzzle;
@@ -41,6 +41,9 @@ public:
 		class USoundBase* puzzleSound;
 
 public:
+
+	UPROPERTY(EditAnywhere)
+		int32 idx;
 
 	bool bOverlap;
 
@@ -63,6 +66,6 @@ public:
 
 	UFUNCTION()
 		void OffPuzzle(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-		
-		void SettingPuzzle();
+
+	void SettingPuzzle();
 };

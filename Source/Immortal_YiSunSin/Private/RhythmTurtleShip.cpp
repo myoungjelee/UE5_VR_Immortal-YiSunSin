@@ -17,10 +17,11 @@
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
 #include "MoviePlayerActor.h"
 
+
 // Sets default values
 ARhythmTurtleShip::ARhythmTurtleShip()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	compBox = CreateDefaultSubobject<UBoxComponent>("Root");
@@ -71,7 +72,7 @@ ARhythmTurtleShip::ARhythmTurtleShip()
 void ARhythmTurtleShip::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	widgetActor = Cast<ARhythmBarWidgetActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ARhythmBarWidgetActor::StaticClass()));
 	gaugeWidget = Cast<URhythmBarWidget>(widgetActor->compWidget->GetUserWidgetObject());
 	manager = Cast<ADrumManager>(UGameplayStatics::GetActorOfClass(GetWorld(), ADrumManager::StaticClass()));
@@ -80,6 +81,7 @@ void ARhythmTurtleShip::BeginPlay()
 	moviePlayer = Cast<AMoviePlayerActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMoviePlayerActor::StaticClass()));
 
 	curr = 0;
+
 }
 
 // Called every frame
@@ -114,6 +116,7 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 
 	if (manager->bEnd)
 	{
+		player->sound = nullptr;
 		if (bComplete)
 		{
 			if (GetActorLocation().X > 6500)
@@ -123,14 +126,33 @@ void ARhythmTurtleShip::Tick(float DeltaTime)
 				SetActorLocation(p0 + vt);
 			}
 
-			FTimerHandle movieTimer;
-			GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::PlayMovie, 4.0f, false);
-			
-			FTimerHandle fadeTimer;
-			GetWorld()->GetTimerManager().SetTimer(fadeTimer, this, &ARhythmTurtleShip::FadeOut, 26.0f, false);
+			if (bMoviePlay == 2)
+			{
+				OpenMovie();
+				bMoviePlay = 3;
+			}
 
-			FTimerHandle levelTimer;
-			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 26.5f, false);
+			if (bMoviePlay == 0)
+			{
+				FTimerHandle movieTimer;
+				GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &ARhythmTurtleShip::CheckMovie, 5.0f, false);
+				bMoviePlay = 1;
+			}
+
+			if (moviePlayer->currTime >= 2.0f)
+			{
+				FadeOut();
+
+				FTimerHandle levelTimer;
+				GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 2.0f, false);
+				moviePlayer->currTime = 0;
+			}
+
+			// 			FTimerHandle fadeTimer;
+			// 			GetWorld()->GetTimerManager().SetTimer(fadeTimer, this, &ARhythmTurtleShip::FadeOut, 31.0f, false);
+			// 
+			// 			FTimerHandle levelTimer;
+			// 			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &ARhythmTurtleShip::OpenMainLevel, 32.5f, false);
 		}
 		else
 		{
@@ -144,8 +166,8 @@ void ARhythmTurtleShip::FadeOut()
 {
 	//GetWorld()->GetFirstPlayerController()->PlayerCameraManager->StartCameraFade(0, 1.0f, 2.0f, FLinearColor::Black);
 	ULevelSequence* endSequence = LoadObject<ULevelSequence>(nullptr, TEXT("/Script/LevelSequence.LevelSequence'/Game/Sequence/EndLevelSequence.EndLevelSequence'"));
- 	levelSequence->SetSequence(endSequence);
- 	levelSequence->GetSequencePlayer()->Play();
+	levelSequence->SetSequence(endSequence);
+	levelSequence->GetSequencePlayer()->Play();
 }
 
 void ARhythmTurtleShip::OpenMainLevel()
@@ -162,9 +184,13 @@ void ARhythmTurtleShip::GameOver()
 	player->gameOverWidget->SetCollisionProfileName(TEXT("interactionUI"));
 }
 
-void ARhythmTurtleShip::PlayMovie()
+void ARhythmTurtleShip::OpenMovie()
 {
-	moviePlayer->plane->SetVisibility(true);
-	moviePlayer->PlayMovie();
+	moviePlayer->OpenMovie();
+}
+
+void ARhythmTurtleShip::CheckMovie()
+{
+	bMoviePlay = 2;
 }
 

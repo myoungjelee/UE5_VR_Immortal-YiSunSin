@@ -9,22 +9,23 @@
 // Sets default values
 AMoviePlayerActor::AMoviePlayerActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-		plane = CreateDefaultSubobject<UStaticMeshComponent>("VideoPlayer");
-		SetRootComponent(plane);
-		plane->SetCollisionProfileName(TEXT("NoCollision"));
-		plane->SetVisibility(false);
+	plane = CreateDefaultSubobject<UStaticMeshComponent>("VideoPlayer");
+	SetRootComponent(plane);
+	plane->SetCollisionProfileName(TEXT("NoCollision"));
+	plane->SetVisibility(false);
 
-		mediaSound = CreateDefaultSubobject<UMediaSoundComponent>("MediaSound");
-		mediaSound->SetupAttachment(plane);
+	mediaSound = CreateDefaultSubobject<UMediaSoundComponent>("MediaSound");
+	mediaSound->SetupAttachment(plane);
 
-		ConstructorHelpers::FObjectFinder<UStaticMesh> tempMesh(TEXT("/Script/Engine.StaticMesh'/Engine/BasicShapes/Plane.Plane'"));
-		if (tempMesh.Succeeded())
-		{
-			plane->SetStaticMesh(tempMesh.Object);
-		}
+	ConstructorHelpers::FObjectFinder<UStaticMesh> tempMesh(TEXT("/Script/Engine.StaticMesh'/Engine/BasicShapes/Plane.Plane'"));
+	if (tempMesh.Succeeded())
+	{
+		plane->SetStaticMesh(tempMesh.Object);
+	}
+
 
 }
 
@@ -32,8 +33,10 @@ AMoviePlayerActor::AMoviePlayerActor()
 void AMoviePlayerActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	mediaSound->SetMediaPlayer(mediaPlayer);
+
+	mediaPlayer->OnEndReached.AddDynamic(this, &AMoviePlayerActor::OnMediaPlayerEndReached);
 }
 
 // Called every frame
@@ -41,12 +44,21 @@ void AMoviePlayerActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (bEnd)
+	{
+		currTime += DeltaTime;
+	}
+}
+
+void AMoviePlayerActor::OpenMovie()
+{
+	plane->SetVisibility(true);
+	mediaPlayer->OpenSource(mediaSource);
+
 }
 
 void AMoviePlayerActor::PlayMovie()
 {
-	mediaPlayer->OpenSource(mediaSource);
-
 	mediaPlayer->Play();
 }
 
@@ -56,5 +68,10 @@ void AMoviePlayerActor::PausedMovie()
 	{
 		mediaPlayer->Pause();
 	}
+}
+
+void AMoviePlayerActor::OnMediaPlayerEndReached()
+{
+	bEnd = true;
 }
 

@@ -10,8 +10,8 @@ UCLASS()
 class IMMORTAL_YISUNSIN_API ADrumStick : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ADrumStick();
 
@@ -19,16 +19,16 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 public:
 
 	UPROPERTY(EditAnywhere)
-	class USphereComponent* compSphere;
+		class USphereComponent* compSphere;
 
 	UPROPERTY(EditAnywhere)
-	class UStaticMeshComponent* compMesh;
+		class UStaticMeshComponent* compMesh;
 
 };

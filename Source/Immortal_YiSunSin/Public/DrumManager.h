@@ -28,10 +28,10 @@ struct FNodeCreateInfo
 public:
 	//0 : q, 1 : w, 2 : e, 3 :r
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<class ADrumActor> drumActor;
+		TSubclassOf<class ADrumActor> drumActor;
 
 	UPROPERTY(EditAnywhere)
-	FVector pos;
+		FVector pos;
 };
 
 
@@ -40,8 +40,8 @@ UCLASS()
 class IMMORTAL_YISUNSIN_API ADrumManager : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ADrumManager();
 
@@ -49,14 +49,14 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 public:
 
 	UPROPERTY(EditAnywhere)
-	class ARhythmPlayer* player;
+		class ARhythmPlayer* player;
 
 	UPROPERTY(EditAnywhere)
 		class ADrumActor* drum;
@@ -68,7 +68,7 @@ public:
 
 	TArray<FNodeInfo> nodeArray;
 	UPROPERTY(EditAnywhere)
-	TArray<FNodeCreateInfo> nodeCreateArray;
+		TArray<FNodeCreateInfo> nodeCreateArray;
 
 	float makeTime = 0;
 
@@ -80,7 +80,8 @@ public:
 
 	int32 nodeMax = 4;
 
-	bool bEnd = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bEnd = false;
 
 public:
 
