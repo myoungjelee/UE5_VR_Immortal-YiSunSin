@@ -17,9 +17,6 @@ void UScoreUI::NativeConstruct()
 void UScoreUI::UpdateScore(int32 point)
 {
 	score += point;
-
 	FString playerScore = FString::Printf(TEXT("%d"), score);
 	scoreBinding->SetText(FText::FromString(playerScore));
 }
-
-

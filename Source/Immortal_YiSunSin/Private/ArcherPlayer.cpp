@@ -16,6 +16,7 @@
 #include <Kismet/GameplayStatics.h>
 #include "ScoreUI.h"
 #include "GameResultWidget.h"
+#include "EasingLibrary.h"
 
 AArcherPlayer::AArcherPlayer()
 {
@@ -58,6 +59,7 @@ AArcherPlayer::AArcherPlayer()
 
 	widgetInt = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Widget Interaction"));
 	widgetInt->SetupAttachment(rightController);
+	widgetInt->SetRelativeRotation(FRotator(-45, 0, 0));
 
 	pauseUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Pause UI"));
 	pauseUI->SetupAttachment(RootComponent);
@@ -78,6 +80,12 @@ AArcherPlayer::AArcherPlayer()
 	gameoverUI->SetupAttachment(RootComponent);
 	gameoverUI->SetRelativeLocation(FVector(765, 0, 300));
 	gameoverUI->SetRelativeRotation(FRotator(0, 180, 0));
+
+	timerUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Timer UI"));
+	timerUI->SetupAttachment(RootComponent);
+	timerUI->SetRelativeLocation(FVector(1200, 0, 0));
+	timerUI->SetRelativeRotation(FRotator(0, 180, 0));
+	timerUI->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AArcherPlayer::BeginPlay()
@@ -117,36 +125,25 @@ void AArcherPlayer::Tick(float DeltaTime)
 
 	FVector temp = rightHand->GetComponentLocation() - startLoc;
 	handLoc = rightHand->GetComponentLocation();
+	FVector handleLoc = handleMesh->GetComponentLocation();
 
 
 	if (temp.Length() < 120 && temp.Length() > 70)
 	{
 		if (bBowPulling == true)
 		{
-			handleMesh->SetWorldLocation(handLoc);
-			arrow->SetActorLocation(handleMesh->GetComponentLocation() + arrow->GetActorForwardVector() * 40);
+			handleMesh->SetWorldLocation(FVector(handLoc.X, handleLoc.Y, handleLoc.Z));
+			/*arrow->SetActorLocation(handleMesh->GetComponentLocation() + arrow->GetActorForwardVector() * 40);*/
+			arrow->SetActorLocation(FVector(handleMesh->GetComponentLocation().X + 40, bowComp->GetComponentLocation().Y + 3, bowComp->GetComponentLocation().Z));
 			arrow->SetActorRotation(handleMesh->GetComponentRotation());
 		}
 	}
 
 	FindWidget();
 
-	if (shootCnt >= 3)
+	if (bIsShowLine)
 	{
-		if (score->score > 10)
-		{
-			// 게임을 일시중지하고 UI를 띄운다.
-			result->SetScore(score->score);
-			resultUI->SetVisibility(true);
-			UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
-			widgetInt->bShowDebug = true;
-		}
-		else
-		{
-			gameoverUI->SetVisibility(true);
-			UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
-			widgetInt->bShowDebug = true;
-		}
+		DrawMoveLine();
 	}
 }
 
@@ -171,7 +168,7 @@ void AArcherPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 void AArcherPlayer::BowRelease()
 {
 	bBowPulling = true;
-
+	bIsShowLine = true;
 	// 화살 스폰 --
 	FVector shootLoc = handleMesh->GetComponentLocation();
 	FRotator shootRot = handleMesh->GetComponentRotation();
@@ -182,8 +179,8 @@ void AArcherPlayer::BowRelease()
 void AArcherPlayer::ShootArrow()
 {
 	bBowPulling = false;
+	bIsShowLine = false;
 	handleMesh->SetRelativeLocation(tempLoc);
-
 	arrow->Shoot();
 	UGameplayStatics::PlaySound2D(GetWorld(), bowRelease);
 }
@@ -205,6 +202,7 @@ void AArcherPlayer::Move(const struct FInputActionValue& value)
 	FVector direction = FVector(val.Y, val.X, 0);
 
 	AddMovementInput(direction.GetSafeNormal(), 1, false);
+
 }
 
 void AArcherPlayer::RotateAxis(const struct FInputActionValue& value)
@@ -240,4 +238,45 @@ void AArcherPlayer::PauseUIOpen()
 	pauseUI->SetVisibility(true);
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
 	widgetInt->bShowDebug = true;
+}
+
+void AArcherPlayer::DrawMoveLine()
+{
+	float timeInterval = 0.02f;
+	int32 timeSegment = 50;
+
+	FVector handForward = arrow->GetActorForwardVector();// FRotationMatrix(testActor->GetComponentRotation()).GetUnitAxis(EAxis::Y);
+	FVector handUp = FVector(0,0,1);// FRotationMatrix(testActor->GetComponentRotation()).GetUnitAxis(EAxis::X) * -1;
+
+	FVector dir = handForward ;
+
+	lineLoc.Empty();
+	for (int32 i = 0; i < timeSegment; i++)
+	{
+		float timeTaken = timeInterval * i;
+		FVector prediction = (arrow->GetActorLocation() + arrow->GetActorForwardVector() * 40) + dir.GetSafeNormal() * arrow->projectileComp->InitialSpeed * timeTaken;
+
+		prediction.Z += 0.5f * GetWorld()->GetDefaultGravityZ() * timeTaken * timeTaken;
+
+		lineLoc.Add(prediction);
+
+		/*FHitResult hitInfo;
+
+		if (i > 0)
+		{
+			if (GetWorld()->LineTraceSingleByChannel(hitInfo, lineLoc[i - 1], lineLoc[i], ECC_Visibility))
+			{
+				lineLoc.Add(hitInfo.ImpactPoint);
+				UE_LOG(LogTemp, Warning, TEXT("%s"), *hitInfo.GetActor()->GetName());
+				break;
+			}
+		}*/
+		//UGameplayStatics::PredictProjectilePath()
+	}
+
+	for (int32 i = 0; i < lineLoc.Num() - 1; i++)
+	{
+		DrawDebugLine(GetWorld(), lineLoc[i], lineLoc[i + 1], FColor::Red, false, -1, 0, 2);
+	}
+
 }

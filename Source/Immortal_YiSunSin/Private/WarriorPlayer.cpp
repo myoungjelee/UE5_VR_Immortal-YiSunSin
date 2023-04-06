@@ -53,7 +53,7 @@ AWarriorPlayer::AWarriorPlayer()
 
 	widgetInt = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Widget Interaction"));
 	widgetInt->SetupAttachment(leftController);
-	widgetInt->SetRelativeRotation(FRotator(0, -60, 0));
+	widgetInt->SetRelativeRotation(FRotator(-45, 0, 0));
 
 	pauseUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Pause UI"));
 	pauseUI->SetupAttachment(RootComponent);
