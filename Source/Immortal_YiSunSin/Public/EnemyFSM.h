@@ -46,7 +46,9 @@ public:
 		class AEnemyShip* me;
 
 	UPROPERTY(EditAnywhere)
-	class UScoreUI* score;
+	TObjectPtr<class UScoreUI> score;
+	//class UScoreUI* score;
+
 
 	//ai controller 
 	UPROPERTY(EditAnywhere)

@@ -134,12 +134,12 @@ void AMG4_Player::RotateAxis(const struct FInputActionValue& value)
 	//axis 값을 이용해서 캐릭터(콘트롤러)를 회전한다.
 	AddControllerYawInput(axis.X);
 	AddControllerPitchInput(axis.Y * -1.0f);
-	UE_LOG(LogTemp, Warning, TEXT("%f"), axis.Y);
+	//UE_LOG(LogTemp, Warning, TEXT("%f"), axis.Y);
 
 	lockRot = GetControlRotation();
 	lockRot.Yaw = FMath::Clamp(lockRot.Yaw, -45.0f, 45.0f);
 	lockRot.Pitch = FMath::Clamp(lockRot.Pitch, 0.0f, 15.0f);
-	UE_LOG(LogTemp, Error, TEXT("%f"), lockRot.Pitch);
+	//UE_LOG(LogTemp, Error, TEXT("%f"), lockRot.Pitch);
 
 	GetWorld()->GetFirstPlayerController()->SetControlRotation(lockRot);
 }
@@ -193,7 +193,7 @@ void AMG4_Player::InputFire(bool bFire) //const FInputActionValue& value
 		// 만약에 맞은놈이 ship 라면
 		AActor* actor = hitInfo.GetActor();
 		AEnemyShip* ship = Cast<AEnemyShip>(actor);
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *hitInfo.GetActor()->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("%s"), *hitInfo.GetActor()->GetName());
 		if (ship != nullptr)
 		{
 			ship->fsm->ReceiveDamage();
