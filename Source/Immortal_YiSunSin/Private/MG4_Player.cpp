@@ -110,7 +110,7 @@ void AMG4_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	enhancedInputComponent->BindAction(thumbstickRight, ETriggerEvent::Triggered, this, &AMG4_Player::RotateAxis);
 	//trigger Input Binding
 	enhancedInputComponent->BindAction(btnA, ETriggerEvent::Started, this, &AMG4_Player::APressed);
-	enhancedInputComponent->BindAction(btnA, ETriggerEvent::Completed, this, &AMG4_Player::AReleased);
+	//enhancedInputComponent->BindAction(btnA, ETriggerEvent::Completed, this, &AMG4_Player::AReleased);
 
 }
 

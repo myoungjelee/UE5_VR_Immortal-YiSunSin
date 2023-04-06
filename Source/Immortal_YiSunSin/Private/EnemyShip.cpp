@@ -5,6 +5,7 @@
 #include <Components/CapsuleComponent.h>
 #include <GameFramework/CharacterMovementComponent.h>
 #include <Components/BoxComponent.h>
+#include <Math/UnrealMathUtility.h>
 
 // Sets default values
 AEnemyShip::AEnemyShip()
@@ -38,6 +39,7 @@ void AEnemyShip::BeginPlay()
 void AEnemyShip::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 
 }
 

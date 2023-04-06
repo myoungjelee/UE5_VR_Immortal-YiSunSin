@@ -97,15 +97,22 @@ void UEnemyFSM::UpdateMove()
 
 	FVector dir = target->GetActorLocation() - me->GetActorLocation();
 	float dist = FVector::Distance(originPos, me->GetActorLocation());
+	FMath::Clamp(posZ, 290, 310);
 
 	if (bTrace) //만약 시야에 들어왔다면
 	{
-		ai->MoveToLocation(target->GetActorLocation());
+		
+		FVector shipPos = target->GetActorLocation();
+		shipPos.Z = posZ;
+
+		ai->MoveToLocation(shipPos);
+		
 		//UE_LOG(LogTemp, Warning, TEXT("move!!!!"));
 	}
 	else
 	{
-		MoveToPos(randPos);
+		randPos.Z = posZ;
+		MoveToPos(randPos);	
 	}
 }
 
@@ -195,7 +202,7 @@ void UEnemyFSM::ChangeState(EEnemyState state)
 		else
 		{
 			score->UpdateScore(1);
-
+			//UE_LOG(LogTemp, Error, TEXT("11111111111 %s"), *me->GetActorLabel());
 		}
 	break;
 	}

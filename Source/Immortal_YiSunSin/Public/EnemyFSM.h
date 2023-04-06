@@ -56,7 +56,10 @@ public:
 
 	/*UPROPERTY(EditAnywhere)
 		class AActor* actor;*/
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float posZ;
+
 	UPROPERTY(EditAnywhere)
 	float currHp;
 
