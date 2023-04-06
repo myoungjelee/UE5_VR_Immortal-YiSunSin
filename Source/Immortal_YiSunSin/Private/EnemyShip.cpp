@@ -55,6 +55,8 @@ void AEnemyShip::SetActive(bool bActive)
 	{
 		//충돌 활성
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		boxCollision->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+
 	}
 	
 	// 비활성화 bActive == false
@@ -62,6 +64,7 @@ void AEnemyShip::SetActive(bool bActive)
 	{
 		//충돌 비활성
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		boxCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		//탄창에 날 다시 넣어줘
 		dieDelegate.ExecuteIfBound(this);
 	}

@@ -33,6 +33,8 @@ void UEnemyFSM::BeginPlay()
 	me = Cast<AEnemyShip>(GetOwner());
 
 	ai = Cast<AAIController>(me->GetController());
+
+
 }
 
 void UEnemyFSM::NotifyActorBeginOverlap(AActor* OtherActor)
@@ -44,11 +46,17 @@ void UEnemyFSM::NotifyActorBeginOverlap(AActor* OtherActor)
 void UEnemyFSM::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
 	if (score == nullptr)
 	{
 		score = Cast<UScoreUI>(target->scoreUI->GetUserWidgetObject());
+		//UE_LOG(LogTemp, Warning, TEXT("11111111111 %s"), *me->GetActorLabel());
+		
 	}
+	
+	/*if (score == nullptr)
+	{
+		score = Cast<UScoreUI>(target->scoreUI->GetUserWidgetObject());
+	}*/
 
 	switch (currState)
 	{
@@ -93,7 +101,7 @@ void UEnemyFSM::UpdateMove()
 	if (bTrace) //만약 시야에 들어왔다면
 	{
 		ai->MoveToLocation(target->GetActorLocation());
-		UE_LOG(LogTemp, Warning, TEXT("move!!!!"));
+		//UE_LOG(LogTemp, Warning, TEXT("move!!!!"));
 	}
 	else
 	{
@@ -177,7 +185,18 @@ void UEnemyFSM::ChangeState(EEnemyState state)
 		me->GetCapsuleComponent()->SetCollisionEnabled (ECollisionEnabled::NoCollision);
 		me->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		me->boxCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		score->UpdateScore(1);
+		//Cast<UScoreUI>(target->scoreUI->GetUserWidgetObject())->UpdateScore(1);
+		if (score == nullptr)
+		{
+			//UE_LOG(LogTemp, Error, TEXT("11111111111"));
+			//UE_LOG(LogTemp, Error, TEXT("11111111111 %s"), *me->GetActorLabel());
+	
+		}
+		else
+		{
+			score->UpdateScore(1);
+
+		}
 	break;
 	}
 }

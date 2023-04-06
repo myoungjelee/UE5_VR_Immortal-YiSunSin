@@ -6,6 +6,7 @@
 #include "RhythmPlayer.h"
 #include <Kismet/GameplayStatics.h>
 #include <MotionControllerComponent.h>
+#include <Camera/CameraComponent.h>
 
 // Sets default values
 ADrumManager::ADrumManager()
@@ -13,7 +14,7 @@ ADrumManager::ADrumManager()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	TArray<FVector> startPos = { FVector(2000, -60, 75), FVector(2000, -30, 125), FVector(2000, 30, 125), FVector(2000, 60, 75) };
+	TArray<FVector> startPos = { FVector(2000, -60, -50), FVector(2000, -30, 0), FVector(2000, 30, 0), FVector(2000, 60, -50) };
 	//FVector startPos[NODE_MAX] = { FVector(2000, -40, 150), FVector(2000, -20, 150), FVector(2000, 20, 150), FVector(2000, 40, 150) };
 
 	for (int32 i = 0; i < nodeMax; i++)
@@ -96,13 +97,19 @@ void ADrumManager::Tick(float DeltaTime)
 				}), WaitTime, false);
 		}
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("%f"), player->cam->GetComponentLocation().Z);
+	UE_LOG(LogTemp, Error, TEXT("%f"), player->GetActorLocation().Z);
 }
 
 void ADrumManager::CreateNode()
 {
-	int32 type = nodeArray[nodeIndex].type;
-	GetWorld()->SpawnActor<ADrumActor>(nodeCreateArray[type].drumActor, player->GetActorLocation() + nodeCreateArray[type].pos, GetActorRotation());
 
+	int32 type = nodeArray[nodeIndex].type;
+	GetWorld()->SpawnActor<ADrumActor>(nodeCreateArray[type].drumActor, player->cam->GetComponentLocation() + nodeCreateArray[type].pos, GetActorRotation());
+
+	/*UE_LOG(LogTemp, Warning, TEXT("%f"), player->cam->GetComponentLocation().Z + nodeCreateArray[type].pos.Z);
+	UE_LOG(LogTemp, Error, TEXT("%f"), player->GetActorLocation().Z + nodeCreateArray[type].pos.Z);*/
 	/*if (nodeArray[nodeIndex].type == 0)
 	{
 		GetWorld()->SpawnActor<ADrumActor>(drumFactory0, player->GetActorLocation() + FVector(2000, -40, 150), GetActorRotation());
