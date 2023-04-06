@@ -127,7 +127,7 @@ void AArrowTargetActor::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* 
 		FString playerScore = FString::Printf(TEXT("Hit!!"), point);
 		hit->SetText(FText::FromString(playerScore));
 		player->shootCnt++;
-		scoreUI->UpdateScore(player->shootCnt);
+		scoreUI->UpdateScore(1);
 		SetActive(false);
 	}
 }

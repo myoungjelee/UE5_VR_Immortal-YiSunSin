@@ -16,6 +16,7 @@
 #include <Kismet/GameplayStatics.h>
 #include "ScoreUI.h"
 #include "GameResultWidget.h"
+#include "EasingLibrary.h"
 
 AArcherPlayer::AArcherPlayer()
 {
@@ -201,6 +202,7 @@ void AArcherPlayer::Move(const struct FInputActionValue& value)
 	FVector direction = FVector(val.Y, val.X, 0);
 
 	AddMovementInput(direction.GetSafeNormal(), 1, false);
+
 }
 
 void AArcherPlayer::RotateAxis(const struct FInputActionValue& value)
@@ -243,10 +245,10 @@ void AArcherPlayer::DrawMoveLine()
 	float timeInterval = 0.02f;
 	int32 timeSegment = 50;
 
-	FVector handForward = FRotationMatrix(leftHand->GetComponentRotation()).GetUnitAxis(EAxis::Y);
-	FVector handUp = FRotationMatrix(leftHand->GetComponentRotation()).GetUnitAxis(EAxis::X) * -1;
+	FVector handForward = arrow->GetActorForwardVector();// FRotationMatrix(testActor->GetComponentRotation()).GetUnitAxis(EAxis::Y);
+	FVector handUp = FVector(0,0,1);// FRotationMatrix(testActor->GetComponentRotation()).GetUnitAxis(EAxis::X) * -1;
 
-	FVector dir = handForward + handUp;
+	FVector dir = handForward ;
 
 	lineLoc.Empty();
 	for (int32 i = 0; i < timeSegment; i++)
@@ -258,20 +260,23 @@ void AArcherPlayer::DrawMoveLine()
 
 		lineLoc.Add(prediction);
 
-		FHitResult hitInfo;
+		/*FHitResult hitInfo;
 
 		if (i > 0)
 		{
 			if (GetWorld()->LineTraceSingleByChannel(hitInfo, lineLoc[i - 1], lineLoc[i], ECC_Visibility))
 			{
 				lineLoc.Add(hitInfo.ImpactPoint);
+				UE_LOG(LogTemp, Warning, TEXT("%s"), *hitInfo.GetActor()->GetName());
 				break;
 			}
-		}
+		}*/
+		//UGameplayStatics::PredictProjectilePath()
 	}
 
 	for (int32 i = 0; i < lineLoc.Num() - 1; i++)
 	{
 		DrawDebugLine(GetWorld(), lineLoc[i], lineLoc[i + 1], FColor::Red, false, -1, 0, 2);
 	}
+
 }
