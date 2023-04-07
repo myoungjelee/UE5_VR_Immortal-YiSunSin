@@ -60,11 +60,11 @@ void AmainPlayer::BeginPlay()
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
 	subsys->AddMappingContext(inputMapping, 0);
-// 
-//  	instance = Cast<UYiSunSinInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-//  
-//  	SetActorLocation(instance->pos);
-//  	playerCon->SetControlRotation(instance->rot);
+
+ 	instance = Cast<UYiSunSinInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+ 
+ 	SetActorLocation(instance->pos);
+ 	playerCon->SetControlRotation(instance->rot);
  
  // 	FString str = FString::Printf(TEXT("Pos : %f, %f, %f"), instance->pos.X, instance->pos.Y, instance->pos.Z);
  // 	FString str2 = FString::Printf(TEXT("Rot : %f, %f, %f"), instance->rot.Roll, instance->rot.Pitch, instance->rot.Yaw);
