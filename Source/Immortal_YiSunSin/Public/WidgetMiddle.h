@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "WidgetStart.generated.h"
+#include "WidgetMiddle.generated.h"
 
 UCLASS()
-class IMMORTAL_YISUNSIN_API AWidgetStart : public AActor
+class IMMORTAL_YISUNSIN_API AWidgetMiddle : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AWidgetStart();
+	AWidgetMiddle();
 
 protected:
 	// Called when the game starts or when spawned
@@ -50,4 +50,5 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FVector endPos;
+
 };

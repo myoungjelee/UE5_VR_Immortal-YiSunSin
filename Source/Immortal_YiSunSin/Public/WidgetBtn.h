@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "WidgetStart.generated.h"
+#include "WidgetBtn.generated.h"
 
 UCLASS()
-class IMMORTAL_YISUNSIN_API AWidgetStart : public AActor
+class IMMORTAL_YISUNSIN_API AWidgetBtn : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AWidgetStart();
+	AWidgetBtn();
 
 protected:
 	// Called when the game starts or when spawned
@@ -32,22 +32,11 @@ public:
 		class UWidgetComponent* widget;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float currTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float param;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class AmainPlayer* player;
 
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool open;
+		bool near;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FVector startPos;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		FVector endPos;
 };

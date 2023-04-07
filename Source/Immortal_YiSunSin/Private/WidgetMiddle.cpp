@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "WidgetStart.h"
+#include "WidgetMiddle.h"
 #include <Components/BoxComponent.h>
 #include <UMG/Public/Components/WidgetComponent.h>
 #include "EasingLibrary.h"
@@ -9,7 +9,7 @@
 #include <Kismet/GameplayStatics.h>
 
 // Sets default values
-AWidgetStart::AWidgetStart()
+AWidgetMiddle::AWidgetMiddle()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -20,24 +20,24 @@ AWidgetStart::AWidgetStart()
 	widget = CreateDefaultSubobject<UWidgetComponent>("Widget");
 	widget->SetupAttachment(box);
 	widget->SetVisibility(false);
-	widget->SetRelativeLocation(FVector(0,0,250));
+	widget->SetRelativeLocation(FVector(0, 0, 250));
 	widget->SetCollisionProfileName(TEXT("interactionUI"));
-
+	
 }
 
 // Called when the game starts or when spawned
-void AWidgetStart::BeginPlay()
+void AWidgetMiddle::BeginPlay()
 {
 	Super::BeginPlay();
 
 	player = Cast<AmainPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AmainPlayer::StaticClass()));
-
+	
 	startPos = GetActorLocation();
-	endPos = GetActorLocation() + GetActorUpVector()*-100;
+	endPos = GetActorLocation() + GetActorRightVector()*100;
 }
 
 // Called every frame
-void AWidgetStart::Tick(float DeltaTime)
+void AWidgetMiddle::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -45,7 +45,7 @@ void AWidgetStart::Tick(float DeltaTime)
 	{
 		widget->SetVisibility(false);
 	}
-	
+
 	if (open)
 	{
 		widget->SetVisibility(true);
@@ -53,8 +53,8 @@ void AWidgetStart::Tick(float DeltaTime)
 
 		currTime += DeltaTime;
 		param = FMath::Clamp(currTime * 1.8f, 0, 1);
-		float easy = UEasingLibrary::BounceEaseOut(param);
-		
+		float easy = UEasingLibrary::BackEaseOut(param);
+
 		FVector newLoc = FMath::Lerp(endPos, startPos, easy);
 
 		SetActorLocation(newLoc);
