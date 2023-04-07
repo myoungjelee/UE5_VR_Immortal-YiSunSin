@@ -41,7 +41,7 @@ void AWidgetMiddle::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if ((GetActorLocation() - player->GetActorLocation()).Length() >= 600)
+	if ((GetActorLocation() - player->GetActorLocation()).Length() >= 450)
 	{
 		widget->SetVisibility(false);
 	}

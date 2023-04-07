@@ -13,6 +13,8 @@
 #include <Kismet/GameplayStatics.h>
 #include "YiSunSinInstance.h"
 #include <Kismet/KismetSystemLibrary.h>
+#include <UMG/Public/Components/WidgetInteractionComponent.h>
+
 
 // Sets default values
 AmainPlayer::AmainPlayer()
@@ -31,6 +33,13 @@ AmainPlayer::AmainPlayer()
 	controllerLeft->SetupAttachment(RootComponent);
 	controllerLeft->MotionSource = "Left";
 
+	widgetInteractionL = CreateDefaultSubobject<UWidgetInteractionComponent>("WidgetInteractionL");
+	widgetInteractionL->SetupAttachment(controllerLeft);
+	widgetInteractionL->InteractionDistance = 2000;
+	widgetInteractionL->bShowDebug = false;
+	//widgetPointer_Left->DebugColor = FColor::Red;
+	widgetInteractionL->SetRelativeRotation(FRotator(-60, 0, 60));
+
 	leftHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Left Hand"));
 	leftHand->SetupAttachment(controllerLeft);
 	leftHand->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -39,6 +48,13 @@ AmainPlayer::AmainPlayer()
 	controllerRight = CreateDefaultSubobject<UMotionControllerComponent>("Right Controller");
 	controllerRight->SetupAttachment(RootComponent);
 	controllerRight->MotionSource = "Right";
+
+	widgetInteractionR = CreateDefaultSubobject<UWidgetInteractionComponent>("WidgetInteractionR");
+	widgetInteractionR->SetupAttachment(controllerRight);
+	widgetInteractionR->InteractionDistance = 2000;
+	widgetInteractionR->bShowDebug = false;
+	//widgetPointer_Right->DebugColor = FColor::Yellow;
+	widgetInteractionR->SetRelativeRotation(FRotator(-60, 0, 20));
 
 	rightHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right Hand"));
 	rightHand->SetupAttachment(controllerRight);
@@ -221,3 +237,5 @@ void AmainPlayer::TeleportFade()
 	FTimerHandle fadeTimer;
 	GetWorld()->GetTimerManager().SetTimer(fadeTimer, this, &AmainPlayer::Teleport, 1.0f, false);
 } 
+
+

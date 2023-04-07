@@ -7,6 +7,7 @@
 #include "EasingLibrary.h"
 #include "mainPlayer.h"
 #include <Kismet/GameplayStatics.h>
+#include <UMG/Public/Components/WidgetInteractionComponent.h>
 
 // Sets default values
 AWidgetBtn::AWidgetBtn()
@@ -42,11 +43,15 @@ void AWidgetBtn::Tick(float DeltaTime)
 	{
 		widget->SetVisibility(true);
 		near = true;
+		player->widgetInteractionL->bShowDebug = true;
+		player->widgetInteractionR->bShowDebug = true;
 	}
 	if ((GetActorLocation() - player->GetActorLocation()).Length() >= 450)
 	{
 		widget->SetVisibility(false);
 		near = false;
+		player->widgetInteractionL->bShowDebug = false;
+		player->widgetInteractionR->bShowDebug = false;
 	}
 }
 
