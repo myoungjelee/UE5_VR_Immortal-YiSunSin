@@ -31,8 +31,7 @@ void AWidgetStart::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-// 	FVector Force = FVector(GetActorLocation().X, GetActorLocation().Y, FMath::FRandRange(-1.0f, 1.0f));
-// 	AddActorWorldOffset(Force);
+
 
 
 }
