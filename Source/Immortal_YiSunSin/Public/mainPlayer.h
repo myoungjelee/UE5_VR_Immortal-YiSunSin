@@ -48,6 +48,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 		class USkeletalMeshComponent* rightHand;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UWidgetInteractionComponent* widgetInteractionL;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UWidgetInteractionComponent* widgetInteractionR;
+
 	//Input
 	UPROPERTY(EditAnywhere)
 		class UInputMappingContext* inputMapping;
@@ -86,4 +92,5 @@ public:
 	void ShowLine();
 	void HideLine();
 	void TeleportFade();
+	void GamePause();
 };

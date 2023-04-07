@@ -9,6 +9,6 @@ void UYiSunSinInstance::Init()
 
 	pos = FVector(90, -100, 105);
 
-	rot = FRotator(0);
+	rot = FRotator(0, -90, 0);
 
 }
