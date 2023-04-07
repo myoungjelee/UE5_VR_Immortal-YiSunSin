@@ -29,15 +29,17 @@ void AShipMoving::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	FRotator currRot = GetActorRotation();
+
 	float roll = FMath::Sin(GetGameTimeSinceCreation()) * 5;
-	FRotator rot = FRotator(0.0f, 0.0f, roll);
+	FRotator rot = FRotator(currRot.Pitch, currRot.Yaw, roll);
 	SetActorRotation(rot);
 
 	// 현재 위치 저장
 	FVector currLoc = GetActorLocation();
 
 	// Z 값 변경 (범위 내에서 스무스하게)
-	float posZ = FMath::Lerp(currLoc.Z, currLoc.Z+15, FMath::Sin(GetGameTimeSinceCreation()));
+	float posZ = FMath::Lerp(currLoc.Z, currLoc.Z+5, FMath::Sin(GetGameTimeSinceCreation()));
 	FVector TargetLocation = FVector(currLoc.X, currLoc.Y, posZ);
 
 	// 위치 보간
