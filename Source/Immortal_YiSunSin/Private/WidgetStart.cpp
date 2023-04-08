@@ -20,7 +20,7 @@ AWidgetStart::AWidgetStart()
 	widget = CreateDefaultSubobject<UWidgetComponent>("Widget");
 	widget->SetupAttachment(box);
 	widget->SetVisibility(false);
-	widget->SetRelativeLocation(FVector(0,0,250));
+	//widget->SetRelativeLocation(FVector(0,0,250));
 	widget->SetCollisionProfileName(TEXT("interactionUI"));
 
 }
