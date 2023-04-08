@@ -14,6 +14,7 @@
 #include "YiSunSinInstance.h"
 #include <Kismet/KismetSystemLibrary.h>
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
+#include <Components/SphereComponent.h>
 
 
 // Sets default values
@@ -33,11 +34,15 @@ AmainPlayer::AmainPlayer()
 	controllerLeft->SetupAttachment(RootComponent);
 	controllerLeft->MotionSource = "Left";
 
+	leftColl = CreateDefaultSubobject<USphereComponent>("leftCollision");
+	leftColl->SetupAttachment(controllerLeft);
+	leftColl->SetRelativeLocation(FVector(4,0,-6));
+	leftColl->SetSphereRadius(13);
+
 	widgetInteractionL = CreateDefaultSubobject<UWidgetInteractionComponent>("WidgetInteractionL");
 	widgetInteractionL->SetupAttachment(controllerLeft);
 	widgetInteractionL->InteractionDistance = 2000;
 	widgetInteractionL->bShowDebug = false;
-	//widgetPointer_Left->DebugColor = FColor::Red;
 	widgetInteractionL->SetRelativeRotation(FRotator(-60, 0, 60));
 
 	leftHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Left Hand"));
@@ -49,11 +54,15 @@ AmainPlayer::AmainPlayer()
 	controllerRight->SetupAttachment(RootComponent);
 	controllerRight->MotionSource = "Right";
 
+	rightColl = CreateDefaultSubobject<USphereComponent>("RightCollision");
+	rightColl->SetupAttachment(controllerRight);
+	rightColl->SetRelativeLocation(FVector(7, 0, 0));
+	rightColl->SetSphereRadius(13);
+
 	widgetInteractionR = CreateDefaultSubobject<UWidgetInteractionComponent>("WidgetInteractionR");
 	widgetInteractionR->SetupAttachment(controllerRight);
 	widgetInteractionR->InteractionDistance = 2000;
 	widgetInteractionR->bShowDebug = false;
-	//widgetPointer_Right->DebugColor = FColor::Yellow;
 	widgetInteractionR->SetRelativeRotation(FRotator(-60, 0, 20));
 
 	rightHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right Hand"));

@@ -54,6 +54,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UWidgetInteractionComponent* widgetInteractionR;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class USphereComponent* rightColl;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class USphereComponent* leftColl;
+
 	//Input
 	UPROPERTY(EditAnywhere)
 		class UInputMappingContext* inputMapping;
