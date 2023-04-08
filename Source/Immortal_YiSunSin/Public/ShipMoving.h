@@ -31,4 +31,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UStaticMeshComponent* mesh;
 
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FRotator rot;
+
 };

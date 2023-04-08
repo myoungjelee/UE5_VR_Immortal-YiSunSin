@@ -22,6 +22,7 @@ void AShipMoving::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	rot = GetActorRotation();
 }
 
 // Called every frame
@@ -29,11 +30,9 @@ void AShipMoving::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FRotator currRot = GetActorRotation();
-
 	float roll = FMath::Sin(GetGameTimeSinceCreation()) * 5;
-	FRotator rot = FRotator(currRot.Pitch, currRot.Yaw, roll);
-	SetActorRotation(rot);
+	FRotator moverot = FRotator(rot.Pitch, rot.Yaw, roll);
+	SetActorRotation(moverot);
 
 	// 현재 위치 저장
 	FVector currLoc = GetActorLocation();
@@ -43,9 +42,9 @@ void AShipMoving::Tick(float DeltaTime)
 	FVector TargetLocation = FVector(currLoc.X, currLoc.Y, posZ);
 
 	// 위치 보간
-	FVector loc = FMath::Lerp(currLoc, TargetLocation, DeltaTime * 5.0f);
+	FVector moveLoc = FMath::Lerp(currLoc, TargetLocation, DeltaTime * 5.0f);
 
 	// 액터 위치 갱신
-	SetActorLocation(loc);
+	SetActorLocation(moveLoc);
 }
 

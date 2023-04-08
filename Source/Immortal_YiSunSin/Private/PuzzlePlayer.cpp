@@ -16,6 +16,7 @@
 #include <UMG/Public/Components/WidgetComponent.h>
 #include <Sound/SoundBase.h>
 #include <Components/AudioComponent.h>
+#include <Kismet/GameplayStatics.h>
 // Sets default values
 APuzzlePlayer::APuzzlePlayer()
 {
