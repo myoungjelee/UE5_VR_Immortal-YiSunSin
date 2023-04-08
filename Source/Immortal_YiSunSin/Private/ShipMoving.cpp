@@ -37,6 +37,7 @@ AShipMoving::AShipMoving()
 	particle->SetupAttachment(body, TEXT("Fire"));
 	particle->SetRelativeLocation(FVector(0, 200, 0));
 	particle->SetRelativeRotation(FRotator(0, 0, -90));
+	particle->SetRelativeScale3D(FVector(5));
 	particle->SetVisibility(false);
 
 	ConstructorHelpers::FObjectFinder<UParticleSystem> tempFire(TEXT("/Script/Engine.ParticleSystem'/Game/FXVarietyPack/Particles/P_ky_fireBall.P_ky_fireBall'"));
