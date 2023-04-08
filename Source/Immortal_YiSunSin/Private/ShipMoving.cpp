@@ -3,6 +3,7 @@
 
 #include "ShipMoving.h"
 #include <Components/BoxComponent.h>
+#include <Particles/ParticleSystemComponent.h>
 
 // Sets default values
 AShipMoving::AShipMoving()
@@ -31,6 +32,18 @@ AShipMoving::AShipMoving()
 	{
 		paddle->SetStaticMesh(tempPaddle.Object);
 	}
+
+	particle = CreateDefaultSubobject<UParticleSystemComponent>("FireParticle");
+	particle->SetupAttachment(body, TEXT("Fire"));
+	particle->SetRelativeLocation(FVector(0, 200, 0));
+	particle->SetRelativeRotation(FRotator(0, 0, -90));
+	particle->SetVisibility(false);
+
+	ConstructorHelpers::FObjectFinder<UParticleSystem> tempFire(TEXT("/Script/Engine.ParticleSystem'/Game/FXVarietyPack/Particles/P_ky_fireBall.P_ky_fireBall'"));
+	if (tempFire.Succeeded())
+	{
+		particle->SetTemplate(tempFire.Object);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -41,9 +54,9 @@ void AShipMoving::BeginPlay()
 	loc = paddle->GetRelativeLocation();
 	rot = GetActorRotation();
 
-	bodyMove = true;
-	paddleMove = true;
-	fire = true;
+// 	bodyMove = true;
+// 	paddleMove = true;
+// 	fire = true;
 }
 
 // Called every frame
@@ -87,6 +100,13 @@ void AShipMoving::Tick(float DeltaTime)
 		paddle->SetRelativeLocation(paddleLoc);
 	}
 
-
+	if (fire)
+	{
+		particle->SetVisibility(true);
+	}
+	else
+	{
+		particle->SetVisibility(false);
+	}
 }
 

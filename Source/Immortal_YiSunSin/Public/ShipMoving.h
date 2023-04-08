@@ -34,6 +34,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UStaticMeshComponent* paddle;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UParticleSystemComponent* particle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class USceneComponent* socket;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
