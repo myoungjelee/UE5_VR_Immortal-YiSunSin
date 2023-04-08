@@ -34,6 +34,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class AmainPlayer* player;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UYiSunSinInstance* instance;
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

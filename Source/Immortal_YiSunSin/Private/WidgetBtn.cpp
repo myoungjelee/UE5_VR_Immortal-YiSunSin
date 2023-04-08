@@ -8,6 +8,7 @@
 #include "mainPlayer.h"
 #include <Kismet/GameplayStatics.h>
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
+#include "YiSunSinInstance.h"
 
 // Sets default values
 AWidgetBtn::AWidgetBtn()
@@ -32,6 +33,8 @@ void AWidgetBtn::BeginPlay()
 	Super::BeginPlay();
 	
 	player = Cast<AmainPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), AmainPlayer::StaticClass()));
+
+	instance = Cast<UYiSunSinInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 }
 
 // Called every frame
@@ -45,6 +48,9 @@ void AWidgetBtn::Tick(float DeltaTime)
 		near = true;
 		player->widgetInteractionL->bShowDebug = true;
 		player->widgetInteractionR->bShowDebug = true;
+
+		instance->pos = player->GetActorLocation();
+		instance->rot = player->GetController()->GetControlRotation();
 	}
 	if ((GetActorLocation() - player->GetActorLocation()).Length() >= 450)
 	{

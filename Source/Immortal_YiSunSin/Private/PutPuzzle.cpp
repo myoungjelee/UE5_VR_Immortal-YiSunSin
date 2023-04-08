@@ -66,7 +66,7 @@ void APutPuzzle::Tick(float DeltaTime)
 	// 	objectPoint.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldDynamic);
 	// 	hit_s = GetWorld()->LineTraceSingleByObjectType(hitInfo_s,startLoc_s,endLoc_s,objectPoint);
 	hit_s = GetWorld()->LineTraceSingleByChannel(hitInfo_s, startLoc_s, endLoc_s, ECollisionChannel::ECC_WorldDynamic);
-	DrawDebugLine(GetWorld(), startLoc_s, endLoc_s, FColor::Red, true, -1, 0, 1);
+	//DrawDebugLine(GetWorld(), startLoc_s, endLoc_s, FColor::Red, true, -1, 0, 1);
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *hitInfo_s.GetActor()->GetName());
 	if (hit_s)
 	{
@@ -79,7 +79,7 @@ void APutPuzzle::Tick(float DeltaTime)
 
 
 	startLoc = GetActorLocation() + GetActorForwardVector();
-	endLoc = GetActorLocation() + (GetActorForwardVector() * -900);
+	endLoc = GetActorLocation() + (GetActorForwardVector() * -1000);
 	hit = GetWorld()->LineTraceSingleByChannel(hitInfo, startLoc, endLoc, ECC_Visibility);
 	//DrawDebugLine(GetWorld(), startLoc, endLoc, FColor::Red, true, -1, 0, 3);
 	if (bOverlap == false)

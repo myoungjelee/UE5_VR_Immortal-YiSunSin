@@ -172,7 +172,7 @@ void ARhythmTurtleShip::FadeOut()
 
 void ARhythmTurtleShip::OpenMainLevel()
 {
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("MainLevel"));
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("Gallery"));
 }
 
 void ARhythmTurtleShip::GameOver()
