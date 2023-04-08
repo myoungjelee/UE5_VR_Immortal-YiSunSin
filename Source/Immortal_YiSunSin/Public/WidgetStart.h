@@ -32,6 +32,22 @@ public:
 		class UWidgetComponent* widget;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float currTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float param;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class AmainPlayer* player;
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool open;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FVector startPos;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FVector endPos;
 };
