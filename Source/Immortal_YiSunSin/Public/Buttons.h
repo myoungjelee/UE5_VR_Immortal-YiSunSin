@@ -38,6 +38,15 @@ public:
 		class UStaticMeshComponent* btn3;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UStaticMeshComponent* bottom1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UStaticMeshComponent* bottom2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UStaticMeshComponent* bottom3;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UBoxComponent* box1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
