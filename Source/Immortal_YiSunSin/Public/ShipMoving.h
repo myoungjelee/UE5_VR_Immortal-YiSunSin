@@ -29,11 +29,29 @@ public:
 		class UBoxComponent* box;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UStaticMeshComponent* mesh;
+		class UStaticMeshComponent* body;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UStaticMeshComponent* paddle;
 
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FRotator rot;
+		FRotator rot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bodyMove;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool paddleMove;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool fire;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FVector loc;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float currTime;
 
 };
