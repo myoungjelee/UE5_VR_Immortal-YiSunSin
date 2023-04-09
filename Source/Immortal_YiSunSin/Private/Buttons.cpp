@@ -17,26 +17,26 @@ AButtons::AButtons()
 	bottom1 = CreateDefaultSubobject<UStaticMeshComponent>("Bottom1");
 	bottom1->SetupAttachment(body);
 
-	bottom2 = CreateDefaultSubobject<UStaticMeshComponent>("Bottom2");
-	bottom2->SetupAttachment(body);
-
-	bottom3 = CreateDefaultSubobject<UStaticMeshComponent>("Bottom3");
-	bottom3->SetupAttachment(body);
-
 	btn1 = CreateDefaultSubobject<UStaticMeshComponent>("Btn1");
-	btn1->SetupAttachment(body);
+	btn1->SetupAttachment(bottom1);
 
 	box1 = CreateDefaultSubobject<UBoxComponent>("Box1");
 	box1->SetupAttachment(btn1);
 
+	bottom2 = CreateDefaultSubobject<UStaticMeshComponent>("Bottom2");
+	bottom2->SetupAttachment(body);
+
 	btn2 = CreateDefaultSubobject<UStaticMeshComponent>("Btn2");
-	btn2->SetupAttachment(body);
+	btn2->SetupAttachment(bottom2);
 
 	box2 = CreateDefaultSubobject<UBoxComponent>("Box2");
 	box2->SetupAttachment(btn2);
 
+	bottom3 = CreateDefaultSubobject<UStaticMeshComponent>("Bottom3");
+	bottom3->SetupAttachment(body);
+
 	btn3 = CreateDefaultSubobject<UStaticMeshComponent>("Btn3");
-	btn3->SetupAttachment(body);
+	btn3->SetupAttachment(bottom3);
 
 	box3 = CreateDefaultSubobject<UBoxComponent>("Box3");
 	box3->SetupAttachment(btn3);
