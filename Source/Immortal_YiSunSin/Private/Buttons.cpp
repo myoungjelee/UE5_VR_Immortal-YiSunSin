@@ -8,6 +8,7 @@
 #include <Kismet/GameplayStatics.h>
 #include <Kismet/KismetSystemLibrary.h>
 #include "ShipMoving.h"
+#include <Sound/SoundBase.h>
 
 // Sets default values
 AButtons::AButtons()
@@ -108,6 +109,12 @@ AButtons::AButtons()
 	{
 		btn3->SetStaticMesh(tempBtn3.Object);
 	}
+
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/Audios/MJ/buttons.buttons'"));
+	if (tempSound.Succeeded())
+	{
+		btnSound = tempSound.Object;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -137,6 +144,9 @@ void AButtons::BeginOverlapBtn1(UPrimitiveComponent* OverlappedComp, AActor* Oth
 {
 	if (OtherComp->GetName().Contains(TEXT("Coll")))
 	{
+
+		UGameplayStatics::PlaySound2D(GetWorld(), btnSound);
+
 		FVector loc = pos - FVector(0, 0, 10);
 		/*FLatentActionInfo info;*/
 		UKismetSystemLibrary::MoveComponentTo(btn1, loc, rot, false, false, 0.3f, false, EMoveComponentAction::Type::Move, FLatentActionInfo());
@@ -162,6 +172,9 @@ void AButtons::BeginOverlapBtn1(UPrimitiveComponent* OverlappedComp, AActor* Oth
 
 void AButtons::BeginOverlapBtn2(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+
+	UGameplayStatics::PlaySound2D(GetWorld(), btnSound);
+
 	if (OtherComp->GetName().Contains(TEXT("Coll")))
 	{
 // 		FVector loc = btn1->GetRelativeLocation() - FVector(0, 0, 10);
@@ -186,6 +199,9 @@ void AButtons::BeginOverlapBtn2(UPrimitiveComponent* OverlappedComp, AActor* Oth
 
 void AButtons::BeginOverlapBtn3(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+
+	UGameplayStatics::PlaySound2D(GetWorld(), btnSound);
+
 	if (OtherComp->GetName().Contains(TEXT("Coll")))
 	{
 // 		FVector loc = btn1->GetRelativeLocation() - FVector(0, 0, 10);

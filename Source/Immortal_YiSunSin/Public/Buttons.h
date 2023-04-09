@@ -61,6 +61,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class AShipMoving* ship;
 
+	UPROPERTY(EditAnywhere)
+		class USoundBase* btnSound;
+
+
 public:
 
 	UFUNCTION()

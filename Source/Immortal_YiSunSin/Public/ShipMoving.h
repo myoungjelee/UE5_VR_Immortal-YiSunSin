@@ -40,6 +40,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class USceneComponent* socket;
 
+	UPROPERTY(EditAnywhere)
+		class USoundBase* fireSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UAudioComponent* fireSoundComponent;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

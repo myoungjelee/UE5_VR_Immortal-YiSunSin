@@ -4,6 +4,8 @@
 #include "ShipMoving.h"
 #include <Components/BoxComponent.h>
 #include <Particles/ParticleSystemComponent.h>
+#include <Sound/SoundBase.h>
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 AShipMoving::AShipMoving()
@@ -45,7 +47,14 @@ AShipMoving::AShipMoving()
 	{
 		particle->SetTemplate(tempFire.Object);
 	}
+
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/Audios/MJ/firebreath.firebreath'"));
+	if (tempSound.Succeeded())
+	{
+		fireSound = tempSound.Object;
+	}
 }
+
 
 // Called when the game starts or when spawned
 void AShipMoving::BeginPlay()
@@ -104,10 +113,20 @@ void AShipMoving::Tick(float DeltaTime)
 	if (fire)
 	{
 		particle->SetVisibility(true);
-	}
+		if(fireSoundComponent == nullptr)
+		{
+			fireSoundComponent = UGameplayStatics::SpawnSound2D(GetWorld(), fireSound);
+		}
+	}	
 	else
 	{
 		particle->SetVisibility(false);
+		if(fireSoundComponent != nullptr)
+		{
+			fireSoundComponent->Stop();
+			fireSoundComponent = nullptr;
+		}
+
 	}
 }
 
