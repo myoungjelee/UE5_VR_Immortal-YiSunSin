@@ -111,7 +111,7 @@ void AArrowTargetActor::Tick(float DeltaTime)
 	if (bSpawn)
 	{
 		setTime += DeltaTime;
-		if (setTime > 3)
+		if (setTime > 4)
 		{
 			SetActive(false);
 		}

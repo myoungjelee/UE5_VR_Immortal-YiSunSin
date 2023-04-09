@@ -23,9 +23,7 @@ void UArcherGraspComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	player = Cast<AWarriorPlayer>(GetOwner());
 
-	sword = Cast<ASwordActor>(UGameplayStatics::GetActorOfClass(GetWorld(), ASwordActor::StaticClass()));
 }
 
 
