@@ -55,4 +55,22 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UBoxComponent* box3;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class AmainPlayer* player;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class AShipMoving* ship;
+
+public:
+
+	UFUNCTION()
+		void OverlapBtn1(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+		void OverlapBtn2(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+		void OverlapBtn3(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	void ReturnBtn();
 };
