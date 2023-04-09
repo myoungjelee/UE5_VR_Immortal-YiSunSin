@@ -51,27 +51,14 @@ APlayerBase::APlayerBase()
 	rightHand->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	rightHand->SetRelativeRotation(FRotator(25.0f, 0.0f, 90.0f));
 
-	// 디버그용 로그
-	rightLog = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Right Log Text"));
-	rightLog->SetupAttachment(rightController);
-	rightLog->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
-	rightLog->SetTextRenderColor(FColor::Yellow);
-	rightLog->SetHorizontalAlignment(EHTA_Center);
-	rightLog->SetVerticalAlignment(EVRTA_TextCenter);
+	widgetInt_L = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Left Widget Interaction"));
+	widgetInt_L->SetupAttachment(leftController);
+	widgetInt_L->SetRelativeRotation(FRotator(0, -60, 0));
 
-	widgetInt = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Widget Interaction"));
- 	widgetInt->SetupAttachment(leftController);
-	widgetInt->SetRelativeRotation(FRotator(0, -60, 0));
+	widgetInt_R = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Right Widget Interaction"));
+	widgetInt_R->SetupAttachment(rightController);
+	widgetInt_R->SetRelativeRotation(FRotator(0, -60, 0));
 
-	pauseUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Pause UI"));
-	pauseUI->SetupAttachment(RootComponent);
-	pauseUI->SetRelativeLocation(FVector(765, 0, 300));
-	pauseUI->SetWorldRotation(FRotator(0, 180, 0));
-
-	// 액터 컴포넌트
-	graspComp = CreateDefaultSubobject<UArcherGraspComponent>(TEXT("Grasp Component"));
-
-	bUseControllerRotationPitch = true;
 }
 
 // Called when the game starts or when spawned
@@ -87,12 +74,20 @@ void APlayerBase::BeginPlay()
 
 	subsys->AddMappingContext(myMapping, 0);
 
-	if (widgetInt != nullptr)
+	if (widgetInt_L != nullptr)
 	{
-		widgetInt->InteractionDistance = 100000.0f;
-		widgetInt->bEnableHitTesting = true;
-		widgetInt->DebugColor = FColor::Red;
-		widgetInt->bShowDebug = true;
+		widgetInt_L->InteractionDistance = 100000.0f;
+		widgetInt_L->bEnableHitTesting = true;
+		widgetInt_L->DebugColor = FColor::Red;
+		widgetInt_L->bShowDebug = true;
+	}
+
+	if (widgetInt_R != nullptr)
+	{
+		widgetInt_R->InteractionDistance = 100000.0f;
+		widgetInt_R->bEnableHitTesting = true;
+		widgetInt_R->DebugColor = FColor::Red;
+		widgetInt_R->bShowDebug = true;
 	}
 }
 
@@ -101,7 +96,6 @@ void APlayerBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FindWidget();
 }
 
 // Called to bind functionality to input
@@ -113,46 +107,31 @@ void APlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	if (enhancedInputComponent != nullptr)
 	{
-		graspComp->SetupPlayerInputComponent(enhancedInputComponent);
-		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Started, this, &APlayerBase::PressWidget);
-		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget);
-		enhancedInputComponent->BindAction(btnX, ETriggerEvent::Started, this, &APlayerBase::PauseUIOpen);
+		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Started, this, &APlayerBase::PressWidget_L);
+		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget_L);
+		enhancedInputComponent->BindAction(triggerLeft, ETriggerEvent::Started, this, &APlayerBase::PressWidget_R);
+		enhancedInputComponent->BindAction(triggerLeft, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget_R);
 	}	
 }
 
-void APlayerBase::PressWidget()
+void APlayerBase::PressWidget_L()
 {
-	widgetInt->PressPointerKey(EKeys::LeftMouseButton);
+	widgetInt_L->PressPointerKey(EKeys::LeftMouseButton);
 }
 
-void APlayerBase::ReleaseWidget()
+void APlayerBase::ReleaseWidget_L()
 {
 	//widgetInt->bShowDebug = false;
-	widgetInt->ReleasePointerKey(EKeys::LeftMouseButton);
+	widgetInt_L->ReleasePointerKey(EKeys::LeftMouseButton);
 }
 
-void APlayerBase::FindWidget()
+void APlayerBase::PressWidget_R()
 {
-	FVector start = widgetInt->GetComponentLocation();
-	FVector endLoc = start + widgetInt->GetForwardVector() * 10000.0f;
-	FHitResult hitInfo;
-	FCollisionQueryParams params;
-	params.AddIgnoredActor(this);
-
-	//DrawDebugLine(GetWorld(), start, endLoc, FColor::Cyan, false, -1, 0, 2);
-
-	if (GetWorld()->LineTraceSingleByChannel(hitInfo, start, endLoc, ECC_Visibility, params))
-	{
-		if (hitInfo.GetActor()->GetName().Contains(TEXT("UI")))
-		{
-			widgetInt->bShowDebug = true;
-		}
-	}
+	widgetInt_R->PressPointerKey(EKeys::LeftMouseButton);
 }
 
-void APlayerBase::PauseUIOpen()
+void APlayerBase::ReleaseWidget_R()
 {
-	pauseUI->SetVisibility(true);
-	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
-	widgetInt->bShowDebug = true;
+	//widgetInt->bShowDebug = false;
+	widgetInt_R->ReleasePointerKey(EKeys::LeftMouseButton);
 }

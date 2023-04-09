@@ -20,8 +20,6 @@ void UGraspComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	player = Cast<APlayerBase>(GetOwner());
-
 }
 
 void UGraspComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

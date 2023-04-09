@@ -60,24 +60,25 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Settings|ModuleSetting")
 	TEnumAsByte<enum EHMDTrackingOrigin::Type> trackOrigin;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Settings|Components")
-	class UArcherGraspComponent* graspComp;
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	class UWidgetInteractionComponent* widgetInt_L;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
-	class UWidgetInteractionComponent* widgetInt;
+	class UWidgetInteractionComponent* widgetInt_R;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
 	class UInputAction* triggerRight;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
+	class UInputAction* triggerLeft;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
 	class UInputAction* btnX;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Components")
-	class UWidgetComponent* pauseUI;
-
-	void PressWidget();
-	void ReleaseWidget();
-	void FindWidget();
-	void PauseUIOpen();
+	void PressWidget_L();
+	void ReleaseWidget_L();
+	
+	void PressWidget_R();
+	void ReleaseWidget_R();
 
 };
