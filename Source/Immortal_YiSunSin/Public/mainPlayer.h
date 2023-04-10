@@ -60,6 +60,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class USphereComponent* leftColl;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class AWidgetBtn* btn;
+
 	//Input
 	UPROPERTY(EditAnywhere)
 		class UInputMappingContext* inputMapping;

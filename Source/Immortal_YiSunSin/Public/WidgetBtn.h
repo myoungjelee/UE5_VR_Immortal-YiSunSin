@@ -23,6 +23,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+// 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+// 
+// 	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -41,4 +45,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool near;
 
+public:
+	
+	UFUNCTION()
+		void BeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+
+	UFUNCTION()
+		void EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 };
