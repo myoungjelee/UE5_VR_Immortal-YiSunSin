@@ -17,6 +17,7 @@
 #include "ScoreUI.h"
 #include "GameResultWidget.h"
 #include "EasingLibrary.h"
+#include "MoviePlayerActor.h"
 
 AArcherPlayer::AArcherPlayer()
 {
@@ -102,6 +103,7 @@ void AArcherPlayer::BeginPlay()
 
 	score = Cast<UScoreUI>(scoreUI->GetUserWidgetObject());
 	result = Cast<UGameResultWidget>(resultUI->GetUserWidgetObject());
+	movies = Cast<AMoviePlayerActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMoviePlayerActor::StaticClass()));
 
 	if (widgetInt != nullptr)
 	{
@@ -237,6 +239,7 @@ void AArcherPlayer::PauseUIOpen()
 {
 	pauseUI->SetVisibility(true);
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+	movies->PausedMovie();
 	widgetInt->bShowDebug = true;
 }
 
@@ -259,19 +262,6 @@ void AArcherPlayer::DrawMoveLine()
 		prediction.Z += 0.5f * GetWorld()->GetDefaultGravityZ() * timeTaken * timeTaken;
 
 		lineLoc.Add(prediction);
-
-		/*FHitResult hitInfo;
-
-		if (i > 0)
-		{
-			if (GetWorld()->LineTraceSingleByChannel(hitInfo, lineLoc[i - 1], lineLoc[i], ECC_Visibility))
-			{
-				lineLoc.Add(hitInfo.ImpactPoint);
-				UE_LOG(LogTemp, Warning, TEXT("%s"), *hitInfo.GetActor()->GetName());
-				break;
-			}
-		}*/
-		//UGameplayStatics::PredictProjectilePath()
 	}
 
 	for (int32 i = 0; i < lineLoc.Num() - 1; i++)

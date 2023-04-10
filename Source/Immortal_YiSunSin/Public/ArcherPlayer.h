@@ -104,6 +104,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Sound")
 	class USoundBase* bowPull;
 
+	UPROPERTY(EditAnywhere)
+	class AMoviePlayerActor* movies;
+
 	FVector startLoc;
 	FVector handLoc;
 	FVector tempLoc;
