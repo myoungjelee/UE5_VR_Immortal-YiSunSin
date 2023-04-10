@@ -74,6 +74,23 @@ APuzzlePlayer::APuzzlePlayer()
 	gameOverWidget->SetRelativeRotation(FRotator(0, 180, 0));
 	gameOverWidget->SetDrawSize(FVector2D(1920, 1080));
 
+	start1 = CreateDefaultSubobject<UWidgetComponent>("Start1");
+	start1->SetupAttachment(RootComponent);
+	start1->SetVisibility(true);
+	start1->SetCollisionProfileName(TEXT("interactionUI"));
+	start1->SetRelativeLocation(FVector(700, 0, 300));
+	start1->SetRelativeRotation(FRotator(0, 180, 0));
+	start1->SetDrawSize(FVector2D(1920, 1080));
+
+	start2 = CreateDefaultSubobject<UWidgetComponent>("Start2");
+	start2->SetupAttachment(RootComponent);
+	start2->SetVisibility(false);
+	start2->SetCollisionProfileName(TEXT("NoCollision"));
+	start2->SetRelativeLocation(FVector(700, 0, 300));
+	start2->SetRelativeRotation(FRotator(0, 180, 0));
+	start2->SetDrawSize(FVector2D(1920, 1080));
+	
+
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
 	widgetPointerComp = CreateDefaultSubobject<UWidgetPointerComponent>("Pointer Component");
@@ -88,6 +105,18 @@ APuzzlePlayer::APuzzlePlayer()
 	if (tempGameOver.Succeeded())
 	{
 		gameOverWidget->SetWidgetClass(tempGameOver.Class);
+	}
+
+	ConstructorHelpers::FClassFinder<UUserWidget> tempStart1(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Jigsaw/UI/BP_puzzleStart_1.BP_puzzleStart_1_C'"));
+	if (tempStart1.Succeeded())
+	{
+		start1->SetWidgetClass(tempStart1.Class);
+	}
+
+	ConstructorHelpers::FClassFinder<UUserWidget> tempStart2(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Jigsaw/UI/BP_puzzleStart_2.BP_puzzleStart_2_C'"));
+	if (tempStart2.Succeeded())
+	{
+		start2->SetWidgetClass(tempStart2.Class);
 	}
 
 	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh_L(TEXT("/Script/Engine.SkeletalMesh'/Game/Characters/MannequinsXR/Meshes/SKM_MannyXR_left.SKM_MannyXR_left'"));
@@ -124,12 +153,15 @@ void APuzzlePlayer::BeginPlay()
 
 	bgm = UGameplayStatics::SpawnSound2D(GetWorld(), gameSound);
 
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+
 }
 
 // Called every frame
 void APuzzlePlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 
 }
 
@@ -146,5 +178,9 @@ void APuzzlePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	}
 }
 
+void APuzzlePlayer::GlobalTime()
+{
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+}
 
 
