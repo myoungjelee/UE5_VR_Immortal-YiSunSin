@@ -18,6 +18,7 @@
 #include "GameResultWidget.h"
 #include "EasingLibrary.h"
 #include "MoviePlayerActor.h"
+#include <LevelSequence/Public/LevelSequence.h>
 
 AArcherPlayer::AArcherPlayer()
 {
@@ -147,6 +148,29 @@ void AArcherPlayer::Tick(float DeltaTime)
 	{
 		DrawMoveLine();
 	}
+
+	if (score->score == 1)
+	{
+		movies->plane->SetVisibility(true);
+		if (movieplays == 2)
+		{
+			movies->OpenMovie();
+			UE_LOG(LogTemp, Warning, TEXT("111111111111"));
+			movieplays = 3;
+		}
+		if (movieplays == 0)
+		{
+			FTimerHandle movieTimer;
+			GetWorld()->GetTimerManager().SetTimer(movieTimer, this, &AArcherPlayer::CheckMovie, 1.0f, false);
+			movieplays = 2;
+		}
+		if (movies->currTime >= 2.0f)
+		{
+			FTimerHandle levelTimer;
+			GetWorld()->GetTimerManager().SetTimer(levelTimer, this, &AArcherPlayer::OpenMainLevel, 2.0f, false);
+			movies->currTime = 0;
+		}
+	}
 }
 
 void AArcherPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -269,4 +293,14 @@ void AArcherPlayer::DrawMoveLine()
 		DrawDebugLine(GetWorld(), lineLoc[i], lineLoc[i + 1], FColor::Red, false, -1, 0, 2);
 	}
 
+}
+
+void AArcherPlayer::CheckMovie()
+{
+	movieplays = 2;
+}
+
+void AArcherPlayer::OpenMainLevel()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("Gallery"));
 }
