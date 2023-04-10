@@ -28,7 +28,7 @@ AmainPlayer::AmainPlayer()
 
 	headMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Head Mesh"));
 	headMesh->SetupAttachment(cam);
-	headMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	headMesh->SetCollisionProfileName(TEXT("OverlapAll"));
 
 	controllerLeft = CreateDefaultSubobject<UMotionControllerComponent>("Left Controller");
 	controllerLeft->SetupAttachment(RootComponent);
@@ -41,7 +41,7 @@ AmainPlayer::AmainPlayer()
 
 	widgetInteractionL = CreateDefaultSubobject<UWidgetInteractionComponent>("WidgetInteractionL");
 	widgetInteractionL->SetupAttachment(controllerLeft);
-	widgetInteractionL->InteractionDistance = 2000;
+	widgetInteractionL->InteractionDistance = 3000;
 	widgetInteractionL->bShowDebug = false;
 	widgetInteractionL->SetRelativeRotation(FRotator(-60, 0, 60));
 
@@ -61,7 +61,7 @@ AmainPlayer::AmainPlayer()
 
 	widgetInteractionR = CreateDefaultSubobject<UWidgetInteractionComponent>("WidgetInteractionR");
 	widgetInteractionR->SetupAttachment(controllerRight);
-	widgetInteractionR->InteractionDistance = 2000;
+	widgetInteractionR->InteractionDistance = 3000;
 	widgetInteractionR->bShowDebug = false;
 	widgetInteractionR->SetRelativeRotation(FRotator(-60, 0, 20));
 
