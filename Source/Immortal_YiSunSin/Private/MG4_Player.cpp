@@ -16,6 +16,8 @@
 #include "EnemyFSM.h"
 #include <UMG/Public/Blueprint/UserWidgetBlueprint.h>
 #include <UMG/Public/Components/WidgetComponent.h>
+#include "MoviePlayerActor.h"
+#include <Sound/SoundBase.h>
 
 // Sets default values
 AMG4_Player::AMG4_Player()
@@ -64,6 +66,18 @@ AMG4_Player::AMG4_Player()
 		exploEffect = tempExplo.Object;
 	}
 
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/Sounds/MG4bgm.MG4bgm'"));
+	if (tempSound.Succeeded())
+	{
+		sound = tempSound.Object;
+	}
+
+	ConstructorHelpers::FObjectFinder<USoundBase> tempHit(TEXT("/Script/Engine.SoundWave'/Game/StarterContent/Audio/Explosion01.Explosion01'"));
+	if (tempHit.Succeeded())
+	{
+		hitSound = tempHit.Object;
+	}
+
 	/*ConstructorHelpers::FClassFinder<UUserWidget> tempUI(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/GN_UI/BP_PauseUI.BP_PauseUI_C'"));
 	if (tempUI.Succeeded())
 	{
@@ -88,6 +102,10 @@ void AMG4_Player::BeginPlay()
 	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
 
 	subsys->AddMappingContext(inputMapping, 0);
+
+	moviePlayer = Cast<AMoviePlayerActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMoviePlayerActor::StaticClass()));
+
+	bgm = UGameplayStatics::SpawnSound2D(GetWorld(), sound);
 }
 
 // Called every frame
@@ -198,6 +216,7 @@ void AMG4_Player::InputFire(bool bFire) //const FInputActionValue& value
 		{
 			ship->fsm->ReceiveDamage();
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), exploEffect, hitInfo.ImpactPoint);
+			UGameplayStatics::PlaySound2D(GetWorld(), hitSound);
 		}
 	bHit = false;
 	}

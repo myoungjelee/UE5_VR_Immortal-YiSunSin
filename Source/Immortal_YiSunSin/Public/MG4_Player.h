@@ -82,6 +82,18 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Inputs)
 		float reachDistance = 100000;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class AMoviePlayerActor* moviePlayer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class USoundBase* sound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UAudioComponent* bgm;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class USoundBase* hitSound;
 	
 private:
 	bool physicsState = false;

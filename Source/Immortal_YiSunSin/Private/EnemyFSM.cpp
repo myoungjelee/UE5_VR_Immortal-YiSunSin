@@ -13,6 +13,7 @@
 #include "EnemyShipManager.h"
 #include "ScoreUI.h"
 #include <UMG/Public/Components/WidgetComponent.h>
+#include <Sound/SoundBase.h>
 
 // Sets default values for this component's properties
 UEnemyFSM::UEnemyFSM()
@@ -20,6 +21,8 @@ UEnemyFSM::UEnemyFSM()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	bAutoActivate = true;
+
+
 }
 
 
@@ -202,6 +205,7 @@ void UEnemyFSM::ChangeState(EEnemyState state)
 		else
 		{
 			score->UpdateScore(1);
+		
 			//UE_LOG(LogTemp, Error, TEXT("11111111111 %s"), *me->GetActorLabel());
 		}
 	break;
