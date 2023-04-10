@@ -76,7 +76,9 @@ public:
 	UFUNCTION()
 		void BeginOverlapBtn3(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-		void ReturnBtn();
+		void ReturnBtn1();
+		void ReturnBtn2();
+		void ReturnBtn3();
 
 public:
 

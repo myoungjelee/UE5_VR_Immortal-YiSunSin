@@ -13,7 +13,7 @@
 // Sets default values
 AButtons::AButtons()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	body = CreateDefaultSubobject<UStaticMeshComponent>("Body");
@@ -30,7 +30,7 @@ AButtons::AButtons()
 
 	box1 = CreateDefaultSubobject<UBoxComponent>("Box1");
 	box1->SetupAttachment(btn1);
-	box1->SetRelativeLocation(FVector(-100, 0,  22));
+	box1->SetRelativeLocation(FVector(-100, 0, 22));
 	box1->SetRelativeScale3D(FVector(1, 1, 0.1f));
 	box1->SetBoxExtent(FVector(25));
 
@@ -63,7 +63,7 @@ AButtons::AButtons()
 	box3->SetBoxExtent(FVector(25));
 
 	ConstructorHelpers::FObjectFinder<UStaticMesh> tempBody(TEXT("/Script/Engine.StaticMesh'/Engine/BasicShapes/Cube.Cube'"));
-	if(tempBody.Succeeded())
+	if (tempBody.Succeeded())
 	{
 		body->SetStaticMesh(tempBody.Object);
 	}
@@ -121,7 +121,7 @@ AButtons::AButtons()
 void AButtons::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	box1->OnComponentBeginOverlap.AddDynamic(this, &AButtons::BeginOverlapBtn1);
 	box2->OnComponentBeginOverlap.AddDynamic(this, &AButtons::BeginOverlapBtn2);
 	box3->OnComponentBeginOverlap.AddDynamic(this, &AButtons::BeginOverlapBtn3);
@@ -148,8 +148,9 @@ void AButtons::BeginOverlapBtn1(UPrimitiveComponent* OverlappedComp, AActor* Oth
 		UGameplayStatics::PlaySound2D(GetWorld(), btnSound);
 
 		FVector loc = pos - FVector(0, 0, 10);
-		/*FLatentActionInfo info;*/
-		UKismetSystemLibrary::MoveComponentTo(btn1, loc, rot, false, false, 0.3f, false, EMoveComponentAction::Type::Move, FLatentActionInfo());
+		FLatentActionInfo info;
+		info.CallbackTarget = this;
+		UKismetSystemLibrary::MoveComponentTo(btn1, loc, rot, false, false, 0.3f, false, EMoveComponentAction::Move, info);
 
 		if (ship->paddleMove)
 		{
@@ -160,13 +161,15 @@ void AButtons::BeginOverlapBtn1(UPrimitiveComponent* OverlappedComp, AActor* Oth
 			ship->paddleMove = true;
 		}
 
- 		//FTimerHandle returnBtn;
- 		//GetWorld()->GetTimerManager().SetTimer(returnBtn, this, &AButtons::ReturnBtn, 1, false);
- 
-  		//FLatentActionInfo info2;
-   		UKismetSystemLibrary::Delay(GetWorld(), 0.1f, FLatentActionInfo());
-   		ReturnBtn();
-
+		FTimerHandle returnBtn;
+		GetWorld()->GetTimerManager().SetTimer(returnBtn, this, &AButtons::ReturnBtn1, 0.4f, false);
+// 		FLatentActionInfo info2;
+// 		info.CallbackTarget = this;
+// 		info.ExecutionFunction = TEXT("ReturnBtn");
+// 		info.Linkage = 0;
+// 		info.UUID = 0;
+// 
+// 		UKismetSystemLibrary::Delay(GetWorld(), 0.1f, info2);
 	}
 }
 
@@ -177,13 +180,10 @@ void AButtons::BeginOverlapBtn2(UPrimitiveComponent* OverlappedComp, AActor* Oth
 
 	if (OtherComp->GetName().Contains(TEXT("Coll")))
 	{
-// 		FVector loc = btn1->GetRelativeLocation() - FVector(0, 0, 10);
-// 		FRotator rot = btn1->GetRelativeRotation();
-// 		FLatentActionInfo info;
-// 		UKismetSystemLibrary::MoveComponentTo(btn1, loc, rot, false, false, 0.3f, false, EMoveComponentAction::Move, info);
-// 
-// 		FTimerHandle returnBtn;
-// 		GetWorld()->GetTimerManager().SetTimer(returnBtn, this, &AButtons::ReturnBtn, 1, false);
+		FVector loc = pos - FVector(0, 0, 10);
+		FLatentActionInfo info;
+		info.CallbackTarget = this;
+		UKismetSystemLibrary::MoveComponentTo(btn2, loc, rot, false, false, 0.3f, false, EMoveComponentAction::Move, info);
 
 		if (ship->bodyMove)
 		{
@@ -193,6 +193,9 @@ void AButtons::BeginOverlapBtn2(UPrimitiveComponent* OverlappedComp, AActor* Oth
 		{
 			ship->bodyMove = true;
 		}
+
+		FTimerHandle returnBtn;
+		GetWorld()->GetTimerManager().SetTimer(returnBtn, this, &AButtons::ReturnBtn2, 0.4f, false);
 	}
 
 }
@@ -204,13 +207,10 @@ void AButtons::BeginOverlapBtn3(UPrimitiveComponent* OverlappedComp, AActor* Oth
 
 	if (OtherComp->GetName().Contains(TEXT("Coll")))
 	{
-// 		FVector loc = btn1->GetRelativeLocation() - FVector(0, 0, 10);
-// 		FRotator rot = btn1->GetRelativeRotation();
-// 		FLatentActionInfo info;
-// 		UKismetSystemLibrary::MoveComponentTo(btn1, loc, rot, false, false, 0.3f, false, EMoveComponentAction::Move, info);
-// 
-// 		FTimerHandle returnBtn;
-// 		GetWorld()->GetTimerManager().SetTimer(returnBtn, this, &AButtons::ReturnBtn, 1, false);
+		FVector loc = pos - FVector(0, 0, 10);
+		FLatentActionInfo info;
+		info.CallbackTarget = this;
+		UKismetSystemLibrary::MoveComponentTo(btn3, loc, rot, false, false, 0.3f, false, EMoveComponentAction::Move, info);
 
 		if (ship->fire)
 		{
@@ -220,14 +220,34 @@ void AButtons::BeginOverlapBtn3(UPrimitiveComponent* OverlappedComp, AActor* Oth
 		{
 			ship->fire = true;
 		}
+
+		FTimerHandle returnBtn;
+		GetWorld()->GetTimerManager().SetTimer(returnBtn, this, &AButtons::ReturnBtn3, 0.4f, false);
 	}
 }
 
-void AButtons::ReturnBtn()
+void AButtons::ReturnBtn1()
 {
-	 		/*FLatentActionInfo info;*/
-	 		UKismetSystemLibrary::MoveComponentTo(btn1, pos, rot, false, false, 0.3f, false, EMoveComponentAction::Type::Move, FLatentActionInfo());
+	FLatentActionInfo info;
+	info.CallbackTarget = this;
+	UKismetSystemLibrary::MoveComponentTo(btn1, pos, rot, false, false, 0.3f, false, EMoveComponentAction::Move, info);
 }
+
+void AButtons::ReturnBtn2()
+{
+	FLatentActionInfo info;
+	info.CallbackTarget = this;
+	UKismetSystemLibrary::MoveComponentTo(btn2, pos, rot, false, false, 0.3f, false, EMoveComponentAction::Move, info);
+}
+
+void AButtons::ReturnBtn3()
+{
+	FLatentActionInfo info;
+	info.CallbackTarget = this;
+	UKismetSystemLibrary::MoveComponentTo(btn3, pos, rot, false, false, 0.3f, false, EMoveComponentAction::Move, info);
+}
+
+
 
 
 
