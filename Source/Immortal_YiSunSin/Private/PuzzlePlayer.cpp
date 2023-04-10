@@ -78,13 +78,13 @@ APuzzlePlayer::APuzzlePlayer()
 
 	widgetPointerComp = CreateDefaultSubobject<UWidgetPointerComponent>("Pointer Component");
 
-	ConstructorHelpers::FClassFinder<UUserWidget> tempPause(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Jigsaw/BP_Puzzle_PauseUI.BP_Puzzle_PauseUI_C'"));
+	ConstructorHelpers::FClassFinder<UUserWidget> tempPause(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Jigsaw/UI/BP_Puzzle_PauseUI.BP_Puzzle_PauseUI_C'"));
 	if (tempPause.Succeeded())
 	{
 		pauseWidget->SetWidgetClass(tempPause.Class);
 	}
 
-	ConstructorHelpers::FClassFinder<UUserWidget> tempGameOver(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Jigsaw/BP_Puzzle_GameOverUI.BP_Puzzle_GameOverUI_C'"));
+	ConstructorHelpers::FClassFinder<UUserWidget> tempGameOver(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Jigsaw/UI/BP_Puzzle_GameOverUI.BP_Puzzle_GameOverUI_C'"));
 	if (tempGameOver.Succeeded())
 	{
 		gameOverWidget->SetWidgetClass(tempGameOver.Class);

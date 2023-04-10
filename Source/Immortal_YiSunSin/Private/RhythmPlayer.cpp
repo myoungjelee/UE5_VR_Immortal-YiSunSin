@@ -124,13 +124,13 @@ ARhythmPlayer::ARhythmPlayer()
 		right_Trigger = tempTrigger_R.Object;
 	}
 
-	ConstructorHelpers::FClassFinder<UUserWidget> tempPause(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Rhythm/BP_Rhythm_PauseUI.BP_Rhythm_PauseUI_C'"));
+	ConstructorHelpers::FClassFinder<UUserWidget> tempPause(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Rhythm/UI/BP_Rhythm_PauseUI.BP_Rhythm_PauseUI_C'"));
 	if (tempPause.Succeeded())
 	{
 		pauseWidget->SetWidgetClass(tempPause.Class);
 	}
 
-	ConstructorHelpers::FClassFinder<UUserWidget> tempGameOver(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Rhythm/BP_Rhythm_GameOverUI.BP_Rhythm_GameOverUI_C'"));
+	ConstructorHelpers::FClassFinder<UUserWidget> tempGameOver(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Rhythm/UI/BP_Rhythm_GameOverUI.BP_Rhythm_GameOverUI_C'"));
 	if (tempGameOver.Succeeded())
 	{
 		gameOverWidget->SetWidgetClass(tempGameOver.Class);
