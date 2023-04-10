@@ -62,7 +62,7 @@ APuzzlePlayer::APuzzlePlayer()
 	pauseWidget->SetupAttachment(RootComponent);
 	pauseWidget->SetVisibility(false);
 	pauseWidget->SetCollisionProfileName(TEXT("NoCollision"));
-	pauseWidget->SetRelativeLocation(FVector(700, 0, 300));
+	pauseWidget->SetRelativeLocation(FVector(710, 0, 350));
 	pauseWidget->SetRelativeRotation(FRotator(0, 180, 0));
 	pauseWidget->SetDrawSize(FVector2D(1920, 1080));
 
@@ -70,7 +70,7 @@ APuzzlePlayer::APuzzlePlayer()
 	gameOverWidget->SetupAttachment(RootComponent);
 	gameOverWidget->SetVisibility(false);
 	gameOverWidget->SetCollisionProfileName(TEXT("NoCollision"));
-	gameOverWidget->SetRelativeLocation(FVector(700, 0, 300));
+	gameOverWidget->SetRelativeLocation(FVector(710, 0, 350));
 	gameOverWidget->SetRelativeRotation(FRotator(0, 180, 0));
 	gameOverWidget->SetDrawSize(FVector2D(1920, 1080));
 
@@ -80,6 +80,7 @@ APuzzlePlayer::APuzzlePlayer()
 	start1->SetCollisionProfileName(TEXT("interactionUI"));
 	start1->SetRelativeLocation(FVector(700, 0, 300));
 	start1->SetRelativeRotation(FRotator(0, 180, 0));
+	start1->SetRelativeScale3D(FVector(0.7f));
 	start1->SetDrawSize(FVector2D(1920, 1080));
 
 	start2 = CreateDefaultSubobject<UWidgetComponent>("Start2");
@@ -88,6 +89,7 @@ APuzzlePlayer::APuzzlePlayer()
 	start2->SetCollisionProfileName(TEXT("NoCollision"));
 	start2->SetRelativeLocation(FVector(700, 0, 300));
 	start2->SetRelativeRotation(FRotator(0, 180, 0));
+	start2->SetRelativeScale3D(FVector(0.7f));
 	start2->SetDrawSize(FVector2D(1920, 1080));
 	
 
@@ -155,6 +157,7 @@ void APuzzlePlayer::BeginPlay()
 
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
 
+	bgm->SetPaused(true);
 }
 
 // Called every frame
@@ -178,9 +181,6 @@ void APuzzlePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	}
 }
 
-void APuzzlePlayer::GlobalTime()
-{
-	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
-}
+
 
 
