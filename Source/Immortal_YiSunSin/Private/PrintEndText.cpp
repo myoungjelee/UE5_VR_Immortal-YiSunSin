@@ -8,7 +8,7 @@ void UPrintEndText::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	text = Cast<UTextBlock>(GetWidgetFromName(TEXT("TextBlock_0")));
+	text = Cast<UTextBlock>(GetWidgetFromName(TEXT("txtBlockEnd")));
 
 	sampleText = TEXT("충무공 이순신에 대하여 배우는 유익한 시간이 되셨나요?  \n  다음에도 다른 전시로 만나뵙길 바랍니다 :)");
 
