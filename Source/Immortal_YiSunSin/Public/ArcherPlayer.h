@@ -113,6 +113,8 @@ public:
 	bool bBowPulling = false;
 	int32 shootCnt = 0;
 
+	int32 movieplays = 0;
+
 	bool bIsShowLine = false;
 	TArray<FVector> lineLoc;
 
@@ -125,4 +127,7 @@ public:
 	void FindWidget();
 	void PauseUIOpen();
 	void DrawMoveLine();
+
+	void CheckMovie();
+	void OpenMainLevel();
 };

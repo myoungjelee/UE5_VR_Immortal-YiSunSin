@@ -71,10 +71,6 @@ AArrowTargetActor::AArrowTargetActor()
 	ring10->SetupAttachment(RootComponent);
 	ring10->SetRelativeLocation(FVector(0, 20, 150));
 	ring10->SetRelativeRotation(FRotator(0, 0, -10));
-
-	hit = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Hit Infomation"));
-	hit->SetupAttachment(RootComponent);
-	hit->SetTextRenderColor(FColor::Red);
 }
 
 void AArrowTargetActor::BeginPlay()
@@ -124,8 +120,6 @@ void AArrowTargetActor::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* 
 	if (IsShoot(OtherActor, OtherComp))
 	{
 		UGameplayStatics::PlaySound2D(GetWorld(), hitTarget);
-		FString playerScore = FString::Printf(TEXT("Hit!!"), point);
-		hit->SetText(FText::FromString(playerScore));
 		player->shootCnt++;
 		scoreUI->UpdateScore(1);
 		SetActive(false);
@@ -181,7 +175,4 @@ void AArrowTargetActor::SetActive(bool bActive)
 		Mesh->SetActive(bActive);
 		Mesh->SetVisibility(bActive);
 	}
-
-	hit->SetActive(bActive);
-	hit->SetVisibility(bActive);
 }
