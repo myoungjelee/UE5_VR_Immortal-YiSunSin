@@ -73,11 +73,6 @@ AArcherPlayer::AArcherPlayer()
 	scoreUI->SetRelativeLocation(FVector(1200, 0, 0));
 	scoreUI->SetRelativeRotation(FRotator(0, 180, 0));
 
-	resultUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Result UI"));
-	resultUI->SetupAttachment(RootComponent);
-	resultUI->SetRelativeLocation(FVector(765, 0, 300));
-	resultUI->SetRelativeRotation(FRotator(0, 180, 0));
-
 	gameoverUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("Gameover UI"));
 	gameoverUI->SetupAttachment(RootComponent);
 	gameoverUI->SetRelativeLocation(FVector(765, 0, 300));
@@ -103,7 +98,6 @@ void AArcherPlayer::BeginPlay()
 	subsys->AddMappingContext(myMapping, 0);
 
 	score = Cast<UScoreUI>(scoreUI->GetUserWidgetObject());
-	result = Cast<UGameResultWidget>(resultUI->GetUserWidgetObject());
 	movies = Cast<AMoviePlayerActor>(UGameplayStatics::GetActorOfClass(GetWorld(), AMoviePlayerActor::StaticClass()));
 
 	if (widgetInt != nullptr)
@@ -111,11 +105,10 @@ void AArcherPlayer::BeginPlay()
 		widgetInt->InteractionDistance = 100000.0f;
 		widgetInt->bEnableHitTesting = true;
 		widgetInt->DebugColor = FColor::Red;
-		widgetInt->bShowDebug = false;
+		widgetInt->bShowDebug = true;
 	}
 
 	handleMesh->SetVisibility(false);
-	resultUI->SetVisibility(false);
 	gameoverUI->SetVisibility(false);
 	startLoc = handleMesh->GetComponentLocation();
 	tempLoc = handleMesh->GetRelativeLocation();
@@ -129,7 +122,6 @@ void AArcherPlayer::Tick(float DeltaTime)
 	FVector temp = rightHand->GetComponentLocation() - startLoc;
 	handLoc = rightHand->GetComponentLocation();
 	FVector handleLoc = handleMesh->GetComponentLocation();
-
 
 	if (temp.Length() < 120 && temp.Length() > 70)
 	{
@@ -252,7 +244,7 @@ void AArcherPlayer::FindWidget()
 
 	if (GetWorld()->LineTraceSingleByChannel(hitInfo, start, endLoc, ECC_Visibility, params))
 	{
-		if (hitInfo.GetActor()->GetName().Contains(TEXT("UI")))
+		if (hitInfo.GetActor()->GetName().Contains(TEXT("UI")) || hitInfo.GetActor()->GetName().Contains(TEXT("start")))
 		{
 			widgetInt->bShowDebug = true;
 		}
