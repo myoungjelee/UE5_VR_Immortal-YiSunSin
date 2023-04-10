@@ -47,7 +47,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Settings|ModuleSetting")
 	TEnumAsByte<enum EHMDTrackingOrigin::Type> trackOrigin;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Components")
 	class USkeletalMeshComponent* bowComp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Components")
@@ -74,7 +74,7 @@ public:
  	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
  	class UInputAction* btnX;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Components")
 	class UWidgetInteractionComponent* widgetInt;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Widget")
@@ -84,9 +84,6 @@ public:
 	class UWidgetComponent* scoreUI;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Widget")
-	class UWidgetComponent* resultUI;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Widget")
 	class UWidgetComponent* gameoverUI;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Widget")
@@ -94,9 +91,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
 	class UScoreUI* score;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Widget")
-	class UGameResultWidget* result;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Sound")
 	class USoundBase* bowRelease;
