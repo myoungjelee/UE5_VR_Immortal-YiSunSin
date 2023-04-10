@@ -45,7 +45,7 @@ ARhythmPlayer::ARhythmPlayer()
 	widgetPointer_Left = CreateDefaultSubobject<UWidgetInteractionComponent>("Left Pointer");
 	widgetPointer_Left->SetupAttachment(l_Controller);
 	widgetPointer_Left->InteractionDistance = 2000;
-	widgetPointer_Left->bShowDebug = false;
+	widgetPointer_Left->bShowDebug = true;
 	widgetPointer_Left->DebugColor = FColor::Red;
 	widgetPointer_Left->SetRelativeRotation(FRotator(-45, 0, 0));
 
@@ -68,7 +68,7 @@ ARhythmPlayer::ARhythmPlayer()
 	widgetPointer_Right = CreateDefaultSubobject<UWidgetInteractionComponent>("Right Pointer");
 	widgetPointer_Right->SetupAttachment(r_Controller);
 	widgetPointer_Right->InteractionDistance = 2000;
-	widgetPointer_Right->bShowDebug = false;
+	widgetPointer_Right->bShowDebug = true;
 	widgetPointer_Right->DebugColor = FColor::Red;
 	widgetPointer_Right->SetRelativeRotation(FRotator(-45, 0, 0));
 
@@ -76,7 +76,7 @@ ARhythmPlayer::ARhythmPlayer()
 	pauseWidget->SetupAttachment(RootComponent);
 	pauseWidget->SetVisibility(false);
 	pauseWidget->SetCollisionProfileName(TEXT("NoCollision"));
-	pauseWidget->SetRelativeLocation(FVector(700, 0, 300));
+	pauseWidget->SetRelativeLocation(FVector(710, 0, 350));
 	pauseWidget->SetRelativeRotation(FRotator(0, 180, 0));
 	pauseWidget->SetDrawSize(FVector2D(1920, 1080));
 
@@ -84,9 +84,27 @@ ARhythmPlayer::ARhythmPlayer()
 	gameOverWidget->SetupAttachment(RootComponent);
 	gameOverWidget->SetVisibility(false);
 	gameOverWidget->SetCollisionProfileName(TEXT("NoCollision"));
-	gameOverWidget->SetRelativeLocation(FVector(700, 0, 300));
+	gameOverWidget->SetRelativeLocation(FVector(710, 0, 350));
 	gameOverWidget->SetRelativeRotation(FRotator(0, 180, 0));
 	gameOverWidget->SetDrawSize(FVector2D(1920, 1080));
+
+	start1 = CreateDefaultSubobject<UWidgetComponent>("Start1");
+	start1->SetupAttachment(RootComponent);
+	start1->SetVisibility(true);
+	start1->SetCollisionProfileName(TEXT("interactionUI"));
+	start1->SetRelativeLocation(FVector(700, 0, 300));
+	start1->SetRelativeRotation(FRotator(0, 180, 0));
+	start1->SetRelativeScale3D(FVector(0.7f));
+	start1->SetDrawSize(FVector2D(1920, 1080));
+
+	start2 = CreateDefaultSubobject<UWidgetComponent>("Start2");
+	start2->SetupAttachment(RootComponent);
+	start2->SetVisibility(false);
+	start2->SetCollisionProfileName(TEXT("NoCollision"));
+	start2->SetRelativeLocation(FVector(700, 0, 300));
+	start2->SetRelativeRotation(FRotator(0, 180, 0));
+	start2->SetRelativeScale3D(FVector(0.7f));
+	start2->SetDrawSize(FVector2D(1920, 1080));
 
 	ConstructorHelpers::FObjectFinder<UStaticMesh> leftMesh(TEXT("/Script/Engine.StaticMesh'/Game/Assets/MJ/Drum/SM_DrumStick.SM_DrumStick'"));
 	if (leftMesh.Succeeded())
@@ -136,6 +154,18 @@ ARhythmPlayer::ARhythmPlayer()
 		gameOverWidget->SetWidgetClass(tempGameOver.Class);
 	}
 
+	ConstructorHelpers::FClassFinder<UUserWidget> tempStart1(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Rhythm/UI/BP_rhythmStart_1.BP_rhythmStart_1_C'"));
+	if (tempStart1.Succeeded())
+	{
+		start1->SetWidgetClass(tempStart1.Class);
+	}
+
+	ConstructorHelpers::FClassFinder<UUserWidget> tempStart2(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/MJ_Blueprint/Rhythm/UI/BP_rhythmStart_2.BP_rhythmStart_2_C'"));
+	if (tempStart2.Succeeded())
+	{
+		start2->SetWidgetClass(tempStart2.Class);
+	}
+
 	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/Audios/MJ/RhythmSound/Arirang.Arirang'"));
 	if (tempSound.Succeeded())
 	{
@@ -163,6 +193,10 @@ void ARhythmPlayer::BeginPlay()
 	playerCon->SetControlRotation(FRotator(0));
 
 	sound = UGameplayStatics::SpawnSound2D(GetWorld(), arirang);
+
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+
+	sound->SetPaused(true);
 }
 
 // Called every frame

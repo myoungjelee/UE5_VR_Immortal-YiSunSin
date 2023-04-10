@@ -77,17 +77,5 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UWidgetComponent* start2;
 
-public:
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool start;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		int32 bgmState;
-
-public:
-
-	UFUNCTION(BlueprintCallable)
-		void GlobalTime();
 
 };
