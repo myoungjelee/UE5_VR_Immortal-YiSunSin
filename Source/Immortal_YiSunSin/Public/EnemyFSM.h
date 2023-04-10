@@ -50,6 +50,7 @@ public:
 	//class UScoreUI* score;
 
 
+
 	//ai controller 
 	UPROPERTY(EditAnywhere)
 		class AAIController* ai;
