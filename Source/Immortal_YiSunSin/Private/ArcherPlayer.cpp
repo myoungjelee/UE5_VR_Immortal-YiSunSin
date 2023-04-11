@@ -83,6 +83,7 @@ AArcherPlayer::AArcherPlayer()
 	timerUI->SetRelativeLocation(FVector(1200, 0, 0));
 	timerUI->SetRelativeRotation(FRotator(0, 180, 0));
 	timerUI->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
 }
 
 void AArcherPlayer::BeginPlay()
@@ -192,6 +193,7 @@ void AArcherPlayer::BowRelease()
 	FRotator shootRot = handleMesh->GetComponentRotation();
 	arrow = Cast<AArrowActor>(GetWorld()->SpawnActor<AArrowActor>(arrowFactory, shootLoc, shootRot));
 	arrow->projectileComp->SetActive(!bBowPulling);
+	rightHand->SetAnimation(handAnim);
 }
 
 void AArcherPlayer::ShootArrow()

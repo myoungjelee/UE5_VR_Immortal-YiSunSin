@@ -53,11 +53,11 @@ APlayerBase::APlayerBase()
 
 	widgetInt_L = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Left Widget Interaction"));
 	widgetInt_L->SetupAttachment(leftController);
-	widgetInt_L->SetRelativeRotation(FRotator(0, -60, 0));
+	widgetInt_L->SetRelativeRotation(FRotator(-60, 0, 60));
 
 	widgetInt_R = CreateDefaultSubobject<UWidgetInteractionComponent>(TEXT("Right Widget Interaction"));
 	widgetInt_R->SetupAttachment(rightController);
-	widgetInt_R->SetRelativeRotation(FRotator(0, -60, 0));
+	widgetInt_R->SetRelativeRotation(FRotator(-60, 0, 20));
 
 }
 
@@ -107,10 +107,10 @@ void APlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	if (enhancedInputComponent != nullptr)
 	{
-		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Started, this, &APlayerBase::PressWidget_L);
-		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget_L);
-		enhancedInputComponent->BindAction(triggerLeft, ETriggerEvent::Started, this, &APlayerBase::PressWidget_R);
-		enhancedInputComponent->BindAction(triggerLeft, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget_R);
+		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Started, this, &APlayerBase::PressWidget_R);
+		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget_R);
+		enhancedInputComponent->BindAction(triggerLeft, ETriggerEvent::Started, this, &APlayerBase::PressWidget_L);
+		enhancedInputComponent->BindAction(triggerLeft, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget_L);
 	}	
 }
 

@@ -32,13 +32,13 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UMotionControllerComponent* leftController;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Components")
 	class USkeletalMeshComponent* leftHand;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
 	class UMotionControllerComponent* rightController;
 
-	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VR_Setting|Components")
 	class USkeletalMeshComponent* rightHand;
 
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Components")
@@ -100,6 +100,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	class AMoviePlayerActor* movies;
+
+	UPROPERTY(EditAnywhere)
+	class UAnimationAsset* handAnim;
 
 	FVector startLoc;
 	FVector handLoc;
