@@ -90,6 +90,12 @@ void AmainPlayer::BeginPlay()
  
  	SetActorLocation(instance->pos);
  	playerCon->SetControlRotation(instance->rot);
+
+	startLoc = FVector(90, -200, 105);
+	if (GetActorLocation() == startLoc)
+	{
+		start = true;
+	}
  
  // 	FString str = FString::Printf(TEXT("Pos : %f, %f, %f"), instance->pos.X, instance->pos.Y, instance->pos.Z);
  // 	FString str2 = FString::Printf(TEXT("Rot : %f, %f, %f"), instance->rot.Roll, instance->rot.Pitch, instance->rot.Yaw);
