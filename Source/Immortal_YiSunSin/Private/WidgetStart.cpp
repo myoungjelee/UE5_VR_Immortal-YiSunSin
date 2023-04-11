@@ -45,6 +45,11 @@ void AWidgetStart::Tick(float DeltaTime)
 	if ((GetActorLocation() - player->GetActorLocation()).Length() >= 450)
 	{
 		widget->SetVisibility(false);
+
+		if (audio != nullptr)
+		{
+			audio->Stop();
+		}
 	}
 	
 	if (open)
