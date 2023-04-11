@@ -7,6 +7,7 @@
 #include "EasingLibrary.h"
 #include "mainPlayer.h"
 #include <Kismet/GameplayStatics.h>
+#include <Components/AudioComponent.h>
 
 // Sets default values
 AWidgetEnd::AWidgetEnd()
@@ -48,6 +49,14 @@ void AWidgetEnd::Tick(float DeltaTime)
 
 	if (open)
 	{
+
+		if (soundState == 0)
+		{
+			audio = UGameplayStatics::SpawnSound2D(GetWorld(), infoSound);
+			soundState++;
+		}
+
+
 		widget->SetVisibility(true);
 		//widget->SetCollisionProfileName(TEXT("interactionUI"));
 
@@ -62,13 +71,14 @@ void AWidgetEnd::Tick(float DeltaTime)
 		if (param == 1)
 		{
 			currTime = 0;
+			soundState = 0;
 			open = false;
 		}
 	}
 
 	if (end)
 	{
-		widget->SetVisibility(true);
+		//widget->SetVisibility(true);
 
 		currTime += DeltaTime;
 		param = FMath::Clamp(currTime * 1.8f, 0, 1);
