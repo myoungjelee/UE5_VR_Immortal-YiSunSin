@@ -102,4 +102,12 @@ public:
 	void HideLine();
 	void TeleportFade();
 	void GamePause();
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool start;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FVector startLoc;
 };
