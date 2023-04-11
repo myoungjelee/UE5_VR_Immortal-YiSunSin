@@ -40,6 +40,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class AmainPlayer* player;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class USoundBase* infoSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UAudioComponent* audio;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -56,4 +62,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FVector leftPos;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32 soundState;
 };
