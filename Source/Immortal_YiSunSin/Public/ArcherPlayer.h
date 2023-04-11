@@ -121,7 +121,6 @@ public:
 	void ReleaseWidget();
 	void Move(const struct FInputActionValue& value);
 	void RotateAxis(const struct FInputActionValue& value);
-	void FindWidget();
 	void PauseUIOpen();
 	void DrawMoveLine();
 

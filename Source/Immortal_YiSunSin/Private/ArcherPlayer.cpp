@@ -135,8 +135,6 @@ void AArcherPlayer::Tick(float DeltaTime)
 		}
 	}
 
-	FindWidget();
-
 	if (bIsShowLine)
 	{
 		DrawMoveLine();
@@ -212,7 +210,7 @@ void AArcherPlayer::PressWidget()
 
 void AArcherPlayer::ReleaseWidget()
 {
-	widgetInt->bShowDebug = false;
+	//widgetInt->bShowDebug = false;
 	widgetInt->ReleasePointerKey(EKeys::LeftMouseButton);
 }
 
@@ -232,25 +230,6 @@ void AArcherPlayer::RotateAxis(const struct FInputActionValue& value)
 	//axis 값을 이용해서 캐릭터(콘트롤러)를 회전한다.
 	AddControllerPitchInput(axis.Y * -1.0f);
 	AddControllerYawInput(axis.X);
-}
-
-void AArcherPlayer::FindWidget()
-{
-	FVector start = widgetInt->GetComponentLocation();
-	FVector endLoc = start + widgetInt->GetForwardVector() * 10000.0f;
-	FHitResult hitInfo;
-	FCollisionQueryParams params;
-	params.AddIgnoredActor(this);
-
-	//DrawDebugLine(GetWorld(), start, endLoc, FColor::Cyan, false, -1, 0, 2);
-
-	if (GetWorld()->LineTraceSingleByChannel(hitInfo, start, endLoc, ECC_Visibility, params))
-	{
-		if (hitInfo.GetActor()->GetName().Contains(TEXT("UI")) || hitInfo.GetActor()->GetName().Contains(TEXT("start")))
-		{
-			widgetInt->bShowDebug = true;
-		}
-	}
 }
 
 void AArcherPlayer::PauseUIOpen()
