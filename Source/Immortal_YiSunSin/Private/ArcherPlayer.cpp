@@ -140,7 +140,7 @@ void AArcherPlayer::Tick(float DeltaTime)
 		DrawMoveLine();
 	}
 
-	if (score->score == 1)
+	if (score->score == setScore)
 	{
 		movies->plane->SetVisibility(true);
 		if (movieplays == 2)
