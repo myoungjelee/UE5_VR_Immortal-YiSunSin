@@ -109,8 +109,10 @@ public:
 	FVector tempLoc;
 	bool bBowPulling = false;
 	int32 shootCnt = 0;
-
 	int32 movieplays = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 setScore = 1;
 
 	bool bIsShowLine = false;
 	TArray<FVector> lineLoc;
