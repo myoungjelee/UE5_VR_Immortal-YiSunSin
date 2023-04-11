@@ -112,7 +112,7 @@ public:
 	int32 movieplays = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 setScore = 1;
+	int32 setScore = 5;
 
 	bool bIsShowLine = false;
 	TArray<FVector> lineLoc;
