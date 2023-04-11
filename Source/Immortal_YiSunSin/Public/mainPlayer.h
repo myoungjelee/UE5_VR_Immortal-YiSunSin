@@ -89,6 +89,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UYiSunSinInstance* instance;
 
+	UPROPERTY(EditAnywhere, Category = Effect)
+		TSubclassOf<class ATeleportRingActor> teleport_fx;
+
+	UPROPERTY(EditAnywhere, Category = Effect)
+		class ATeleportRingActor* spawned_fx;
+
 	bool bIsShowLine = false;
 	TArray<FVector> lineLoc;
 

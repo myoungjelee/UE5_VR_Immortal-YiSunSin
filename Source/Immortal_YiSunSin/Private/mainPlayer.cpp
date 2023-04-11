@@ -15,6 +15,8 @@
 #include <Kismet/KismetSystemLibrary.h>
 #include <UMG/Public/Components/WidgetInteractionComponent.h>
 #include <Components/SphereComponent.h>
+#include "TeleportRingActor.h"
+#include <../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraComponent.h>
 
 
 // Sets default values
@@ -72,6 +74,12 @@ AmainPlayer::AmainPlayer()
 
 	bUseControllerRotationPitch = true;
 	bUseControllerRotationYaw = true;
+
+	ConstructorHelpers::FClassFinder<ATeleportRingActor> tempRing(TEXT("/Script/Engine.Blueprint'/Game/GN_Blueprint/Main/BP_TeleportRingActor.BP_TeleportRingActor_C'"));
+	if (tempRing.Succeeded())
+	{
+		teleport_fx = tempRing.Class;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -160,10 +168,10 @@ void AmainPlayer::Teleport()
 	targetLoc.Z += GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
 	SetActorLocation(targetLoc, true, nullptr, ETeleportType::None);
 
-	/*if (spawned_fx != nullptr)
+	if (spawned_fx != nullptr)
 	{
 		spawned_fx->niagara_fx->SetVisibility(false);
-	}*/
+	}
 }
 
 void AmainPlayer::DrawMoveLine()
@@ -218,18 +226,18 @@ void AmainPlayer::DrawMoveLine()
 		DrawDebugLine(GetWorld(), lineLoc[i], lineLoc[i + 1], debugColor, false, -1, 0, 2);
 	}
 
-	//// 텔레포트 링 이펙트를 마지막 라인 위치에 배치한다.
-	//if (spawned_fx == nullptr)
-	//{
-	//	// 이펙트를 생성한다.
-	//	spawned_fx = currentWorld->SpawnActor<ATeleportRingActor>(teleport_fx, lineLoc[lineLoc.Num() - 1], FRotator::ZeroRotator);
-	//}
-	//else
-	//{
-	//	// 안보이게 처리된 이펙트를 다시 보이게 한다.
-	//	spawned_fx->niagara_fx->SetVisibility(true);
-	//	spawned_fx->SetActorLocation(lineLoc[lineLoc.Num() - 1]);
-	//}
+	// 텔레포트 링 이펙트를 마지막 라인 위치에 배치한다.
+	if (spawned_fx == nullptr)
+	{
+		// 이펙트를 생성한다.
+		spawned_fx = GetWorld()->SpawnActor<ATeleportRingActor>(teleport_fx, lineLoc[lineLoc.Num() - 1], FRotator::ZeroRotator);
+	}
+	else
+	{
+		// 안보이게 처리된 이펙트를 다시 보이게 한다.
+		spawned_fx->niagara_fx->SetVisibility(true);
+		spawned_fx->SetActorLocation(lineLoc[lineLoc.Num() - 1]);
+	}
 }
 
 void AmainPlayer::ShowLine()
