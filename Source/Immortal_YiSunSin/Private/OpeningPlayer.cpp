@@ -2,6 +2,16 @@
 
 
 #include "OpeningPlayer.h"
+#include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputComponent.h>
+#include <HeadMountedDisplayFunctionLibrary.h>
+#include <../Plugins/EnhancedInput/Source/EnhancedInput/Public/EnhancedInputSubsystems.h>
+#include <MotionControllerComponent.h>
+#include <Camera/CameraComponent.h>
+#include "PickupActor.h"
+#include <Components/BoxComponent.h>
+#include <Components/SkeletalMeshComponent.h>
+
+
 
 // Sets default values
 AOpeningPlayer::AOpeningPlayer()
@@ -31,7 +41,7 @@ AOpeningPlayer::AOpeningPlayer()
 	rightHand->SetupAttachment(controllerRight);
 	rightHand->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-	bUseControllerRotationPitch = true;
+
 }
 
 // Called when the game starts or when spawned
@@ -39,6 +49,14 @@ void AOpeningPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(trackOrigin.GetValue());
+
+	APlayerController* playerCon = GetWorld()->GetFirstPlayerController();
+
+	UEnhancedInputLocalPlayerSubsystem* subsys = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerCon->GetLocalPlayer());
+
+	subsys->AddMappingContext(inputMapping, 0);
+
 }
 
 // Called every frame
@@ -53,6 +71,11 @@ void AOpeningPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	UEnhancedInputComponent* enhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+
+	enhancedInputComponent->BindAction(thumbstickLeft, ETriggerEvent::Triggered, this, &AOpeningPlayer::Move);
+	enhancedInputComponent->BindAction(thumbstickRight, ETriggerEvent::Triggered, this, &AOpeningPlayer::RotateAxis);
+
 }
 
 void AOpeningPlayer::Recenter()
@@ -62,10 +85,12 @@ void AOpeningPlayer::Recenter()
 
 void AOpeningPlayer::Move(const struct FInputActionValue& value)
 {
-	FVector2D val = value.Get<FVector2D>();
-	FVector direction = FVector(val.Y, val.X, 0);
 
-	AddMovementInput(direction.GetSafeNormal(), 1, false);
+	FVector2D val = value.Get<FVector2D>();
+	//FVector direction = FVector(GetActorForwardVector()*val.Y,GetActorRightVector()*val.X, 0);
+	//플레이어 디렉션으로 이동
+	FVector dir = GetActorForwardVector() * val.Y + GetActorRightVector() * val.X;
+	AddMovementInput(dir.GetSafeNormal(), 1, false);
 }
 
 void AOpeningPlayer::RotateAxis(const struct FInputActionValue& value)
@@ -74,6 +99,5 @@ void AOpeningPlayer::RotateAxis(const struct FInputActionValue& value)
 
 	//axis 값을 이용해서 캐릭터(콘트롤러)를 회전한다.
 	AddControllerYawInput(axis.X);
-	AddControllerPitchInput(axis.Y * -1.0f);
 }
 
