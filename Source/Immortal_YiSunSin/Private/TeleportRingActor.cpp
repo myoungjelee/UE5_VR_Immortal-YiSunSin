@@ -13,6 +13,7 @@ ATeleportRingActor::ATeleportRingActor()
 
 	niagara_fx = CreateDefaultSubobject<UNiagaraComponent>(TEXT("Teleport Ring"));
 	niagara_fx->SetupAttachment(RootComponent);
+	niagara_fx->SetRelativeScale3D(FVector(3));
 
 	ConstructorHelpers::FObjectFinder<UNiagaraSystem> tempRing(TEXT("/Script/Niagara.NiagaraSystem'/Game/VRTemplate/VFX/NS_TeleportRing.NS_TeleportRing'"));
 	if (tempRing.Succeeded())

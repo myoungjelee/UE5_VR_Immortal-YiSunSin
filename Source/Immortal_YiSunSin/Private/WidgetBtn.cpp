@@ -18,7 +18,7 @@ AWidgetBtn::AWidgetBtn()
 
 	box = CreateDefaultSubobject<UBoxComponent>("Box");
 	SetRootComponent(box);
-	box->SetBoxExtent(FVector(200));
+	box->SetBoxExtent(FVector(300,200,200));
 
 	widget = CreateDefaultSubobject<UWidgetComponent>("Widget");
 	widget->SetupAttachment(box);

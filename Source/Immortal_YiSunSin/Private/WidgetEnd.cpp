@@ -65,17 +65,23 @@ void AWidgetEnd::Tick(float DeltaTime)
 		widget->SetVisibility(true);
 		//widget->SetCollisionProfileName(TEXT("interactionUI"));
 
-		currTime += DeltaTime;
-		param = FMath::Clamp(currTime * 1.8f, 0, 1);
-		float easy = UEasingLibrary::BackEaseOut(param);
+// 		currTime += DeltaTime;
+// 		param = FMath::Clamp(currTime * 1.8f, 0, 1);
+// 		float easy = UEasingLibrary::BackEaseOut(param);
+// 
+// 		FVector newLoc = FMath::Lerp(leftPos, startPos, easy);
+// 
+// 		SetActorLocation(newLoc);
+// 
+// 		if (param == 1)
+// 		{
+// 			currTime = 0;
+// 			soundState = 0;
+// 			open = false;
+// 		}
 
-		FVector newLoc = FMath::Lerp(leftPos, startPos, easy);
-
-		SetActorLocation(newLoc);
-
-		if (param == 1)
+		if (audio != nullptr)
 		{
-			currTime = 0;
 			soundState = 0;
 			open = false;
 		}
@@ -98,6 +104,7 @@ void AWidgetEnd::Tick(float DeltaTime)
 			widget->SetVisibility(false);
 			currTime = 0;
 			end = false;
+			SetActorLocation(startPos);
 		}
 	}
 }
