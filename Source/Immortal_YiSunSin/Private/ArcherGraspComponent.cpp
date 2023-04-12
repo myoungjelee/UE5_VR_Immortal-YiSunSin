@@ -42,7 +42,6 @@ void UArcherGraspComponent::SetupPlayerInputComponent(class UEnhancedInputCompon
 void UArcherGraspComponent::GripRightAction(const struct FInputActionValue& value)
 {
 	GrabObject(player->rightHand);
-	player->rightLog->SetText(FText::FromString(TEXT("right")));
 	FVector center = player->rightHand->GetComponentLocation();
 	DrawDebugSphere(GetWorld(), center, grabDistance, 30, FColor::Red, false, -1, 0, 1);
 }

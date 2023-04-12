@@ -111,6 +111,8 @@ void APlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		enhancedInputComponent->BindAction(triggerRight, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget_R);
 		enhancedInputComponent->BindAction(triggerLeft, ETriggerEvent::Started, this, &APlayerBase::PressWidget_L);
 		enhancedInputComponent->BindAction(triggerLeft, ETriggerEvent::Completed, this, &APlayerBase::ReleaseWidget_L);
+		enhancedInputComponent->BindAction(rightThumbstick, ETriggerEvent::Triggered, this, &APlayerBase::RotateAxis);
+		enhancedInputComponent->BindAction(leftThumbstick, ETriggerEvent::Triggered, this, &APlayerBase::Move);
 	}	
 }
 
@@ -134,4 +136,20 @@ void APlayerBase::ReleaseWidget_R()
 {
 	//widgetInt->bShowDebug = false;
 	widgetInt_R->ReleasePointerKey(EKeys::LeftMouseButton);
+}
+
+void APlayerBase::Move(const FInputActionValue& value)
+{
+	FVector2D val = value.Get<FVector2D>();
+	FVector direction = FVector(val.Y, val.X, 0);
+
+	AddMovementInput(direction.GetSafeNormal(), 1, false);
+}
+
+// 플레이어 회전
+void APlayerBase::RotateAxis(const FInputActionValue& value)
+{
+	FVector2D axis = value.Get<FVector2D>();
+
+	AddControllerYawInput(axis.X);
 }
