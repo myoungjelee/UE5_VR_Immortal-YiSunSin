@@ -75,10 +75,19 @@ public:
 	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
 	class UInputAction* btnX;
 
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
+		class UInputAction* rightThumbstick;
+
+	UPROPERTY(EditAnywhere, Category = "VR_Setting|Input")
+		class UInputAction* leftThumbstick;
+
 	void PressWidget_L();
 	void ReleaseWidget_L();
 	
 	void PressWidget_R();
 	void ReleaseWidget_R();
+
+	void Move(const struct FInputActionValue& value);
+	void RotateAxis(const struct FInputActionValue& value);
 
 };
