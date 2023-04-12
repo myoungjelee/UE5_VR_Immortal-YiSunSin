@@ -95,6 +95,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Effect)
 		class ATeleportRingActor* spawned_fx;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Effect)
+		class UNiagaraComponent* trace;
+
 	bool bIsShowLine = false;
 	TArray<FVector> lineLoc;
 

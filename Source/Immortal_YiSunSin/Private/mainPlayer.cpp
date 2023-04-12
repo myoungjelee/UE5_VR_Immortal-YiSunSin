@@ -17,6 +17,8 @@
 #include <Components/SphereComponent.h>
 #include "TeleportRingActor.h"
 #include <../Plugins/FX/Niagara/Source/Niagara/Public/NiagaraComponent.h>
+#include <../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraSystem.h>
+#include <../Plugins/FX/Niagara/Source/Niagara/Classes/NiagaraDataInterfaceArrayFunctionLibrary.h>
 
 
 // Sets default values
@@ -72,6 +74,10 @@ AmainPlayer::AmainPlayer()
 	rightHand->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	rightHand->SetRelativeRotation(FRotator(85.0f, 0.0f, 90.0f));
 
+	trace = CreateDefaultSubobject<UNiagaraComponent>("Trace");
+	trace->SetupAttachment(controllerRight);
+	trace->SetVisibility(false);
+	
 	bUseControllerRotationPitch = true;
 	bUseControllerRotationYaw = true;
 
@@ -79,6 +85,12 @@ AmainPlayer::AmainPlayer()
 	if (tempRing.Succeeded())
 	{
 		teleport_fx = tempRing.Class;
+	}
+
+	ConstructorHelpers::FObjectFinder<UNiagaraSystem> tempLine(TEXT("/Script/Niagara.NiagaraSystem'/Game/VRTemplate/VFX/NS_TeleportTrace.NS_TeleportTrace'"));
+	if (tempLine.Succeeded())
+	{
+		trace->SetAsset(tempLine.Object);
 	}
 }
 
@@ -221,10 +233,13 @@ void AmainPlayer::DrawMoveLine()
 	}
 
 	// 2. 앞에서 구한 위치 마다 선으로 연결한 그림을 그린다(DrawLine).
-	for (int32 i = 0; i < lineLoc.Num() - 1; i++)
-	{
-		DrawDebugLine(GetWorld(), lineLoc[i], lineLoc[i + 1], debugColor, false, -1, 0, 2);
-	}
+// 	for (int32 i = 0; i < lineLoc.Num() - 1; i++)
+// 	{
+// 		DrawDebugLine(GetWorld(), lineLoc[i], lineLoc[i + 1], debugColor, false, -1, 0, 2);
+// 	}
+
+	UNiagaraDataInterfaceArrayFunctionLibrary::SetNiagaraArrayVector(trace, TEXT("User.PointArray"), lineLoc);
+
 
 	// 텔레포트 링 이펙트를 마지막 라인 위치에 배치한다.
 	if (spawned_fx == nullptr)
@@ -243,11 +258,13 @@ void AmainPlayer::DrawMoveLine()
 void AmainPlayer::ShowLine()
 {
 	bIsShowLine = true;
+	trace->SetVisibility(true);
 }
 
 void AmainPlayer::HideLine()
 {
 	bIsShowLine = false;
+	trace->SetVisibility(false);
 	//Teleport();
 	TeleportFade();
 }
