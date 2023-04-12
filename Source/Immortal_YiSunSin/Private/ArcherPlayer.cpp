@@ -263,7 +263,7 @@ void AArcherPlayer::DrawMoveLine()
 
 	for (int32 i = 0; i < lineLoc.Num() - 1; i++)
 	{
-		DrawDebugLine(GetWorld(), lineLoc[i], lineLoc[i + 1], FColor::Red, false, -1, 0, 1);
+		DrawDebugLine(GetWorld(), lineLoc[i], lineLoc[i + 1], FColor::Red, false, -1, 0, 0.5);
 	}
 
 }
